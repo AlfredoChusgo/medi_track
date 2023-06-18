@@ -8,10 +8,10 @@ import '../paciente.dart';
 part 'paciente_home_event.dart';
 part 'paciente_home_state.dart';
 
-class PacienteBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
+class PacienteHomeBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
   final PacienteRepository _pacienteRepository;
 
-  PacienteBloc({required PacienteRepository pacienteRepository})
+  PacienteHomeBloc({required PacienteRepository pacienteRepository})
    : _pacienteRepository = pacienteRepository,
    super(PacienteHomeLoadingState()) {
     on<PacienteHomeRefreshEvent>(_onPacienteHomeRefreshEvent);
