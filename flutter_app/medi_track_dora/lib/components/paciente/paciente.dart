@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:convert';
 
 enum Sexo { masculino, femenino }
 
@@ -64,6 +65,27 @@ class Paciente extends Equatable {
       sexo: Sexo.masculino,
       telefonoCelular: 0000000,
       telefonoFijo: 0000000);
+  
+    factory Paciente.fromJson(Map<String, dynamic> json) {
+    return Paciente(
+      id: json['id'],
+      ci: json['ci'],
+      nombre: json['nombre'],
+      apellidoPaterno: json['apellidoPaterno'],
+      apellidoMaterno: json['apellidoMaterno'],
+      fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
+      sexo: json['sexo'] == 'masculino' ? Sexo.masculino : Sexo.femenino,
+      ocupacion: json['ocupacion'],
+      procedencia: json['procedencia'],
+      telefonoCelular: json['telefonoCelular'],
+      telefonoFijo: json['telefonoFijo'],
+      direccionResidencia: json['direccionResidencia'],
+      contactoEmergencia: (json['contactoEmergencia'] as List<dynamic>)
+          .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
+          .toList(),
+    );
+  }
+
 }
 
 class ContactoEmergencia extends Equatable {
@@ -102,4 +124,17 @@ class ContactoEmergencia extends Equatable {
       nombre: '',
       relacionFamiliar: '',
       telefono: 0000000);
+  
+    // Factory constructor to parse JSON data
+  factory ContactoEmergencia.fromJson(Map<String, dynamic> json) {
+    return ContactoEmergencia(
+      id: json['id'],
+      relacionFamiliar: json['relacionFamiliar'],
+      nombre: json['nombre'],
+      apellidoMaterno: json['apellidoMaterno'],
+      apellidoPaterno: json['apellidoPaterno'],
+      telefono: json['telefono'],
+      direccion: json['direccion'],
+    );
+  }
 }

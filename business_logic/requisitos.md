@@ -13,7 +13,7 @@ informacion_contacto:
     direccion_residencia
 
 CONTACTOS_EMERGENCIA
-    relacion /padre/madre/etc
+    relacion_familiar /padre/madre/etc
     nombre
     apellido
     telefono_contacto

@@ -1,0 +1,71 @@
+[
+    {
+      "id": "89f1e388-57a3-4a2e-8294-9cc11d810249",
+      "ci": "CI-1",
+      "nombre": "Nombre1",
+      "apellidoPaterno": "ApellidoPaterno1",
+      "apellidoMaterno": "ApellidoMaterno1",
+      "fechaNacimiento": "1990-01-01T00:00:00.000",
+      "sexo": "masculino",
+      "ocupacion": "Ocupacion1",
+      "procedencia": "Procedencia1",
+      "telefonoCelular": 123456789,
+      "telefonoFijo": 987654321,
+      "direccionResidencia": "DireccionResidencia1",
+      "contactoEmergencia": [
+        {
+          "id": "4a7e352d-cf9a-4a49-8a49-2e3014fd7edf",
+          "relacionFamiliar": "RelacionFamiliar1",
+          "nombre": "Nombre1",
+          "apellidoMaterno": "ApellidoMaterno1",
+          "apellidoPaterno": "ApellidoPaterno1",
+          "telefono": 987654321,
+          "direccion": "Direccion1"
+        },
+        {
+          "id": "8b0f46d4-0d57-4de0-9a83-d0f9762a4c77",
+          "relacionFamiliar": "RelacionFamiliar2",
+          "nombre": "Nombre2",
+          "apellidoMaterno": "ApellidoMaterno2",
+          "apellidoPaterno": "ApellidoPaterno2",
+          "telefono": 987654321,
+          "direccion": "Direccion2"
+        }
+      ]
+    },
+    {
+      "id": "d0250e1f-8157-4f46-a2e6-315f4c7e09e3",
+      "ci": "CI-2",
+      "nombre": "Nombre2",
+      "apellidoPaterno": "ApellidoPaterno2",
+      "apellidoMaterno": "ApellidoMaterno2",
+      "fechaNacimiento": "1991-01-01T00:00:00.000",
+      "sexo": "femenino",
+      "ocupacion": "Ocupacion2",
+      "procedencia": "Procedencia2",
+      "telefonoCelular": 123456789,
+      "telefonoFijo": 987654321,
+      "direccionResidencia": "DireccionResidencia2",
+      "contactoEmergencia": [
+        {
+          "id": "1c19d73e-650d-4c5c-bec4-b51ea3a58669",
+          "relacionFamiliar": "RelacionFamiliar1",
+          "nombre": "Nombre1",
+          "apellidoMaterno": "ApellidoMaterno1",
+          "apellidoPaterno": "ApellidoPaterno1",
+          "telefono": 987654321,
+          "direccion": "Direccion1"
+        },
+        {
+          "id": "4e20d9bc-c266-4816-93b4-81f4dc756c84",
+          "relacionFamiliar": "RelacionFamiliar2",
+          "nombre": "Nombre2",
+          "apellidoMaterno": "ApellidoMaterno2",
+          "apellidoPaterno": "ApellidoPaterno2",
+          "telefono": 987654321,
+          "direccion": "Direccion2"
+        }
+      ]
+    }
+  ]
+  
