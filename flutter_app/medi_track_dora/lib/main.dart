@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medi_track_dora/app.dart';
 
-import 'components/paciente/in_memory_paciente_repository.dart';
+import 'components/pacienteHome/in_memory_paciente_repository.dart';
 
 void main() {
   runApp(App(pacienteRepository: InMemoryPacienteRepository(),));

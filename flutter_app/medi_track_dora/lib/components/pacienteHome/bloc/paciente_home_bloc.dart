@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:medi_track_dora/components/paciente/paciente_repository.dart';
+import 'package:medi_track_dora/components/pacienteHome/paciente_repository.dart';
 import 'package:meta/meta.dart';
 
 import '../paciente.dart';

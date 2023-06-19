@@ -11,7 +11,7 @@
       "procedencia": "Procedencia1",
       "telefonoCelular": 123456789,
       "telefonoFijo": 987654321,
-      "direccionResidencia": "DireccionResidencia1",
+      "direccionResidencia": "DireccionResidencia1 DireccionResidencia1DireccionResidencia1",
       "contactoEmergencia": [
         {
           "id": "4a7e352d-cf9a-4a49-8a49-2e3014fd7edf",

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'components/paciente/bloc/paciente_home_bloc.dart';
-import 'components/paciente/paciente_repository.dart';
-import 'components/paciente/view/paciente_home_page.dart';
+import 'components/home/view/home_page.dart';
+import 'components/pacienteHome/bloc/paciente_home_bloc.dart';
+import 'components/pacienteHome/paciente_repository.dart';
+import 'components/pacienteHome/view/paciente_home_page.dart';
 
 class App extends StatelessWidget {
   const App({required this.pacienteRepository, super.key});
@@ -24,7 +25,8 @@ class App extends StatelessWidget {
         title: 'Flutter Medi track Dora',
         initialRoute: '/',
         routes: {
-          '/': (_) => const PacienteHomePage(),
+          '/': (_) => const HomePage(),
+          '/pacienteHome': (_) => const PacienteHomePage(),
           //'/cart': (_) => const CartPage(),
         },
       ),
