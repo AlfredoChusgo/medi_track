@@ -77,6 +77,24 @@ class PacienteAddFormState extends PacienteAddState {
     );
   }
 
+  Paciente toPaciente(){
+    return Paciente(
+      id: id,
+      ci: ci,
+      nombre: nombre,
+      apellidoPaterno: apellidoPaterno,
+      apellidoMaterno: apellidoMaterno,
+      fechaNacimiento: fechaNacimiento,
+      sexo: sexo,
+      ocupacion: ocupacion,
+      procedencia: procedencia,
+      telefonoCelular: telefonoCelular,
+      telefonoFijo: telefonoFijo,
+      direccionResidencia: direccionResidencia,
+      contactoEmergencia: const []
+    );
+  }
+
   @override
   List<Object> get props => [
         id,
@@ -98,9 +116,11 @@ class SavingInProgress extends PacienteAddState {}
 
 class ErrorDuringSaved extends PacienteAddState {
   final String errorMessage;
-  
+
   ErrorDuringSaved({required this.errorMessage});
 
   @override
   List<Object> get props => [];
 }
+
+class PacienteSavedSuccessfully extends PacienteAddState {}

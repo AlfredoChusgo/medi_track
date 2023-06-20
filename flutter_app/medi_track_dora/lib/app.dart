@@ -14,24 +14,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => PacienteHomeBloc(
-            pacienteRepository: pacienteRepository,
-          )..add(PacienteHomeRefreshEvent()),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Medi track Dora',
-        initialRoute: '/',
-        routes: {
-          '/': (_) => const HomePage(),
-          '/pacienteHome': (_) => const PacienteHomePage(),
-          '/pacienteAdd': (_) => const PacienteAddPage(),
-          //'/cart': (_) => const CartPage(),
-        },
-      ),
+    return MaterialApp(
+      title: 'Flutter Medi track Dora',
+      initialRoute: '/',
+      routes: {
+        '/': (_) => const HomePage(),
+        '/pacienteHome': (_) {
+          //BlocProvider.of<PacienteHomeBloc>(context).add(PacienteHomeRefreshEvent());
+          context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          return const PacienteHomePage();
+        } ,
+        '/pacienteAdd': (_) => const PacienteAddPage(),
+        //'/cart': (_) => const CartPage(),
+      },
     );
   }
 }

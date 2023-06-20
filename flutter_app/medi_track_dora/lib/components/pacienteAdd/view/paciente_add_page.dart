@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 
+import '../../pacienteHome/in_memory_paciente_repository.dart';
 import '../../pacienteHome/paciente.dart';
 
 class PacienteAddPage extends StatelessWidget {
@@ -15,7 +16,8 @@ class PacienteAddPage extends StatelessWidget {
         title: const Text('Formulario Nuevo Paciente'),
       ),
       body: BlocProvider(
-        create: (context) => PacienteAddBloc(),
+        create: (context) =>
+            PacienteAddBloc(pacienteRepository: InMemoryPacienteRepository()),
         child: BlocBuilder<PacienteAddBloc, PacienteAddState>(
           builder: (context, state) {
             if (state is PacienteAddFormState) {
@@ -39,6 +41,12 @@ class PacienteAddPage extends StatelessWidget {
                   ),
                 ),
               );
+            }
+
+            if (state is PacienteSavedSuccessfully) {                            
+              WidgetsBinding.instance!.addPostFrameCallback((_) {                
+                Navigator.pushNamed(context, '/pacienteHome',arguments: true);
+              });
             }
             return Center(child: const CircularProgressIndicator());
           },
@@ -219,8 +227,7 @@ class PacienteAddForm extends StatelessWidget {
             ElevatedButton(
               //width: double.infinity,
               onPressed: () {
-                _pacienteFormBloc
-                  .add(const PacienteSubmit());
+                _pacienteFormBloc.add(const PacienteSubmit());
               },
               child: Text('Guardar'),
             ),

@@ -7,23 +7,21 @@ import 'paciente.dart';
 import 'paciente_repository.dart';
 
 class InMemoryPacienteRepository implements PacienteRepository {
+  static bool dataLoaded = false;
+  static List<Paciente> list = [];
+  static Future<List<Paciente>> loadData() async {
 
-  Future<List<Paciente>> loadData() async {
-    // Simulating an asynchronous data fetch, such as making an API call
-    await Future.delayed(const Duration(seconds: 0));
+    if(dataLoaded){
+      return list;
+    }
+    await Future.delayed(const Duration(seconds: 1));
 
-    
-    // Replace this with your actual data loading logic
-    // final currentDirectory = Directory.current;
-    // final file = File('/lib/assets/pacientes.json');
-    // final jsonData = await file.readAsString();
     String jsonData = await rootBundle.loadString('assets/pacientes.json');
 
     final List<dynamic> jsonList = json.decode(jsonData);
-
-    // Parse the JSON data into ContactoEmergencia objects
-    return jsonList.map((json) => Paciente.fromJson(json)).toList();
-    //return jsonList;
+    list = jsonList.map((json) => Paciente.fromJson(json)).toList();
+    dataLoaded = true;
+    return list;
   }
 
   @override
@@ -36,5 +34,11 @@ class InMemoryPacienteRepository implements PacienteRepository {
   Future<List<Paciente>> getPacientes() async {
     List<Paciente> list = await loadData();
     return list;
+  }
+  
+  @override
+  Future<void> SavePaciente(Paciente model) async {
+    await Future.delayed(const Duration(seconds: 0));
+    list.add(model);
   }
 }

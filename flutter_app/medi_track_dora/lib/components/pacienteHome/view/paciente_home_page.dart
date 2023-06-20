@@ -9,7 +9,7 @@ class PacienteHomePage extends StatelessWidget {
   const PacienteHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       body: CustomScrollView(
         slivers: [

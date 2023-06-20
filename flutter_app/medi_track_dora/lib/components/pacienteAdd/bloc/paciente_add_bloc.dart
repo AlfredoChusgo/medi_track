@@ -5,12 +5,16 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../pacienteHome/paciente.dart';
+import '../../pacienteHome/paciente_repository.dart';
 
 part 'paciente_add_event.dart';
 part 'paciente_add_state.dart';
 
 class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
-  PacienteAddBloc() : super(PacienteAddFormState.Initial()) {
+  PacienteRepository pacienteRepository;
+
+  PacienteAddBloc({required this.pacienteRepository})
+      : super(PacienteAddFormState.Initial()) {
     on<PacienteAddEvent>(_onPacienteAddEvent);
   }
 
@@ -53,12 +57,14 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
         case OcupacionChanged:
           OcupacionChanged ocupacionEvent = event as OcupacionChanged;
           // Handle OcupacionChanged event
-          emit(pacienteAddFormState.copyWith(ocupacion: ocupacionEvent.ocupacion));
+          emit(pacienteAddFormState.copyWith(
+              ocupacion: ocupacionEvent.ocupacion));
           break;
         case ProcedenciaChanged:
           ProcedenciaChanged procedenciaEvent = event as ProcedenciaChanged;
           // Handle ProcedenciaChanged event
-          emit(pacienteAddFormState.copyWith(procedencia: procedenciaEvent.procedencia));
+          emit(pacienteAddFormState.copyWith(
+              procedencia: procedenciaEvent.procedencia));
           break;
         case TelefonoCelularChanged:
           TelefonoCelularChanged telefonoCelularEvent =
@@ -70,7 +76,8 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
         case TelefonoFijoChanged:
           TelefonoFijoChanged telefonoFijoEvent = event as TelefonoFijoChanged;
           // Handle TelefonoFijoChanged event
-          emit(pacienteAddFormState.copyWith(telefonoFijo: telefonoFijoEvent.telefonoFijo));
+          emit(pacienteAddFormState.copyWith(
+              telefonoFijo: telefonoFijoEvent.telefonoFijo));
           break;
         case DireccionResidenciaChanged:
           DireccionResidenciaChanged direccionResidenciaEvent =
@@ -81,11 +88,17 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
                   direccionResidenciaEvent.direccionResidencia));
           break;
         case PacienteSubmit:
-          PacienteAddFormState pacienteAddFormState = state as PacienteAddFormState;
-          emit(ErrorDuringSaved(errorMessage: "Something happend"));
-          await Future.delayed(const Duration(seconds: 3));          
-          
-          emit(pacienteAddFormState.copyWith());
+          PacienteAddFormState pacienteAddFormState =
+              state as PacienteAddFormState;
+          try {
+            pacienteRepository.SavePaciente(pacienteAddFormState.toPaciente());
+            //await Future.delayed(const Duration(seconds: 3));
+            emit(PacienteSavedSuccessfully());
+            //emit(pacienteAddFormState.copyWith());
+          } catch (error) {
+            emit(ErrorDuringSaved(errorMessage: '$error'));
+          }
+
           break;
         default:
           // Handle unknown event
