@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.dart';
 
 import 'components/home/view/home_page.dart';
 import 'components/pacienteHome/bloc/paciente_home_bloc.dart';
@@ -27,6 +28,7 @@ class App extends StatelessWidget {
         routes: {
           '/': (_) => const HomePage(),
           '/pacienteHome': (_) => const PacienteHomePage(),
+          '/pacienteAdd': (_) => const PacienteAddPage(),
           //'/cart': (_) => const CartPage(),
         },
       ),

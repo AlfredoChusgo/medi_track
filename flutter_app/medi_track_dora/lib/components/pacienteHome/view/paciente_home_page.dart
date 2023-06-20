@@ -37,7 +37,13 @@ class PacienteHomePage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // FAB onPressed action
+          Navigator.pushNamed(context, '/pacienteAdd');
+        },
+        child: Icon(Icons.add),
+      ),);
   }
 }
 
@@ -82,8 +88,9 @@ class CatalogAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      title: const Text('Paciente Home'),
+      title: const Text('Pacientes'),
       floating: true,
+      
       // actions: [
       //   IconButton(
       //     icon: const Icon(Icons.shopping_cart),

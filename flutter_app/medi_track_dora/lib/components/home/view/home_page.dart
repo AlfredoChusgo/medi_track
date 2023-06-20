@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medi_track_dora/components/paciente/bloc/paciente_home_bloc.dart';
 
 import '../home.dart';
 
@@ -36,6 +35,7 @@ class HomePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Add your button 2 logic here
+                      //Navigator.pushNamed(context, '/pacienteAdd');
                     },
                     child: const Text('Estadias Paciente'),
                   ),
