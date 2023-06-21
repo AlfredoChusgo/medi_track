@@ -107,6 +107,33 @@ class DireccionResidenciaChanged extends PacienteAddEvent {
   List<Object> get props => [direccionResidencia];
 }
 
+class ContactoEmergenciaAdded extends PacienteAddEvent {
+  final ContactoEmergencia contactoEmergencia;
+
+  const ContactoEmergenciaAdded(this.contactoEmergencia);
+
+  @override
+  List<Object> get props => [contactoEmergencia];
+}
+
+class ContactosEmergenciaUpdated extends PacienteAddEvent {
+  final ContactoEmergencia contactoEmergencia;
+
+  const ContactosEmergenciaUpdated(this.contactoEmergencia);
+
+  @override
+  List<Object> get props => [contactoEmergencia];
+}
+
+class ContactosEmergenciaDeleted extends PacienteAddEvent {
+  final String id;
+
+  const ContactosEmergenciaDeleted(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
 class PacienteSubmit extends PacienteAddEvent {
   const PacienteSubmit();
 

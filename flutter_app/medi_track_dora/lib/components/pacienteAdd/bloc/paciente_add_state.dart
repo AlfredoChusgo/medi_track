@@ -18,7 +18,7 @@ class PacienteAddFormState extends PacienteAddState {
   final int telefonoCelular;
   final int telefonoFijo;
   final String direccionResidencia;
-
+  final List<ContactoEmergencia> contactosEmergencia;
   PacienteAddFormState(
       {required this.id,
       required this.ci,
@@ -31,7 +31,8 @@ class PacienteAddFormState extends PacienteAddState {
       required this.procedencia,
       required this.telefonoCelular,
       required this.telefonoFijo,
-      required this.direccionResidencia});
+      required this.direccionResidencia,
+      required this.contactosEmergencia});
 
   PacienteAddFormState.Initial()
       : id = '',
@@ -45,7 +46,8 @@ class PacienteAddFormState extends PacienteAddState {
         procedencia = '',
         telefonoCelular = 0,
         telefonoFijo = 0,
-        direccionResidencia = '';
+        direccionResidencia = '',
+        contactosEmergencia = [];
 
   PacienteAddFormState copyWith({
     String? id,
@@ -60,6 +62,7 @@ class PacienteAddFormState extends PacienteAddState {
     int? telefonoCelular,
     int? telefonoFijo,
     String? direccionResidencia,
+    List<ContactoEmergencia>? contactosEmergencia 
   }) {
     return PacienteAddFormState(
       id: id ?? this.id,
@@ -74,12 +77,13 @@ class PacienteAddFormState extends PacienteAddState {
       telefonoCelular: telefonoCelular ?? this.telefonoCelular,
       telefonoFijo: telefonoFijo ?? this.telefonoFijo,
       direccionResidencia: direccionResidencia ?? this.direccionResidencia,
+      contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia
     );
   }
 
   Paciente toPaciente(){
     return Paciente(
-      id: id,
+      id: id.isEmpty ? const Uuid().v4() : id,
       ci: ci,
       nombre: nombre,
       apellidoPaterno: apellidoPaterno,
@@ -91,7 +95,7 @@ class PacienteAddFormState extends PacienteAddState {
       telefonoCelular: telefonoCelular,
       telefonoFijo: telefonoFijo,
       direccionResidencia: direccionResidencia,
-      contactoEmergencia: const []
+      contactosEmergencia: const []
     );
   }
 
@@ -108,7 +112,8 @@ class PacienteAddFormState extends PacienteAddState {
         procedencia,
         telefonoCelular,
         telefonoFijo,
-        direccionResidencia
+        direccionResidencia,
+        contactosEmergencia
       ];
 }
 

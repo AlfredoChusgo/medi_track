@@ -61,7 +61,7 @@ class PacienteDetailPage extends StatelessWidget {
               buildLabel(context,'Dirección de Residencia:'),
               buildText(context,data.direccionResidencia),
               buildLabel(context,'Contacto de Emergencia:'),
-              for (var contacto in data.contactoEmergencia)
+              for (var contacto in data.contactosEmergencia)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

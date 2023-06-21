@@ -15,42 +15,38 @@ class PacienteAddPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Formulario Nuevo Paciente'),
       ),
-      body: BlocProvider(
-        create: (context) =>
-            PacienteAddBloc(pacienteRepository: InMemoryPacienteRepository()),
-        child: BlocBuilder<PacienteAddBloc, PacienteAddState>(
-          builder: (context, state) {
-            if (state is PacienteAddFormState) {
-              return PacienteAddForm(state: state);
-            }
-            if (state is ErrorDuringSaved) {
-              return Center(
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Text(
-                    state.errorMessage,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
+      body: BlocBuilder<PacienteAddBloc, PacienteAddState>(
+        builder: (context, state) {
+          if (state is PacienteAddFormState) {
+            return PacienteAddForm(state: state);
+          }
+          if (state is ErrorDuringSaved) {
+            return Center(
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Text(
+                  state.errorMessage,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
                   ),
                 ),
-              );
-            }
+              ),
+            );
+          }
 
-            if (state is PacienteSavedSuccessfully) {
-              WidgetsBinding.instance!.addPostFrameCallback((_) {                
-                Navigator.pushNamedAndRemoveUntil(context, '/',(route)=>false);
-              });
-            }
-            return Center(child: const CircularProgressIndicator());
-          },
-        ),
+          if (state is PacienteSavedSuccessfully) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+            });
+          }
+          return Center(child: const CircularProgressIndicator());
+        },
       ),
     );
   }
@@ -105,6 +101,10 @@ class PacienteAddForm extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Text(
+              "Informacion del paciente",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 16.0),
             TextFormField(
               //controller: _ciController,
@@ -151,7 +151,6 @@ class PacienteAddForm extends StatelessWidget {
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now())
                   .then((value) {
-                print("Fecha changed");
                 return _pacienteFormBloc
                     .add(FechaNacimientoChanged(value ?? DateTime.now()));
               }),
@@ -174,14 +173,6 @@ class PacienteAddForm extends StatelessWidget {
               },
               decoration: const InputDecoration(labelText: 'Procedencia'),
             ),
-            // const SizedBox(height: 16.0),
-            // TextFormField(
-            //   controller: _procedenciaController,
-            //   onChanged: (value) {
-            //     _pacienteFormBloc.add(ProcedenciaChanged(value));
-            //   },
-            //   decoration: const InputDecoration(labelText: 'Procedencia'),
-            // ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.telefonoCelular.toString(),
@@ -217,6 +208,23 @@ class PacienteAddForm extends StatelessWidget {
               decoration:
                   const InputDecoration(labelText: 'Direccion de residencia'),
             ),
+            const SizedBox(height: 16.0),
+            Row(children: [
+              Text(
+                "Contactos de emergencia",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              IconButton.filledTonal(
+                onPressed: () =>
+                    {Navigator.pushNamed(context, '/contactoEmergenciaAdd')},
+                icon: Icon(Icons.add),
+                color: Theme.of(context).primaryColor,
+                //backgroundColor:Colors.blueAccent,
+                //highlightColor: Colors.blueAccent,
+              ),
+            ]),
+            ...BuildContactosEmergencia(state.contactosEmergencia, context),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               //width: double.infinity,
               onPressed: () {
@@ -228,6 +236,90 @@ class PacienteAddForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> buildKeyValueProperty(
+      String key, String value, BuildContext context) {
+    return [
+      const SizedBox(height: 16.0),
+      Text('${key.toUpperCase()} : ',
+          style: Theme.of(context).textTheme.bodyLarge, softWrap: true),
+      Expanded(
+        child: Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium,
+          softWrap: true,
+          overflow: TextOverflow.clip,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> BuildContactosEmergencia(
+      List<ContactoEmergencia> contactosEmergencia, BuildContext context) {
+    List<Widget> widgets = contactosEmergencia
+        .map((e) => Column(
+              children: [
+                Row(
+                  children: [
+                    ...buildKeyValueProperty('Nombre ', e.nombre, context)
+                  ],
+                ),
+                Row(children: [
+                  ...buildKeyValueProperty(
+                      'apellido Paterno ', e.apellidoPaterno, context)
+                ]),
+                Row(children: [
+                  ...buildKeyValueProperty(
+                      'apellido Materno ', e.apellidoMaterno, context)
+                ]),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty(
+                        'relacion familiar ', e.relacionFamiliar, context)
+                  ],
+                ),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty('direccion ', e.direccion, context)
+                  ],
+                ),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty(
+                        'telefono ', e.telefono.toString(), context)
+                  ],
+                )
+              ],
+            ))
+        .toList();
+    // var card = Card(
+    //   child: ListTile(
+    //     title: Text('Card Title'),
+    //     subtitle: Text('Card Subtitle'),
+    //     trailing: Row(children: [...widgets]),
+    //     trailing: Row(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: [
+    //         IconButton(
+    //           icon: Icon(Icons.edit),
+    //           onPressed: () {
+    //             // Edit button onPressed callback
+    //             // Perform edit action here
+    //           },
+    //         ),
+    //         IconButton(
+    //           icon: Icon(Icons.delete),
+    //           onPressed: () {
+    //             // Delete button onPressed callback
+    //             // Perform delete action here
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
+    return widgets;
   }
 }
 

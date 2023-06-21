@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_track_dora/components/contactoEmergenciaAdd/view/contacto_emergencia_page.dart';
 import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.dart';
 
 import 'components/home/view/home_page.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
           return const PacienteHomePage();
         } ,
         '/pacienteAdd': (_) => const PacienteAddPage(),
+        '/contactoEmergenciaAdd': (_) => const ContactoEmergenciaPage(),
         //'/cart': (_) => const CartPage(),
       },
     );

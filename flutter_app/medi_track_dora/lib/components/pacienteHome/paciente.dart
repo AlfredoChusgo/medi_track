@@ -18,7 +18,7 @@ class Paciente extends Equatable {
       required this.telefonoCelular,
       required this.telefonoFijo,
       required this.direccionResidencia,
-      required this.contactoEmergencia});
+      required this.contactosEmergencia});
 
   final String id;
   final String ci;
@@ -32,7 +32,7 @@ class Paciente extends Equatable {
   final int telefonoCelular;
   final int telefonoFijo;
   final String direccionResidencia;
-  final List<ContactoEmergencia> contactoEmergencia;
+  final List<ContactoEmergencia> contactosEmergencia;
 
   @override
   List<Object> get props => [
@@ -48,7 +48,7 @@ class Paciente extends Equatable {
         telefonoCelular,
         telefonoFijo,
         direccionResidencia,
-        contactoEmergencia
+        contactosEmergencia
       ];
 
   static final empty = Paciente(
@@ -56,7 +56,7 @@ class Paciente extends Equatable {
       apellidoMaterno: '',
       apellidoPaterno: '',
       ci: '',
-      contactoEmergencia: [],
+      contactosEmergencia: const [],
       direccionResidencia: '',
       fechaNacimiento: DateTime.now(),      
       nombre: '',
@@ -80,7 +80,7 @@ class Paciente extends Equatable {
       telefonoCelular: json['telefonoCelular'],
       telefonoFijo: json['telefonoFijo'],
       direccionResidencia: json['direccionResidencia'],
-      contactoEmergencia: (json['contactoEmergencia'] as List<dynamic>)
+      contactosEmergencia: (json['contactoEmergencia'] as List<dynamic>)
           .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
           .toList(),
     );
@@ -108,6 +108,7 @@ class ContactoEmergencia extends Equatable {
 
   @override
   List<Object> get props => [
+        id,
         relacionFamiliar,
         nombre,
         apellidoMaterno,
@@ -116,14 +117,34 @@ class ContactoEmergencia extends Equatable {
         direccion
       ];
 
-  static const empty = ContactoEmergencia(
+  static final  empty = ContactoEmergencia(
+      id: const Uuid().v4(),
       apellidoMaterno: '',
       apellidoPaterno: '',
-      direccion: '',
-      id: '',
+      direccion: '',      
       nombre: '',
       relacionFamiliar: '',
       telefono: 0000000);
+  
+  ContactoEmergencia copyWith({
+    String? id,
+    String? relacionFamiliar,
+    String? nombre,
+    String? apellidoMaterno,
+    String? apellidoPaterno,
+    int? telefono,
+    String? direccion,
+  }) {
+    return ContactoEmergencia(
+      id: id ?? this.id,
+      relacionFamiliar: relacionFamiliar ?? this.relacionFamiliar,
+      nombre: nombre ?? this.nombre,
+      apellidoMaterno: apellidoMaterno ?? this.apellidoMaterno,
+      apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
+      telefono: telefono ?? this.telefono,
+      direccion: direccion ?? this.direccion,
+    );
+  }
   
     // Factory constructor to parse JSON data
   factory ContactoEmergencia.fromJson(Map<String, dynamic> json) {

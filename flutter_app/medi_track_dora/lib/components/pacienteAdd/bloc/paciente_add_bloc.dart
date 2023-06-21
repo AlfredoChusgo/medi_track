@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../pacienteHome/paciente.dart';
 import '../../pacienteHome/paciente_repository.dart';
@@ -87,9 +88,31 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
               direccionResidencia:
                   direccionResidenciaEvent.direccionResidencia));
           break;
+        case ContactoEmergenciaAdded:
+          ContactoEmergenciaAdded contactoEmergenciaAdded = event as ContactoEmergenciaAdded;          
+          var list = [...pacienteAddFormState.contactosEmergencia, contactoEmergenciaAdded.contactoEmergencia]; 
+          emit(pacienteAddFormState.copyWith(
+              contactosEmergencia:list));
+          break;
+        case ContactosEmergenciaUpdated:
+          ContactosEmergenciaUpdated contactoEmergenciaUpdated = event as ContactosEmergenciaUpdated;
+          var list = [...pacienteAddFormState.contactosEmergencia.where((element) => element.id!=contactoEmergenciaUpdated.contactoEmergencia.id), contactoEmergenciaUpdated.contactoEmergencia]; 
+          emit(pacienteAddFormState.copyWith(
+              contactosEmergencia:list));
+          break;
+        case ContactosEmergenciaDeleted:
+          ContactosEmergenciaDeleted contactosEmergenciaDeleted = event as ContactosEmergenciaDeleted;
+          var list = [...pacienteAddFormState.contactosEmergencia.where((element) => element.id!=contactosEmergenciaDeleted.id)]; 
+          emit(pacienteAddFormState.copyWith(
+              contactosEmergencia:list));
+          break;
+
+
+
         case PacienteSubmit:
           PacienteAddFormState pacienteAddFormState =
               state as PacienteAddFormState;
+              
           try {
             pacienteRepository.SavePaciente(pacienteAddFormState.toPaciente());
             //await Future.delayed(const Duration(seconds: 3));
