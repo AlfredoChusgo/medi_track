@@ -88,7 +88,6 @@ class PacienteAddForm extends StatelessWidget {
         TextEditingController(text: state.telefonoFijo.toString());
     _direccionResidenciaController =
         TextEditingController(text: state.direccionResidencia);
-    print('called');
   }
 
   @override
@@ -223,7 +222,28 @@ class PacienteAddForm extends StatelessWidget {
                 //highlightColor: Colors.blueAccent,
               ),
             ]),
-            ...BuildContactosEmergencia(state.contactosEmergencia, context),
+            //...BuildContactosEmergencia(state.contactosEmergencia, context),
+            // NestedScrollView (
+            //   body:
+            //     CustomScrollView(
+            //       slivers: [SliverList(delegate: SliverChildBuilderDelegate(
+            //                 (context, index) => ContactoEmergenciaListItem(
+            //                   state.contactosEmergencia[index],
+            //                 ),
+            //                 childCount: state.contactosEmergencia.length,
+            //               ),)],
+            //     ), headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {  },
+            // ),
+            ListView.builder(
+              shrinkWrap: true,
+                itemCount: state
+                    .contactosEmergencia.length, // Number of items in the list
+                    physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ContactoEmergenciaListItem(
+                      state.contactosEmergencia[index]);
+                },
+              ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               //width: double.infinity,
@@ -293,33 +313,13 @@ class PacienteAddForm extends StatelessWidget {
               ],
             ))
         .toList();
-    // var card = Card(
-    //   child: ListTile(
-    //     title: Text('Card Title'),
-    //     subtitle: Text('Card Subtitle'),
-    //     trailing: Row(children: [...widgets]),
-    //     trailing: Row(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         IconButton(
-    //           icon: Icon(Icons.edit),
-    //           onPressed: () {
-    //             // Edit button onPressed callback
-    //             // Perform edit action here
-    //           },
-    //         ),
-    //         IconButton(
-    //           icon: Icon(Icons.delete),
-    //           onPressed: () {
-    //             // Delete button onPressed callback
-    //             // Perform delete action here
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
     return widgets;
+    // return SliverList(delegate: SliverChildBuilderDelegate(
+    //                   (context, index) => ContactoEmergenciaListItem(
+    //                     state.contactosEmergencia[index],
+    //                   ),
+    //                   childCount: state.contactosEmergencia.length,
+    //                 ),);
   }
 }
 
@@ -365,5 +365,157 @@ class _SexoDropdownButtonState extends State<_SexoDropdownButton> {
         ],
       ),
     );
+  }
+}
+
+class ContactoEmergenciaListItem extends StatefulWidget {
+  final ContactoEmergencia item;
+  const ContactoEmergenciaListItem(this.item, {super.key});
+  @override
+  ContactoEmergenciaListItemState createState() =>
+      ContactoEmergenciaListItemState();
+}
+
+class ContactoEmergenciaListItemState
+    extends State<ContactoEmergenciaListItem> {
+  //
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme.titleMedium;
+    final subTitle =
+        '${widget.item.nombre} ${widget.item.apellidoPaterno} ${widget.item.apellidoMaterno}';
+    // final subTitle =
+    //     '${widget.item.sexo.toString()} ${widget.item.direccionResidencia} ';
+    return ExpansionTile(
+      leading: const Icon(Icons.person),
+      //title: Text(title, style: textTheme),
+      title: Text(widget.item.relacionFamiliar),
+      collapsedTextColor: Colors.black,
+      subtitle: Text(subTitle, style: Theme.of(context).textTheme.bodySmall),
+      //trailing: const Icon(Icons.menu),
+      onExpansionChanged: (value) {
+        setState(() {
+          _isExpanded = value;
+        });
+      },
+      children: [
+        if (_isExpanded)
+          Column(
+            children: [
+              Row(
+                children: [
+                  ...buildKeyValueProperty(
+                      'Nombre ', widget.item.nombre, context)
+                ],
+              ),
+              Row(children: [
+                ...buildKeyValueProperty(
+                    'apellido Paterno ', widget.item.apellidoPaterno, context)
+              ]),
+              Row(children: [
+                ...buildKeyValueProperty(
+                    'apellido Materno ', widget.item.apellidoMaterno, context)
+              ]),
+              Row(
+                children: [
+                  ...buildKeyValueProperty('relacion familiar ',
+                      widget.item.relacionFamiliar, context)
+                ],
+              ),
+              Row(
+                children: [
+                  ...buildKeyValueProperty(
+                      'direccion ', widget.item.direccion, context)
+                ],
+              ),
+              Row(
+                children: [
+                  ...buildKeyValueProperty(
+                      'telefono ', widget.item.telefono.toString(), context)
+                ],
+              )
+            ],
+          ),
+        ButtonBar(
+          children: [
+            IconButton(
+              onPressed: () {
+                // Handle edit button press
+              },
+              icon: const Icon(Icons.edit),
+            ),
+            IconButton(
+              onPressed: () {
+                // Handle remove button press
+              },
+              icon: const Icon(Icons.delete),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  List<Widget> buildKeyValueProperty(
+      String key, String value, BuildContext context) {
+    return [
+      const SizedBox(height: 16.0),
+      Text('${key.toUpperCase()} : ',
+          style: Theme.of(context).textTheme.bodyLarge, softWrap: true),
+      Expanded(
+        child: Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium,
+          softWrap: true,
+          overflow: TextOverflow.clip,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> BuildContactosEmergencia(
+      List<ContactoEmergencia> contactosEmergencia, BuildContext context) {
+    List<Widget> widgets = contactosEmergencia
+        .map((e) => Column(
+              children: [
+                Row(
+                  children: [
+                    ...buildKeyValueProperty('Nombre ', e.nombre, context)
+                  ],
+                ),
+                Row(children: [
+                  ...buildKeyValueProperty(
+                      'apellido Paterno ', e.apellidoPaterno, context)
+                ]),
+                Row(children: [
+                  ...buildKeyValueProperty(
+                      'apellido Materno ', e.apellidoMaterno, context)
+                ]),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty(
+                        'relacion familiar ', e.relacionFamiliar, context)
+                  ],
+                ),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty('direccion ', e.direccion, context)
+                  ],
+                ),
+                Row(
+                  children: [
+                    ...buildKeyValueProperty(
+                        'telefono ', e.telefono.toString(), context)
+                  ],
+                )
+              ],
+            ))
+        .toList();
+    return widgets;
   }
 }
