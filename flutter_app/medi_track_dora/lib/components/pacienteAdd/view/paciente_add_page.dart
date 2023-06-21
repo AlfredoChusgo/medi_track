@@ -43,9 +43,9 @@ class PacienteAddPage extends StatelessWidget {
               );
             }
 
-            if (state is PacienteSavedSuccessfully) {                            
+            if (state is PacienteSavedSuccessfully) {
               WidgetsBinding.instance!.addPostFrameCallback((_) {                
-                Navigator.pushNamed(context, '/pacienteHome',arguments: true);
+                Navigator.pushNamedAndRemoveUntil(context, '/',(route)=>false);
               });
             }
             return Center(child: const CircularProgressIndicator());
@@ -155,13 +155,6 @@ class PacienteAddForm extends StatelessWidget {
                 return _pacienteFormBloc
                     .add(FechaNacimientoChanged(value ?? DateTime.now()));
               }),
-              // onChanged: (value) {
-              //   // Parse the input value to DateTime, and pass it to the Bloc
-              //   final dateOfBirth = DateTime.tryParse(value);
-              //   if (dateOfBirth != null) {
-              //     _pacienteFormBloc.add(FechaNacimientoChanged(dateOfBirth));
-              //   }
-              // },
               decoration:
                   const InputDecoration(labelText: 'Fecha de nacimiento'),
             ),
