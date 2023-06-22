@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../paciente/view/paciente_home_page.dart';
 import '../../pacienteHome/view/paciente_home_page.dart';
-import '../home.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,35 +15,6 @@ class HomePage extends StatelessWidget {
                   'Administracion',                
                 ),
         ),
-        // body: Center(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-                
-        //         const SizedBox(height: 20),
-        //         Column(
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             ElevatedButton(
-        //               onPressed: () {
-        //                 // Add your button 1 logic here
-        //               Navigator.pushNamed(context, '/pacienteHome');
-        //             },
-        //               child: const Text('Pacientes'),
-        //             ),
-        //             const SizedBox(width: 10),
-        //             ElevatedButton(
-        //               onPressed: () {
-        //                 // Add your button 2 logic here
-        //                 //Navigator.pushNamed(context, '/pacienteAdd');
-        //               },
-        //               child: const Text('Estadias Paciente'),
-        //             ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
       bottomNavigationBar: const NavigationExample(),),
     );
   }

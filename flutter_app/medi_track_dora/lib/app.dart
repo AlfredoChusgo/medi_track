@@ -4,7 +4,9 @@ import 'package:medi_track_dora/components/contactoEmergenciaAdd/view/contacto_e
 import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.dart';
 
 import 'components/home/view/home_page.dart';
+import 'components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import 'components/pacienteHome/bloc/paciente_home_bloc.dart';
+import 'components/pacienteHome/paciente.dart';
 import 'components/pacienteHome/paciente_repository.dart';
 import 'components/pacienteHome/view/paciente_home_page.dart';
 
@@ -24,12 +26,19 @@ class App extends StatelessWidget {
           //BlocProvider.of<PacienteHomeBloc>(context).add(PacienteHomeRefreshEvent());
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();
-        } ,
+        },
         '/pacienteAdd': (_) => const PacienteAddPage(),
-        '/contactoEmergenciaAdd': (_) => const ContactoEmergenciaPage(),
+        '/contactoEmergenciaAdd': (buildContext) => ContactoEmergenciaPage(
+              model: ContactoEmergencia.empty(),
+              saveButtonText: "Guardar",
+              callback: (contactoEmergencia) {
+                BlocProvider.of<PacienteAddBloc>(context)
+                    .add(ContactoEmergenciaAdded(contactoEmergencia));
+                Navigator.pop(buildContext);
+              },
+            ),
         //'/cart': (_) => const CartPage(),
       },
     );
   }
 }
-

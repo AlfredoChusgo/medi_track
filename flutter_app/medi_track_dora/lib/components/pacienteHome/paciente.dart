@@ -117,14 +117,17 @@ class ContactoEmergencia extends Equatable {
         direccion
       ];
 
-  static final  empty = ContactoEmergencia(
-      id: const Uuid().v4(),
+  factory ContactoEmergencia.empty(){
+    return ContactoEmergencia(
+      id: Uuid().v4(),
       apellidoMaterno: '',
       apellidoPaterno: '',
       direccion: '',      
       nombre: '',
       relacionFamiliar: '',
       telefono: 0000000);
+  }
+      
   
   ContactoEmergencia copyWith({
     String? id,

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 
+import '../../contactoEmergenciaAdd/view/contacto_emergencia_page.dart';
 import '../../pacienteHome/in_memory_paciente_repository.dart';
 import '../../pacienteHome/paciente.dart';
 
@@ -143,6 +144,7 @@ class PacienteAddForm extends StatelessWidget {
             _SexoDropdownButton(),
             const SizedBox(height: 16.0),
             TextFormField(
+              readOnly: true,
               controller: _fechaNacimientoController,
               onTap: () => showDatePicker(
                       context: context,
@@ -218,32 +220,18 @@ class PacienteAddForm extends StatelessWidget {
                     {Navigator.pushNamed(context, '/contactoEmergenciaAdd')},
                 icon: Icon(Icons.add),
                 color: Theme.of(context).primaryColor,
-                //backgroundColor:Colors.blueAccent,
-                //highlightColor: Colors.blueAccent,
               ),
             ]),
-            //...BuildContactosEmergencia(state.contactosEmergencia, context),
-            // NestedScrollView (
-            //   body:
-            //     CustomScrollView(
-            //       slivers: [SliverList(delegate: SliverChildBuilderDelegate(
-            //                 (context, index) => ContactoEmergenciaListItem(
-            //                   state.contactosEmergencia[index],
-            //                 ),
-            //                 childCount: state.contactosEmergencia.length,
-            //               ),)],
-            //     ), headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {  },
-            // ),
             ListView.builder(
               shrinkWrap: true,
-                itemCount: state
-                    .contactosEmergencia.length, // Number of items in the list
-                    physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ContactoEmergenciaListItem(
-                      state.contactosEmergencia[index]);
-                },
-              ),
+              itemCount: state
+                  .contactosEmergencia.length, // Number of items in the list
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return ContactoEmergenciaListItem(
+                    state.contactosEmergencia[index]);
+              },
+            ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               //width: double.infinity,
@@ -314,12 +302,6 @@ class PacienteAddForm extends StatelessWidget {
             ))
         .toList();
     return widgets;
-    // return SliverList(delegate: SliverChildBuilderDelegate(
-    //                   (context, index) => ContactoEmergenciaListItem(
-    //                     state.contactosEmergencia[index],
-    //                   ),
-    //                   childCount: state.contactosEmergencia.length,
-    //                 ),);
   }
 }
 
@@ -443,11 +425,40 @@ class ContactoEmergenciaListItemState
             IconButton(
               onPressed: () {
                 // Handle edit button press
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text('This is a snackbar'),
+                //     action: SnackBarAction(
+                //       label: 'Undo',
+                //       onPressed: () {
+                //         // Do something
+                //       },
+                //     ),
+                //   ),
+                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ContactoEmergenciaPage(
+                        model: widget.item,
+                        saveButtonText: "Actualizar",
+                        callback: (contactoEmergencia) {
+                          BlocProvider.of<PacienteAddBloc>(context).add(
+                              ContactosEmergenciaUpdated(contactoEmergencia));
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  ),
+                );
               },
               icon: const Icon(Icons.edit),
             ),
             IconButton(
               onPressed: () {
+                BlocProvider.of<PacienteAddBloc>(context).add(
+                              ContactosEmergenciaDeleted(widget.item.id));
                 // Handle remove button press
               },
               icon: const Icon(Icons.delete),
@@ -476,46 +487,5 @@ class ContactoEmergenciaListItemState
         ),
       ),
     ];
-  }
-
-  List<Widget> BuildContactosEmergencia(
-      List<ContactoEmergencia> contactosEmergencia, BuildContext context) {
-    List<Widget> widgets = contactosEmergencia
-        .map((e) => Column(
-              children: [
-                Row(
-                  children: [
-                    ...buildKeyValueProperty('Nombre ', e.nombre, context)
-                  ],
-                ),
-                Row(children: [
-                  ...buildKeyValueProperty(
-                      'apellido Paterno ', e.apellidoPaterno, context)
-                ]),
-                Row(children: [
-                  ...buildKeyValueProperty(
-                      'apellido Materno ', e.apellidoMaterno, context)
-                ]),
-                Row(
-                  children: [
-                    ...buildKeyValueProperty(
-                        'relacion familiar ', e.relacionFamiliar, context)
-                  ],
-                ),
-                Row(
-                  children: [
-                    ...buildKeyValueProperty('direccion ', e.direccion, context)
-                  ],
-                ),
-                Row(
-                  children: [
-                    ...buildKeyValueProperty(
-                        'telefono ', e.telefono.toString(), context)
-                  ],
-                )
-              ],
-            ))
-        .toList();
-    return widgets;
   }
 }

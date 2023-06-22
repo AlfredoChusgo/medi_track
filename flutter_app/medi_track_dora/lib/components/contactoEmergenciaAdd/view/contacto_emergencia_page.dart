@@ -6,19 +6,26 @@ import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 import '../../pacienteHome/paciente.dart';
 
 class ContactoEmergenciaPage extends StatelessWidget {
-  const ContactoEmergenciaPage();
+  final ContactoEmergencia model;
+  final String saveButtonText;
+  final void Function(ContactoEmergencia contactoEmergencia) callback;
+  const ContactoEmergenciaPage({super.key, required this.model, required this.saveButtonText, required this.callback});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Formulario Contacto Emergencia'),
       ),
-      body: ContactoEmergenciaAddForm(model: ContactoEmergencia.empty));
+      body: ContactoEmergenciaAddForm(model: model,saveButtonText:saveButtonText,callback: callback,));
   }
 }
 
 class ContactoEmergenciaAddForm extends StatelessWidget {
   final ContactoEmergencia model;
+  final String saveButtonText;
+  final void Function(ContactoEmergencia contactoEmergencia) callback;
+
   final TextEditingController _idController = TextEditingController();
   late final TextEditingController _nombreController;
   late final TextEditingController _relacionFamiliarController;
@@ -27,7 +34,7 @@ class ContactoEmergenciaAddForm extends StatelessWidget {
   late final TextEditingController _telefonoController;
   late final TextEditingController _direccionController;
 
-  ContactoEmergenciaAddForm({required this.model,super.key}) {
+  ContactoEmergenciaAddForm({required this.model,super.key,required this.saveButtonText, required this.callback}) {
     _nombreController = TextEditingController(text: model.nombre);
     _relacionFamiliarController = TextEditingController(text:model.relacionFamiliar);
     _apellidoPaternoController =
@@ -98,17 +105,20 @@ class ContactoEmergenciaAddForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                ContactoEmergencia contactoEmergencia = ContactoEmergencia.empty.copyWith(
+                ContactoEmergencia contactoEmergencia = ContactoEmergencia.empty().copyWith(
+                  id: model.id,
                   relacionFamiliar: _relacionFamiliarController.text, 
                   nombre:_nombreController.text, 
                   apellidoMaterno:_apellidoMaternoController.text, 
                   apellidoPaterno: _apellidoPaternoController.text, 
                   telefono: int.parse(_telefonoController.text), 
                   direccion: _direccionController.text);
-                _pacienteFormBloc.add(ContactoEmergenciaAdded(contactoEmergencia));
-                Navigator.pop(context);
+                  //
+                  callback(contactoEmergencia);
+                //_pacienteFormBloc.add(ContactoEmergenciaAdded(contactoEmergencia));
+                //Navigator.pop(context);
               },
-              child: Text('Guardar'),
+              child: Text(saveButtonText),
             ),
           ],
         ),
