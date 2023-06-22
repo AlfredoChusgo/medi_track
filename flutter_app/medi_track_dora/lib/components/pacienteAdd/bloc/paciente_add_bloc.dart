@@ -172,6 +172,24 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
               shouldPop: false));
         }
         break;
+      case PacientePerformDelete:
+        PacientePerformDelete eventInfo =
+            event as PacientePerformDelete;
+        try {
+          await pacienteRepository
+              .deletePaciente(eventInfo.id);
+          //await Future.delayed(const Duration(seconds: 3));
+          emit(PacienteActionResponse(
+              message: "¡Paciente eliminado exitosamente!",
+              isError: false,
+              shouldPop: true));
+        } catch (error) {
+          emit(PacienteActionResponse(
+              message: "!Ocurrio un error! $error",
+              isError: true,
+              shouldPop: false));
+        }
+        break;
     }
   }
 }

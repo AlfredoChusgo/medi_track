@@ -164,3 +164,11 @@ class PacientePerformUpdate extends PacienteAddEvent {
   @override
   List<Object> get props => [];
 }
+
+class PacientePerformDelete extends PacienteAddEvent {
+  final String id;
+  const PacientePerformDelete({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}

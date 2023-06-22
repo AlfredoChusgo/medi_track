@@ -44,8 +44,8 @@ class InMemoryPacienteRepository implements PacienteRepository {
   
   @override
   Future<void> deletePaciente(String id) async {
-    List<Paciente> list = await loadData();
-    list = [...list.where((element) => element.id!=id).toList()];     
+    List<Paciente> localList = await loadData();
+    list = [...localList.where((element) => element.id!=id).toList()];     
   }
   
   @override

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
@@ -20,25 +21,40 @@ class PacienteHomePage extends StatelessWidget {
         slivers: [
           //const CatalogAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          BlocBuilder<PacienteHomeBloc, PacienteHomeState>(
-            builder: (context, state) {
-              return switch (state) {
-                PacienteHomeLoadingState() => const SliverFillRemaining(
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                PacienteHomeErrorState() => SliverFillRemaining(
-                    child: Text(state.errorMessage),
-                  ),
-                PacienteHomeLoadedState() => SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => PacienteListItem(
-                        state.pacientes[index],
-                      ),
-                      childCount: state.pacientes.length,
-                    ),
-                  )
-              };
+          BlocListener<PacienteAddBloc, PacienteAddState>(
+            listener: (context, state) {
+              if (state is PacienteActionResponse) {
+                String? message = state.message;
+                if(state.shouldPop){
+                  context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+                }
+                Flushbar(
+                  duration: const Duration(seconds: 3),
+                  title: "Accion",
+                  message: message,
+                ).show(Navigator.of(context).context);
+              }
             },
+            child: BlocBuilder<PacienteHomeBloc, PacienteHomeState>(
+              builder: (context, state) {
+                return switch (state) {
+                  PacienteHomeLoadingState() => const SliverFillRemaining(
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  PacienteHomeErrorState() => SliverFillRemaining(
+                      child: Text(state.errorMessage),
+                    ),
+                  PacienteHomeLoadedState() => SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => PacienteListItem(
+                          state.pacientes[index],
+                        ),
+                        childCount: state.pacientes.length,
+                      ),
+                    )
+                };
+              },
+            ),
           ),
         ],
       ),
@@ -54,7 +70,6 @@ class PacienteHomePage extends StatelessWidget {
     );
   }
 }
-
 
 class PacienteListItem extends StatefulWidget {
   final Paciente item;
@@ -116,6 +131,8 @@ class PacienteListItemState extends State<PacienteListItem> {
               IconButton(
                 onPressed: () {
                   // Handle remove button press
+                  BlocProvider.of<PacienteAddBloc>(context)
+                      .add(PacientePerformDelete(id: widget.item.id));
                 },
                 icon: const Icon(Icons.delete),
                 style: ElevatedButton.styleFrom(
