@@ -21,7 +21,9 @@ class App extends StatelessWidget {
       title: 'Flutter Medi track Dora',
       initialRoute: '/',
       routes: {
-        '/': (_) => const HomePage(),
+        '/': (_) {
+          context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          return const HomePage();} ,
         '/pacienteHome': (_) {
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();

@@ -27,7 +27,7 @@ class PacienteAddPage extends StatelessWidget {
 
             if (state.shouldPop) {
               //Navigator.pop(context);
-              Navigator.popAndPushNamed(context, '/');
+              Navigator.pushNamedAndRemoveUntil(context, '/',(route) => false,);
             }
 
             Flushbar(
