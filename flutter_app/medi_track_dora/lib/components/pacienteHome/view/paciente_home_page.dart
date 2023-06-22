@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 
+import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../../pacienteDetail/view/paciente_detail_page.dart';
 import '../paciente.dart';
 
@@ -40,9 +41,10 @@ class PacienteHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // FAB onPressed action
+          BlocProvider.of<PacienteAddBloc>(context).add(const PacienteAddNewEvent());
           Navigator.pushNamed(context, '/pacienteAdd');
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -111,7 +113,8 @@ class PacienteListItemState extends State<PacienteListItem> {
               ),
               IconButton(
                 onPressed: () {
-                  // Handle edit button press
+                  BlocProvider.of<PacienteAddBloc>(context).add(PacienteEditEvent(widget.item));
+                  Navigator.pushNamed(context, '/pacienteAdd');
                 },
                 icon: const Icon(Icons.edit),
               ),

@@ -8,6 +8,23 @@ sealed class PacienteAddEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class PacienteAddNewEvent extends PacienteAddEvent {
+
+  const PacienteAddNewEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class PacienteEditEvent extends PacienteAddEvent {
+  final Paciente paciente;
+
+  const PacienteEditEvent(this.paciente);
+
+  @override
+  List<Object> get props => [paciente];
+}
+
 class CIChanged extends PacienteAddEvent {
   final String ci;
 

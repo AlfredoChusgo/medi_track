@@ -37,8 +37,20 @@ class InMemoryPacienteRepository implements PacienteRepository {
   }
   
   @override
-  Future<void> SavePaciente(Paciente model) async {
+  Future<void> savePaciente(Paciente model) async {
     await Future.delayed(const Duration(seconds: 0));
     list.add(model);
+  }
+  
+  @override
+  Future<void> deletePaciente(String id) async {
+    List<Paciente> list = await loadData();
+    list = [...list.where((element) => element.id!=id).toList()];     
+  }
+  
+  @override
+  Future<void> updatePaciente(Paciente model) async {
+    List<Paciente> list = await loadData();
+    list = [...list.where((element) => element.id!=model.id).toList(),model];   
   }
 }

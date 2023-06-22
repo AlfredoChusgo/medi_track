@@ -81,6 +81,24 @@ class PacienteAddFormState extends PacienteAddState {
     );
   }
 
+  factory PacienteAddFormState.copyWith({required Paciente paciente}) {
+    return PacienteAddFormState(
+      id: paciente.id,
+      ci: paciente.ci ,
+      nombre: paciente.nombre ,
+      apellidoPaterno: paciente.apellidoPaterno ,
+      apellidoMaterno: paciente.apellidoMaterno ,
+      fechaNacimiento: paciente.fechaNacimiento ,
+      sexo: paciente.sexo ,
+      ocupacion: paciente.ocupacion,
+      procedencia: paciente.procedencia,
+      telefonoCelular: paciente.telefonoCelular,
+      telefonoFijo: paciente.telefonoFijo,
+      direccionResidencia: paciente.direccionResidencia,
+      contactosEmergencia: paciente.contactosEmergencia
+    );
+  }
+
   Paciente toPaciente(){
     return Paciente(
       id: id.isEmpty ? const Uuid().v4() : id,
