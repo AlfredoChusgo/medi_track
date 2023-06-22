@@ -137,13 +137,13 @@ class PacienteAddFormState extends PacienteAddState {
 
 class SavingInProgress extends PacienteAddState {}
 
-class ErrorDuringSaved extends PacienteAddState {
-  final String errorMessage;
 
-  ErrorDuringSaved({required this.errorMessage});
+class PacienteActionResponse extends PacienteAddState {
+  final String message;
+  final bool isError;
+  final bool shouldPop;
+  PacienteActionResponse({required this.message, required this.isError, required this.shouldPop});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message,isError];
 }
-
-class PacienteSavedSuccessfully extends PacienteAddState {}

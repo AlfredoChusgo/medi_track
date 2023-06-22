@@ -23,11 +23,24 @@ class App extends StatelessWidget {
       routes: {
         '/': (_) => const HomePage(),
         '/pacienteHome': (_) {
-          //BlocProvider.of<PacienteHomeBloc>(context).add(PacienteHomeRefreshEvent());
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();
         },
-        '/pacienteAdd': (_) => const PacienteAddPage(),
+        '/pacienteAdd': (buildContext) => PacienteAddPage(
+              saveButtonText: "Guardar",
+              callback: () {
+                BlocProvider.of<PacienteAddBloc>(buildContext)
+                    .add(const PacientePerformSave());
+                //Navigator.pop(buildContext);
+              }
+            ),
+        '/pacienteEdit': (buildContext) => PacienteAddPage(
+              saveButtonText: "Actualizar",
+              callback: () {
+                BlocProvider.of<PacienteAddBloc>(buildContext)
+                    .add(const PacientePerformUpdate());
+              }
+            ),
         '/contactoEmergenciaAdd': (buildContext) => ContactoEmergenciaPage(
               model: ContactoEmergencia.empty(),
               saveButtonText: "Guardar",

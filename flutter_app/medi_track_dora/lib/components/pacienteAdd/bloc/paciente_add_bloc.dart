@@ -89,13 +89,6 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
               direccionResidencia:
                   direccionResidenciaEvent.direccionResidencia));
           break;
-        case PacienteAddNewEvent:
-          emit(PacienteAddFormState.Initial());
-        case PacienteEditEvent:
-          PacienteEditEvent editPacienteEvent = event as PacienteEditEvent;
-          emit(PacienteAddFormState.copyWith(
-              paciente: editPacienteEvent.paciente));
-          break;
 
         case ContactoEmergenciaAdded:
           ContactoEmergenciaAdded contactoEmergenciaAdded =
@@ -126,24 +119,59 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
           emit(pacienteAddFormState.copyWith(contactosEmergencia: list));
           break;
 
-        case PacienteSubmit:
-          PacienteAddFormState pacienteAddFormState =
-              state as PacienteAddFormState;
-
-          try {
-            pacienteRepository.savePaciente(pacienteAddFormState.toPaciente());
-            //await Future.delayed(const Duration(seconds: 3));
-            emit(PacienteSavedSuccessfully());
-            //emit(pacienteAddFormState.copyWith());
-          } catch (error) {
-            emit(ErrorDuringSaved(errorMessage: '$error'));
-          }
-
-          break;
         default:
           // Handle unknown event
           break;
       }
+    }
+
+    switch (event.runtimeType) {
+      case PacienteAddNewEvent:
+        emit(PacienteAddFormState.Initial());
+
+      case PacienteEditEvent:
+        PacienteEditEvent editPacienteEvent = event as PacienteEditEvent;
+        emit(PacienteAddFormState.copyWith(
+            paciente: editPacienteEvent.paciente));
+        break;
+      case PacientePerformSave:
+        PacienteAddFormState pacienteAddFormState =
+            state as PacienteAddFormState;
+
+        try {
+          await pacienteRepository
+              .savePaciente(pacienteAddFormState.toPaciente());
+          await Future.delayed(const Duration(seconds: 1));
+          emit(PacienteActionResponse(
+              message: "¡Paciente guardado exitosamente!",
+              isError: false,
+              shouldPop: true));
+        } catch (error) {
+          emit(PacienteActionResponse(
+              message: "!Ocurrio un error! $error",
+              isError: true,
+              shouldPop: false));
+        }
+        break;
+
+      case PacientePerformUpdate:
+        PacienteAddFormState pacienteAddFormState =
+            state as PacienteAddFormState;
+        try {
+          await pacienteRepository
+              .updatePaciente(pacienteAddFormState.toPaciente());
+          //await Future.delayed(const Duration(seconds: 3));
+          emit(PacienteActionResponse(
+              message: "¡Paciente actualizado exitosamente!",
+              isError: false,
+              shouldPop: true));
+        } catch (error) {
+          emit(PacienteActionResponse(
+              message: "!Ocurrio un error! $error",
+              isError: true,
+              shouldPop: false));
+        }
+        break;
     }
   }
 }

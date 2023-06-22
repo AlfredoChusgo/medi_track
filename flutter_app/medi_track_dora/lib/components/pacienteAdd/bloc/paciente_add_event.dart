@@ -151,8 +151,15 @@ class ContactosEmergenciaDeleted extends PacienteAddEvent {
   List<Object> get props => [id];
 }
 
-class PacienteSubmit extends PacienteAddEvent {
-  const PacienteSubmit();
+class PacientePerformSave extends PacienteAddEvent {
+  const PacientePerformSave();
+
+  @override
+  List<Object> get props => [];
+}
+
+class PacientePerformUpdate extends PacienteAddEvent {
+  const PacientePerformUpdate();
 
   @override
   List<Object> get props => [];

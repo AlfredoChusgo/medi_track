@@ -12,9 +12,13 @@ class PacienteHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pacientes'),
+        //floating: true,
+      ),
       body: CustomScrollView(
         slivers: [
-          const CatalogAppBar(),
+          //const CatalogAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           BlocBuilder<PacienteHomeBloc, PacienteHomeState>(
             builder: (context, state) {
@@ -41,7 +45,8 @@ class PacienteHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // FAB onPressed action
-          BlocProvider.of<PacienteAddBloc>(context).add(const PacienteAddNewEvent());
+          BlocProvider.of<PacienteAddBloc>(context)
+              .add(const PacienteAddNewEvent());
           Navigator.pushNamed(context, '/pacienteAdd');
         },
         child: const Icon(Icons.add),
@@ -50,17 +55,6 @@ class PacienteHomePage extends StatelessWidget {
   }
 }
 
-class CatalogAppBar extends StatelessWidget {
-  const CatalogAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SliverAppBar(
-      title: Text('Pacientes'),
-      floating: true,
-    );
-  }
-}
 
 class PacienteListItem extends StatefulWidget {
   final Paciente item;
@@ -113,8 +107,9 @@ class PacienteListItemState extends State<PacienteListItem> {
               ),
               IconButton(
                 onPressed: () {
-                  BlocProvider.of<PacienteAddBloc>(context).add(PacienteEditEvent(widget.item));
-                  Navigator.pushNamed(context, '/pacienteAdd');
+                  BlocProvider.of<PacienteAddBloc>(context)
+                      .add(PacienteEditEvent(widget.item));
+                  Navigator.pushNamed(context, '/pacienteEdit');
                 },
                 icon: const Icon(Icons.edit),
               ),

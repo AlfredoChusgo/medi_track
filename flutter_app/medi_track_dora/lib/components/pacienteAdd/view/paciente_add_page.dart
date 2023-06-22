@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,45 +10,43 @@ import '../../pacienteHome/in_memory_paciente_repository.dart';
 import '../../pacienteHome/paciente.dart';
 
 class PacienteAddPage extends StatelessWidget {
-  const PacienteAddPage();
+  final String saveButtonText;
+  final void Function() callback;
+  const PacienteAddPage(
+      {super.key, required this.saveButtonText, required this.callback});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Formulario Nuevo Paciente'),
       ),
-      body: BlocBuilder<PacienteAddBloc, PacienteAddState>(
-        builder: (context, state) {
-          if (state is PacienteAddFormState) {
-            return PacienteAddForm(state: state);
-          }
-          if (state is ErrorDuringSaved) {
-            return Center(
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Text(
-                  state.errorMessage,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            );
-          }
+      body: BlocListener<PacienteAddBloc, PacienteAddState>(
+        listener: (context, state) {
+          if (state is PacienteActionResponse) {
+            String? message = state.message;
 
-          if (state is PacienteSavedSuccessfully) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-            });
+            if (state.shouldPop) {
+              //Navigator.pop(context);
+              Navigator.popAndPushNamed(context, '/');
+            }
+
+            Flushbar(
+              duration: const Duration(seconds: 3),
+              title: "Accion",
+              message: message,
+            ).show(Navigator.of(context).context);
+
           }
-          return Center(child: const CircularProgressIndicator());
         },
+        child: BlocBuilder<PacienteAddBloc, PacienteAddState>(
+          builder: (context, state) {
+            if (state is PacienteAddFormState) {
+              return PacienteAddForm(state: state,saveButtonText: saveButtonText,callback: callback,);
+            }
+            //Navigator.pop(context);
+            return Center(child: const CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
@@ -55,6 +54,8 @@ class PacienteAddPage extends StatelessWidget {
 
 class PacienteAddForm extends StatelessWidget {
   final PacienteAddFormState state;
+  final String saveButtonText;
+  final void Function() callback;
 
   final TextEditingController _idController = TextEditingController();
   late final TextEditingController _ciController;
@@ -69,7 +70,7 @@ class PacienteAddForm extends StatelessWidget {
   late final TextEditingController _telefonoFijoController;
   late final TextEditingController _direccionResidenciaController;
 
-  PacienteAddForm({required this.state, super.key}) {
+  PacienteAddForm({required this.state, required this.saveButtonText, required this.callback,super.key}) {
     //_idController = TextEditingController();
     _ciController = TextEditingController(text: state.ci);
     _nombreController = TextEditingController();
@@ -236,9 +237,10 @@ class PacienteAddForm extends StatelessWidget {
             ElevatedButton(
               //width: double.infinity,
               onPressed: () {
-                _pacienteFormBloc.add(const PacienteSubmit());
+                //_pacienteFormBloc.add(const PacientePerformSave());
+                callback();
               },
-              child: Text('Guardar'),
+              child: Text(saveButtonText),
             ),
           ],
         ),
@@ -457,8 +459,8 @@ class ContactoEmergenciaListItemState
             ),
             IconButton(
               onPressed: () {
-                BlocProvider.of<PacienteAddBloc>(context).add(
-                              ContactosEmergenciaDeleted(widget.item.id));
+                BlocProvider.of<PacienteAddBloc>(context)
+                    .add(ContactosEmergenciaDeleted(widget.item.id));
                 // Handle remove button press
               },
               icon: const Icon(Icons.delete),
