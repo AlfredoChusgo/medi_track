@@ -23,7 +23,12 @@ class PacienteHomeBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
   Future<void> _onPacienteHomeRefreshEvent(PacienteHomeRefreshEvent event, Emitter<PacienteHomeState> emit) async {
     try {
       emit(PacienteHomeLoadingState());
-      emit(PacienteHomeLoadedState(pacientes: await _pacienteRepository.getPacientes()));
+      List<Paciente> result = await _pacienteRepository.getPacientes();
+      if(result.isEmpty){
+        emit(PacienteHomeEmptyList());
+      }else{
+        emit(PacienteHomeLoadedState(pacientes: result));
+      }
     } catch (e) {
       emit(PacienteHomeErrorState(errorMessage: e.toString()));
     }
@@ -32,7 +37,13 @@ class PacienteHomeBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
   FutureOr<void> _onPacienteHomeRefreshWithFilterEvent(PacienteHomeRefreshWithFilterEvent event, Emitter<PacienteHomeState> emit) async {
     try {
       emit(PacienteHomeLoadingState());
-      emit(PacienteHomeLoadedState(pacientes: await _pacienteRepository.getPacientesFiltered(event.name)));
+      List<Paciente> result = await _pacienteRepository.getPacientesFiltered(event.name);
+      if(result.isEmpty){
+        emit(PacienteHomeEmptyList());
+      }else{
+        emit(PacienteHomeLoadedState(pacientes: result));
+      }
+      
     } catch (e) {
       emit(PacienteHomeErrorState(errorMessage: e.toString()));
     }

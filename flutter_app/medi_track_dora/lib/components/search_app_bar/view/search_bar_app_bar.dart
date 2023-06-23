@@ -7,17 +7,21 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
   late TextEditingController textController;
   final String barTitle;
   final void Function(String searchText) searchTextCallback;
-  
-  SearchBarAppBar({required this.searchTextCallback,required this.barTitle,super.key}){
+  final void Function() defaultStateCallback;
+
+  SearchBarAppBar(
+      {required this.searchTextCallback,
+      required this.defaultStateCallback,
+      required this.barTitle,
+      super.key}) {
     textController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<SearchBarBloc, SearchBarState>(
       listener: (context, state) {
-        if(state is DisplaySearchBarState){
+        if (state is DisplaySearchBarState) {
           textController.text = state.text;
         }
       },
@@ -54,6 +58,7 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 context
                                     .read<SearchBarBloc>()
                                     .add(BackArrowActivated());
+                                defaultStateCallback();
                               },
                               icon: const Icon(Icons.arrow_back_sharp)),
                           Expanded(

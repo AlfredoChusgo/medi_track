@@ -14,9 +14,19 @@ class PacienteHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchBarAppBar(barTitle: "Pacientes",searchTextCallback: (searchText) {
-        context.read<PacienteHomeBloc>().add(PacienteHomeRefreshWithFilterEvent(name: searchText));
-      },),
+      appBar: SearchBarAppBar(
+        barTitle: "Pacientes",
+        searchTextCallback: (searchText) {
+          context
+              .read<PacienteHomeBloc>()
+              .add(PacienteHomeRefreshWithFilterEvent(name: searchText));
+        },
+        defaultStateCallback: (){
+          context
+              .read<PacienteHomeBloc>()
+              .add(PacienteHomeRefreshEvent());
+        },
+      ),
       body: CustomScrollView(
         slivers: [
           //const CatalogAppBar(),
@@ -25,8 +35,10 @@ class PacienteHomePage extends StatelessWidget {
             listener: (context, state) {
               if (state is PacienteActionResponse) {
                 String? message = state.message;
-                if(state.shouldPop){
-                  context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+                if (state.shouldPop) {
+                  context
+                      .read<PacienteHomeBloc>()
+                      .add(PacienteHomeRefreshEvent());
                 }
                 Flushbar(
                   duration: const Duration(seconds: 3),
@@ -51,7 +63,9 @@ class PacienteHomePage extends StatelessWidget {
                         ),
                         childCount: state.pacientes.length,
                       ),
-                    )
+                    ),
+                  PacienteHomeEmptyList() =>
+                    SliverFillRemaining(child: Center(child: Text('Sin nada \nque mostrar.... \u{1F644}',style: Theme.of(context).textTheme.headlineMedium)))
                 };
               },
             ),
