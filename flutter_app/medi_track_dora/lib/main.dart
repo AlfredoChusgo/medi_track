@@ -5,6 +5,7 @@ import 'package:medi_track_dora/app.dart';
 import 'components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import 'components/pacienteHome/bloc/paciente_home_bloc.dart';
 import 'components/pacienteHome/in_memory_paciente_repository.dart';
+import 'components/search_app_bar/bloc/search_bar_bloc.dart';
 
 void main() {
   runApp(
@@ -18,6 +19,9 @@ void main() {
           BlocProvider(
             create: (context) => PacienteAddBloc(
                 pacienteRepository: InMemoryPacienteRepository()),
+          ),
+          BlocProvider(
+            create: (context) => SearchBarBloc(),
           ),
         ],
         child: App(

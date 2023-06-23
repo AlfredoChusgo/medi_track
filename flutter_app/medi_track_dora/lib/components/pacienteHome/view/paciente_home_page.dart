@@ -5,6 +5,7 @@ import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.
 
 import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../../pacienteDetail/view/paciente_detail_page.dart';
+import '../../search_app_bar/view/search_bar_app_bar.dart';
 import '../paciente.dart';
 
 class PacienteHomePage extends StatelessWidget {
@@ -13,10 +14,7 @@ class PacienteHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pacientes'),
-        //floating: true,
-      ),
+      appBar: SearchBarAppBar(),
       body: CustomScrollView(
         slivers: [
           //const CatalogAppBar(),
