@@ -5,18 +5,15 @@ import '../bloc/search_bar_bloc.dart';
 
 class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
   late TextEditingController textController;
-  SearchBarAppBar({super.key}){
+  final String barTitle;
+  final void Function(String searchText) searchTextCallback;
+  
+  SearchBarAppBar({required this.searchTextCallback,required this.barTitle,super.key}){
     textController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return AppBar(
-    //     title: const Text('Pacientes'),
-    //     centerTitle: true,
-    //     //floating: true,
-    // );
-
 
     return BlocListener<SearchBarBloc, SearchBarState>(
       listener: (context, state) {
@@ -29,7 +26,7 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
         builder: (context, state) {
           return switch (state) {
             HideSearchBarState() => AppBar(
-                title: const Text('Pacientes'),
+                title: Text(barTitle),
                 centerTitle: true,
                 actions: [
                   IconButton(
@@ -65,7 +62,7 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   child: TextFormField(
                                       controller: textController,
                                       onFieldSubmitted: (value) {
-                                        print(value);
+                                        searchTextCallback(value);
                                       }))),
                           IconButton(
                               color: Theme.of(context).primaryColorDark,

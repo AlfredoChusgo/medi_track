@@ -4,6 +4,7 @@ import 'paciente.dart';
 
 abstract class PacienteRepository {
   
+  Future<List<Paciente>> getPacientesFiltered(String name);
   Future<List<Paciente>> getPacientes();
   Future<Paciente> getPaciente(String id);
 

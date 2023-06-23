@@ -14,7 +14,9 @@ class PacienteHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchBarAppBar(),
+      appBar: SearchBarAppBar(barTitle: "Pacientes",searchTextCallback: (searchText) {
+        context.read<PacienteHomeBloc>().add(PacienteHomeRefreshWithFilterEvent(name: searchText));
+      },),
       body: CustomScrollView(
         slivers: [
           //const CatalogAppBar(),
