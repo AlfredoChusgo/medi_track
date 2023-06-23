@@ -110,6 +110,12 @@ class PacienteListItemState extends State<PacienteListItem> {
               IconButton(
                 onPressed: () {
                   // Handle edit button press
+                },
+                icon: const Icon(Icons.local_hospital_sharp),
+              ),
+              IconButton(
+                onPressed: () {
+                  // Handle edit button press
                   Navigator.push(
                     context,
                     MaterialPageRoute(

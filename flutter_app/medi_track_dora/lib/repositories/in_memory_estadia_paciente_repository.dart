@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-import '../models/estadia_paciente.dart';
+import '../models/estadia_paciente_model.dart';
 import 'estadia_paciente_repository.dart';
 
 

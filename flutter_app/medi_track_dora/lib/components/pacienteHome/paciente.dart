@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:medi_track_dora/models/estadia_paciente.dart';
+import 'package:medi_track_dora/models/estadia_paciente_model.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:convert';
 
@@ -83,7 +83,7 @@ class Paciente extends Equatable {
       telefonoCelular: json['telefonoCelular'],
       telefonoFijo: json['telefonoFijo'],
       direccionResidencia: json['direccionResidencia'],
-      contactosEmergencia: (json['contactoEmergencia'] as List<dynamic>)
+      contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
           .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
           .toList(),
     );

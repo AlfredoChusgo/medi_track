@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../models/estadia_paciente.dart';
+import '../../../models/estadia_paciente_model.dart';
 import '../../../repositories/estadia_paciente_repository.dart';
 
 part 'estadia_paciente_home_event.dart';
