@@ -11,8 +11,6 @@ class SearchBarBloc extends Bloc<SearchBarEvent, SearchBarState> {
     on<SearchActivated>(_OnSearchActivated);
     on<BackArrowActivated>(_OnBackArrowActivated);
     on<PerformSearchAction>(_OnPerformSearchAction);
-    on<CloseActivated>(_OnCloseActivated);
-    on<SearchTextChanged>(_OnSearchTextChanged);
   }
 
   FutureOr<void> _OnSearchActivated(SearchActivated event, Emitter<SearchBarState> emit) {
@@ -27,11 +25,4 @@ class SearchBarBloc extends Bloc<SearchBarEvent, SearchBarState> {
     emit(PerformSearchState(text: event.text));
   }
 
-  FutureOr<void> _OnCloseActivated(CloseActivated event, Emitter<SearchBarState> emit) async {
-    emit(DisplaySearchBarState.empty());
-  }
-
-  FutureOr<void> _OnSearchTextChanged(SearchTextChanged event, Emitter<SearchBarState> emit) {
-    emit(SearchBarTextChangedState(text: event.text));
-  }
 }

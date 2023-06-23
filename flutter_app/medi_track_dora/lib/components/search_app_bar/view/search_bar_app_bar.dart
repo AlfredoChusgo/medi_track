@@ -25,7 +25,7 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
       },
       child: BlocBuilder<SearchBarBloc, SearchBarState>(
-        buildWhen: (previous, current) => current is! SearchBarTextChangedState,
+        //buildWhen: (previous, current) => current is! SearchBarTextChangedState,
         builder: (context, state) {
           return switch (state) {
             HideSearchBarState() => AppBar(
@@ -63,22 +63,14 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
                               child: Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: TextFormField(
-                                      //controller: TextEditingController(text: state.text),
                                       controller: textController,
-                                      onChanged: (value) {
-                                        context.read<SearchBarBloc>().add(SearchTextChanged(text: value));
-                                      },
                                       onFieldSubmitted: (value) {
                                         print(value);
                                       }))),
                           IconButton(
                               color: Theme.of(context).primaryColorDark,
                               onPressed: () {
-                                // context
-                                //     .read<SearchBarBloc>()
-                                //     .add(CloseActivated());
                                 textController.text = "";
-                                
                               },
                               icon: const Icon(Icons.close))
                         ],
@@ -87,7 +79,6 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
                 centerTitle: true,
               ),
             PerformSearchState() => CircularProgressIndicator(),
-            SearchBarTextChangedState() => CircularProgressIndicator(),
           };
         },
       ),

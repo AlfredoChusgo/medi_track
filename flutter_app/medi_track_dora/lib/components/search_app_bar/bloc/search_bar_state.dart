@@ -17,16 +17,6 @@ class DisplaySearchBarState extends SearchBarState {
   List<Object?> get props => [text,dirty];
 }
 
-class SearchBarTextChangedState extends SearchBarState {
-  final String text;
-  SearchBarTextChangedState({required this.text});
-  factory SearchBarTextChangedState.empty(){
-    return SearchBarTextChangedState(text: "");
-  }
-  @override
-  List<Object?> get props => [text];
-}
-
 class PerformSearchState extends SearchBarState {
   final String text;
   
