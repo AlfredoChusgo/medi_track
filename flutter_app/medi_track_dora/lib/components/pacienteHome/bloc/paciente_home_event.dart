@@ -5,7 +5,3 @@ sealed class PacienteHomeEvent {
 }
 
 final class PacienteHomeRefreshEvent extends PacienteHomeEvent {}
-final class PacienteHomeAddEvent extends PacienteHomeEvent {}
-final class PacienteHomeEditEvent extends PacienteHomeEvent {}
-final class PacienteHomeDeleteEvent extends PacienteHomeEvent {}
-

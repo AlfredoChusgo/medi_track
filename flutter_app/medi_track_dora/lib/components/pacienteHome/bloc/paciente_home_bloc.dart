@@ -15,9 +15,6 @@ class PacienteHomeBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
    : _pacienteRepository = pacienteRepository,
    super(PacienteHomeLoadingState()) {
     on<PacienteHomeRefreshEvent>(_onPacienteHomeRefreshEvent);
-    on<PacienteHomeAddEvent>(_onPacienteHomeAddEvent);
-    on<PacienteHomeEditEvent>(_onPacienteHomeEditEvent);
-    on<PacienteHomeDeleteEvent>(_onPacienteHomeDeleteEvent);
   }
 
   Future<void> _onPacienteHomeRefreshEvent(PacienteHomeRefreshEvent event, Emitter<PacienteHomeState> emit) async {
@@ -27,14 +24,5 @@ class PacienteHomeBloc extends Bloc<PacienteHomeEvent, PacienteHomeState> {
     } catch (e) {
       emit(PacienteHomeErrorState(errorMessage: e.toString()));
     }
-  }
-  Future<void> _onPacienteHomeAddEvent(PacienteHomeAddEvent event, Emitter<PacienteHomeState> emit) async {
-
-  }
-  Future<void> _onPacienteHomeEditEvent(PacienteHomeEditEvent event, Emitter<PacienteHomeState> emit) async {
-
-  }
-  Future<void> _onPacienteHomeDeleteEvent(PacienteHomeDeleteEvent event, Emitter<PacienteHomeState> emit) async {
-
   }
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:medi_track_dora/models/estadia_paciente.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:convert';
 
@@ -51,7 +52,8 @@ class Paciente extends Equatable {
         contactosEmergencia
       ];
 
-  static final empty = Paciente(
+  factory Paciente.empty(){
+    return Paciente(
       id: const Uuid().v4(),
       apellidoMaterno: '',
       apellidoPaterno: '',
@@ -65,7 +67,8 @@ class Paciente extends Equatable {
       sexo: Sexo.masculino,
       telefonoCelular: 0000000,
       telefonoFijo: 0000000);
-  
+  } 
+      
     factory Paciente.fromJson(Map<String, dynamic> json) {
     return Paciente(
       id: json['id'],
