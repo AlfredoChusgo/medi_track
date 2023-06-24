@@ -52,6 +52,10 @@ class Paciente extends Equatable {
         contactosEmergencia
       ];
 
+  String get fullName {
+    return "$nombre $apellidoPaterno $apellidoMaterno";
+  }
+  
   factory Paciente.empty(){
     return Paciente(
       id: const Uuid().v4(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/app.dart';
+import 'package:medi_track_dora/components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.dart';
 
 import 'components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import 'components/pacienteHome/bloc/paciente_home_bloc.dart';
@@ -8,20 +9,24 @@ import 'components/pacienteHome/in_memory_paciente_repository.dart';
 import 'components/search_app_bar/bloc/search_bar_bloc.dart';
 
 void main() {
+  var repository =  InMemoryPacienteRepository();
   runApp(
     MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (_) => PacienteHomeBloc(
-              pacienteRepository: InMemoryPacienteRepository(),
+              pacienteRepository: repository,
             )..add(PacienteHomeRefreshEvent()),
           ),
           BlocProvider(
             create: (context) => PacienteAddBloc(
-                pacienteRepository: InMemoryPacienteRepository()),
+                pacienteRepository: repository),
           ),
           BlocProvider(
             create: (context) => SearchBarBloc(),
+          ),
+          BlocProvider(
+            create: (context) => EstadiaPacienteFilterBloc(pacienteRepository: repository),
           ),
         ],
         child: App(
