@@ -17,26 +17,34 @@ class EstadiaPacienteHomePage extends StatelessWidget {
           //floating: true,
         ),
         resizeToAvoidBottomInset: false,
-        body: CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => ListTile(
-                  title: Text('Item $index'),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            // SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) => ListTile(
+            //       title: Text('Item $index'),
+            //     ),
+            //     childCount: 20,
+            //   ),
+            // ),
+            BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
+              builder: (context, state) {
+                return switch(state){
+                  EstadiaPacienteHomeLoadingState()=> const CircularProgressIndicator(),
+                  EstadiaPacienteHomeLoadedState() => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.estadiaPacientes
+                      .length, // Number of items in the list
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return EstadiaPacienteListItem(
+                        state.estadiaPacientes[index]);
+                  },
                 ),
-                childCount: 20,
-              ),
-            ),
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   itemCount: state
-            //       .contactosEmergencia.length, // Number of items in the list
-            //   physics: NeverScrollableScrollPhysics(),
-            //   itemBuilder: (context, index) {
-            //     return ContactoEmergenciaListItem(
-            //         state.contactosEmergencia[index]);
-            //   },
-            // )
+                EstadiaPacienteHomeErrorState() => Text(state.errorMessage ?? 'Something')
+                };
+              },
+            )
             //const CatalogAppBar(),
             // const SliverToBoxAdapter(child: SizedBox(height: 12)),
             // BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
@@ -60,7 +68,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             //       //   )
             //     };
             //   },
-          ],
+          ]),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -167,8 +175,7 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme.titleMedium;
     final title = widget.item.paciente.fullName;
-    final subTitle =
-        'servicio: ${widget.item.tipoServicioReadable} ';
+    final subTitle = 'servicio: ${widget.item.tipoServicioReadable} ';
     return ExpansionTile(
       leading: const Icon(Icons.person),
       title: Text(title, style: textTheme),

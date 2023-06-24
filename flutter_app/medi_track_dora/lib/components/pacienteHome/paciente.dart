@@ -55,7 +55,7 @@ class Paciente extends Equatable {
   String get fullName {
     return "$nombre $apellidoPaterno $apellidoMaterno";
   }
-  
+
   factory Paciente.empty(){
     return Paciente(
       id: const Uuid().v4(),
@@ -90,6 +90,38 @@ class Paciente extends Equatable {
       contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
           .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
           .toList(),
+    );
+  }
+
+  Paciente copyWith({
+    String? id,
+    String? ci,
+    String? nombre,
+    String? apellidoPaterno,
+    String? apellidoMaterno,
+    DateTime? fechaNacimiento,
+    Sexo? sexo,
+    String? ocupacion,
+    String? procedencia,
+    int? telefonoCelular,
+    int? telefonoFijo,
+    String? direccionResidencia,
+    List<ContactoEmergencia>? contactosEmergencia,
+  }) {
+    return Paciente(
+      id: id ?? this.id,
+      ci: ci ?? this.ci,
+      nombre: nombre ?? this.nombre,
+      apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
+      apellidoMaterno: apellidoMaterno ?? this.apellidoMaterno,
+      fechaNacimiento: fechaNacimiento ?? this.fechaNacimiento,
+      sexo: sexo ?? this.sexo,
+      ocupacion: ocupacion ?? this.ocupacion,
+      procedencia: procedencia ?? this.procedencia,
+      telefonoCelular: telefonoCelular ?? this.telefonoCelular,
+      telefonoFijo: telefonoFijo ?? this.telefonoFijo,
+      direccionResidencia: direccionResidencia ?? this.direccionResidencia,
+      contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
     );
   }
 

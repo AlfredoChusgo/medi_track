@@ -66,7 +66,7 @@ class EstadiaPaciente extends Equatable {
       observaciones: json['observaciones'],
       diagnostico: json['diagnostico'],
       tipoServicio: TipoServicio.values[json['tipoServicio']], 
-      paciente: Paciente.empty(),
+      paciente: Paciente.empty().copyWith(id:json['idPaciente']),
     );
   }
 
@@ -80,5 +80,27 @@ class EstadiaPaciente extends Equatable {
       'diagnostico': diagnostico,
       'tipoServicio': tipoServicio.index,
     };
+  }
+
+  EstadiaPaciente copyWith({
+    String? id,
+    Paciente? paciente,
+    DateTime? fechaIngreso,
+    DateTime? fechaEgreso,
+    String? accionesRealizadas,
+    String? observaciones,
+    String? diagnostico,
+    TipoServicio? tipoServicio,
+  }) {
+    return EstadiaPaciente(
+      id: id ?? this.id,
+      paciente: paciente ?? this.paciente,
+      fechaIngreso: fechaIngreso ?? this.fechaIngreso,
+      fechaEgreso: fechaEgreso ?? this.fechaEgreso,
+      accionesRealizadas: accionesRealizadas ?? this.accionesRealizadas,
+      observaciones: observaciones ?? this.observaciones,
+      diagnostico: diagnostico ?? this.diagnostico,
+      tipoServicio: tipoServicio ?? this.tipoServicio,
+    );
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
+import '../components/pacienteHome/in_memory_paciente_repository.dart';
+import '../components/pacienteHome/paciente_repository.dart';
 import '../models/estadia_paciente_model.dart';
 import 'estadia_paciente_repository.dart';
 
@@ -10,6 +12,8 @@ import 'estadia_paciente_repository.dart';
 class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   static bool dataLoaded = false;
   static List<EstadiaPaciente> list = [];
+  static PacienteRepository pacienteRepository= InMemoryPacienteRepository();  
+
   static Future<List<EstadiaPaciente>> loadData() async {
 
     if(dataLoaded){
@@ -21,6 +25,13 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
 
     final List<dynamic> jsonList = json.decode(jsonData);
     list = jsonList.map((json) => EstadiaPaciente.fromJson(json)).toList();
+
+    for (int i = 0; i < list.length; i++) {
+    //for(EstadiaPaciente estadiaPaciente in list){
+        var estadiaPaciente = list[i];
+        var paciente = await pacienteRepository.getPaciente(estadiaPaciente.paciente.id);
+        list[i] = estadiaPaciente.copyWith(paciente:paciente );        
+    }
     dataLoaded = true;
     return list;
   }

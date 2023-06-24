@@ -26,7 +26,7 @@ class InMemoryPacienteRepository implements PacienteRepository {
   @override
   Future<Paciente> getPaciente(String id) async {
     List<Paciente> list = await loadData();
-    return list.first;
+    return list.where((element) => element.id == id).first;
   }
 
   @override

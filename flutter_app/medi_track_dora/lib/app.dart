@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/contactoEmergenciaAdd/view/contacto_emergencia_page.dart';
+import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.dart';
 
 import 'components/estadiaPacienteHome/view/estadia_paciente_home_page.dart';
@@ -23,7 +24,8 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (_) {
-          context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
           //return const HomePage();} ,
           return EstadiaPacienteHomePage();} ,
         '/pacienteHome': (_) {
