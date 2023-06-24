@@ -32,6 +32,9 @@ class EstadiaPaciente extends Equatable {
   final String diagnostico;
   final TipoServicio tipoServicio;
 
+  String get tipoServicioReadable {
+    return tipoServicio.toString().split('.').last;
+  }
   @override
   List<Object> get props => [
         id,

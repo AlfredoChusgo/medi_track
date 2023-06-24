@@ -7,12 +7,11 @@ import 'package:medi_track_dora/components/pacienteHome/paciente.dart';
 import '../estadia_paciente_filter.dart';
 
 class EstadiaPacienteFilterPage {
-  static void openBottomSheet(BuildContext context) {
+  static void openBottomSheet(BuildContext context,Function callback) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return SizedBox(
-          //height: MediaQuery.of(context).size.height * 0.75,
           child: Container(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -24,7 +23,7 @@ class EstadiaPacienteFilterPage {
                     builder: (context, state) {
                       return Column(
                         children: [
-                          const SizedBox(height: 16.0),
+                          Text("Seleccionar filtros ",style: Theme.of(context).textTheme.labelLarge,),
                           if (state.paciente.isLeft())
                             ...getSearchPacienteWidgets(state, context)
                           else if (state.paciente.isRight())
@@ -32,8 +31,9 @@ class EstadiaPacienteFilterPage {
                           const SizedBox(height: 16.0),
                           TextFormField(
                             readOnly: true,
-                            controller: TextEditingController(text: DateFormat('dd-MM-yyyy')
-                                .format(state.fechaIngresoInicio)),
+                            controller: TextEditingController(
+                                text: DateFormat('dd-MM-yyyy')
+                                    .format(state.fechaIngresoInicio)),
                             onTap: () => showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
@@ -50,9 +50,10 @@ class EstadiaPacienteFilterPage {
                           ),
                           const SizedBox(height: 16.0),
                           TextFormField(
-                            readOnly: true,                            
-                            controller: TextEditingController(text: DateFormat('dd-MM-yyyy')
-                                .format(state.fechaIngresoFin)),
+                            readOnly: true,
+                            controller: TextEditingController(
+                                text: DateFormat('dd-MM-yyyy')
+                                    .format(state.fechaIngresoFin)),
                             onTap: () => showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
@@ -75,6 +76,13 @@ class EstadiaPacienteFilterPage {
                             onTap: () => showServicioDialog(context),
                             decoration:
                                 const InputDecoration(labelText: 'Servicio'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Add your button onPressed logic here
+                              callback(state);
+                            },
+                            child: const Text('Aplicar filtros'),
                           ),
                         ],
                       );
