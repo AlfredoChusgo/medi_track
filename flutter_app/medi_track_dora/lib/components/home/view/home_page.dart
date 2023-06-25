@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medi_track_dora/components/estadiaPacienteHome/estadia_paciente.dart';
 
 import '../../pacienteHome/view/paciente_home_page.dart';
 
@@ -61,7 +62,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         Container(
           color: Colors.green,
           alignment: Alignment.center,
-          child: const Text('Page 2'),
+          child: const EstadiaPacienteHomePage()
         ),
       ][currentPageIndex],
     );

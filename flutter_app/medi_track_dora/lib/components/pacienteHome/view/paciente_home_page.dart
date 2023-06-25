@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 
 import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
@@ -21,10 +22,8 @@ class PacienteHomePage extends StatelessWidget {
               .read<PacienteHomeBloc>()
               .add(PacienteHomeRefreshWithFilterEvent(name: searchText));
         },
-        defaultStateCallback: (){
-          context
-              .read<PacienteHomeBloc>()
-              .add(PacienteHomeRefreshEvent());
+        defaultStateCallback: () {
+          context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
         },
       ),
       body: CustomScrollView(
@@ -64,8 +63,11 @@ class PacienteHomePage extends StatelessWidget {
                         childCount: state.pacientes.length,
                       ),
                     ),
-                  PacienteHomeEmptyList() =>
-                    SliverFillRemaining(child: Center(child: Text('Sin nada \nque mostrar.... \u{1F644}',style: Theme.of(context).textTheme.headlineMedium)))
+                  PacienteHomeEmptyList() => SliverFillRemaining(
+                      child: Center(
+                          child: Text('Sin nada \nque mostrar.... \u{1F644}',
+                              style:
+                                  Theme.of(context).textTheme.headlineMedium)))
                 };
               },
             ),
@@ -123,7 +125,9 @@ class PacienteListItemState extends State<PacienteListItem> {
             children: [
               IconButton(
                 onPressed: () {
-                  // Handle edit button press
+                  // BlocProvider.of<EstadiaPacienteHomeBloc>(context)
+                  //     .add(PacienteEditEvent(widget.item));
+                  // Navigator.pushNamed(context, '/pacienteEdit');
                 },
                 icon: const Icon(Icons.local_hospital_sharp),
               ),

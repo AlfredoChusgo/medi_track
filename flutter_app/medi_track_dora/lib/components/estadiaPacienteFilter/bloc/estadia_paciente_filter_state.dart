@@ -44,6 +44,14 @@ class EstadiaPacienteFilterState extends Equatable {
     );
   }
 
+  EstadiaPacienteFilter toEstadiaPacienteFilter(){
+    return EstadiaPacienteFilter(pacienteName: pacienteName, 
+    paciente: paciente.fold((l) => Paciente.empty(), (r) => r), 
+    fechaIngresoFin: fechaIngresoFin, 
+    fechaIngresoInicio: fechaIngresoInicio, 
+    tipoServicio: tipoServicio);
+  }
+
   @override
   List<Object?> get props => [
         pacienteName,

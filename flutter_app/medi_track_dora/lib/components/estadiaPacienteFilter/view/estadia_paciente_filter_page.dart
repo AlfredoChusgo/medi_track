@@ -80,7 +80,8 @@ class EstadiaPacienteFilterPage {
                           ElevatedButton(
                             onPressed: () {
                               // Add your button onPressed logic here
-                              callback(state);
+                              callback(state.toEstadiaPacienteFilter());
+                              Navigator.of(context).pop();
                             },
                             child: const Text('Aplicar filtros'),
                           ),

@@ -24,29 +24,30 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (_) {
-          //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
-          context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
-          //return const HomePage();} ,
-          return EstadiaPacienteHomePage();} ,
+          // context
+          //     .read<EstadiaPacienteHomeBloc>()
+          //     .add(EstadiaPacienteHomeRefreshEvent());
+          // return EstadiaPacienteHomePage();
+
+          context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          return const HomePage();},        
         '/pacienteHome': (_) {
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();
         },
         '/pacienteAdd': (buildContext) => PacienteAddPage(
-              saveButtonText: "Guardar",
-              callback: () {
-                BlocProvider.of<PacienteAddBloc>(buildContext)
-                    .add(const PacientePerformSave());
-                //Navigator.pop(buildContext);
-              }
-            ),
+            saveButtonText: "Guardar",
+            callback: () {
+              BlocProvider.of<PacienteAddBloc>(buildContext)
+                  .add(const PacientePerformSave());
+              //Navigator.pop(buildContext);
+            }),
         '/pacienteEdit': (buildContext) => PacienteAddPage(
-              saveButtonText: "Actualizar",
-              callback: () {
-                BlocProvider.of<PacienteAddBloc>(buildContext)
-                    .add(const PacientePerformUpdate());
-              }
-            ),
+            saveButtonText: "Actualizar",
+            callback: () {
+              BlocProvider.of<PacienteAddBloc>(buildContext)
+                  .add(const PacientePerformUpdate());
+            }),
         '/contactoEmergenciaAdd': (buildContext) => ContactoEmergenciaPage(
               model: ContactoEmergencia.empty(),
               saveButtonText: "Guardar",
@@ -56,6 +57,12 @@ class App extends StatelessWidget {
                 Navigator.pop(buildContext);
               },
             ),
+        '/estadiaPaciente': (_) {
+          context
+              .read<EstadiaPacienteHomeBloc>()
+              .add(EstadiaPacienteHomeRefreshEvent());
+          return const EstadiaPacienteHomePage();
+        },
         //'/cart': (_) => const CartPage(),
       },
     );

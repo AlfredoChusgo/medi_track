@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/estadia_paciente_filter_model.dart';
 import '../../estadiaPacienteFilter/view/estadia_paciente_filter_page.dart';
 import '../estadia_paciente.dart';
 
@@ -10,10 +11,18 @@ class EstadiaPacienteHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
     return Builder(builder: (context) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Estadia Pacientes'),
+          actions: [
+            IconButton(onPressed: (){
+              EstadiaPacienteFilterPage.openBottomSheet(context, (EstadiaPacienteFilter estadiaPacienteFilter) {
+                context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshWithFiltersEvent(filter: estadiaPacienteFilter));
+              });
+            }, icon: const Icon(Icons.filter_alt_sharp))
+          ],
           //floating: true,
         ),
         resizeToAvoidBottomInset: false,
@@ -45,29 +54,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
                 };
               },
             )
-            //const CatalogAppBar(),
-            // const SliverToBoxAdapter(child: SizedBox(height: 12)),
-            // BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
-            //   builder: (context, state) {
-            //     return switch (state) {
-            //       EstadiaPacienteHomeLoadingState() => const Center(
-            //           child: Center(child: CircularProgressIndicator()),
-            //         ),
-            //       EstadiaPacienteHomeErrorState() => SliverFillRemaining(
-            //           child: Text(state.errorMessage),
-            //         ),
-            //       EstadiaPacienteHomeLoadedState() =>
-            //       CircularProgressIndicator()
-            //       // SliverList(
-            //       //     delegate: SliverChildBuilderDelegate(
-            //       //       (context, index) => PacienteListItem(
-            //       //         state.estadiaPacientes[index],
-            //       //       ),
-            //       //       childCount: state.estadiaPacientes.length,
-            //       //     ),
-            //       //   )
-            //     };
-            //   },
           ]),
         ),
         floatingActionButton: FloatingActionButton(
@@ -76,7 +62,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             // BlocProvider.of<PacienteAddBloc>(context)
             //     .add(const PacienteAddNewEvent());
             // Navigator.pushNamed(context, '/pacienteAdd');
-            EstadiaPacienteFilterPage.openBottomSheet(context, () {});
+            
           },
           child: const Icon(Icons.add),
         ),
@@ -85,80 +71,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
   }
 }
 
-// class EstadiaPacienteHomePage extends StatefulWidget {
-//   @override
-//   _EstadiaPacienteHomePageState createState() => _EstadiaPacienteHomePageState();
-// }
-
-// class _EstadiaPacienteHomePageState extends State<EstadiaPacienteHomePage> {
-//   ScrollController _scrollController = ScrollController();
-//   bool _isAppBarCollapsed = false;
-
-//   @override
-//   void dispose() {
-//     _scrollController.dispose();
-//     super.dispose();
-//   }
-
-//   void _toggleAppBar() {
-//     setState(() {
-//       _isAppBarCollapsed = !_isAppBarCollapsed;
-//       if (_isAppBarCollapsed) {
-//         _scrollController.animateTo(
-//           0,
-//           duration: Duration(milliseconds: 300),
-//           curve: Curves.ease,
-//         );
-//       } else {
-//         _scrollController.animateTo(
-//           _scrollController.position.maxScrollExtent,
-//           duration: Duration(milliseconds: 300),
-//           curve: Curves.ease,
-//         );
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Collapsing App Bar',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: Scaffold(
-//         body: CustomScrollView(
-//           controller: _scrollController,
-//           slivers: [
-//             SliverAppBar(
-//               expandedHeight: 200,
-//               flexibleSpace: FlexibleSpaceBar(
-//                 title: Text('Collapsing App Bar'),
-//                 background: Container(
-//                   color: Colors.blue,
-//                 ),
-//               ),
-//               floating: true,
-//               pinned: true,
-//             ),
-//             SliverList(
-//               delegate: SliverChildBuilderDelegate(
-//                 (context, index) => ListTile(
-//                   title: Text('Item $index'),
-//                 ),
-//                 childCount: 20,
-//               ),
-//             ),
-//           ],
-//         ),
-//         floatingActionButton: FloatingActionButton(
-//           onPressed: _toggleAppBar,
-//           child: Icon(Icons.arrow_upward),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class EstadiaPacienteListItem extends StatefulWidget {
   final EstadiaPaciente item;
@@ -175,9 +87,9 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme.titleMedium;
     final title = widget.item.paciente.fullName;
-    final subTitle = 'servicio: ${widget.item.tipoServicioReadable} ';
+    final subTitle = '${widget.item.tipoServicioReadable} ';
     return ExpansionTile(
-      leading: const Icon(Icons.person),
+      leading: const Icon(Icons.medical_information),
       title: Text(title, style: textTheme),
       collapsedTextColor: Colors.black,
       subtitle: Text(subTitle, style: Theme.of(context).textTheme.bodySmall),

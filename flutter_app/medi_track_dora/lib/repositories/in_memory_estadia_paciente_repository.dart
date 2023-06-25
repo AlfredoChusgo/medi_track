@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../components/pacienteHome/in_memory_paciente_repository.dart';
 import '../components/pacienteHome/paciente_repository.dart';
+import '../models/estadia_paciente_filter_model.dart';
 import '../models/estadia_paciente_model.dart';
 import 'estadia_paciente_repository.dart';
 
@@ -44,8 +45,9 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
 
   @override
   Future<List<EstadiaPaciente>> getEstadiaPacientes() async {
+    
     List<EstadiaPaciente> list = await loadData();
-    return list;
+    return list;    
   }
   
   @override
@@ -64,5 +66,44 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   Future<void> updateEstadiaPaciente(EstadiaPaciente model) async {
     List<EstadiaPaciente> localList = await loadData();
     list = [...localList.where((element) => element.id!=model.id).toList(),model];   
+  }
+  
+  @override
+  Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(EstadiaPacienteFilter filterState) async {
+    List<EstadiaPaciente> list = await loadData();
+    //
+    return list.where((estadiaPaciente) {
+        // Filter by pacienteName
+        final pacienteNameFilter = filterState.pacienteName.toLowerCase();
+        final estadiaPacienteName = estadiaPaciente.paciente.nombre.toLowerCase();
+        if (!estadiaPacienteName.contains(pacienteNameFilter)) {
+            return false;
+        }
+        
+        // Filter by paciente
+        final pacienteFilter = filterState.paciente;
+        if (estadiaPaciente.paciente != pacienteFilter) {
+            return false;
+        }
+        
+        // Filter by fechaIngreso
+        final fechaIngresoInicioFilter = filterState.fechaIngresoInicio;
+        final fechaIngresoFinFilter = filterState.fechaIngresoFin;
+        final fechaIngreso = estadiaPaciente.fechaIngreso;
+        if (fechaIngreso.isBefore(fechaIngresoInicioFilter)) {
+            return false;
+        }
+        if (fechaIngreso.isAfter(fechaIngresoFinFilter)) {
+            return false;
+        }
+        
+        // Filter by tipoServicio
+        final tipoServicioFilter = filterState.tipoServicio;
+        if (estadiaPaciente.tipoServicio != tipoServicioFilter) {
+            return false;
+        }
+        
+        return true;
+    }).toList();
   }
 }
