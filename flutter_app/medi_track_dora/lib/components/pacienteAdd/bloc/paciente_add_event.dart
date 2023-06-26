@@ -9,11 +9,18 @@ sealed class PacienteAddEvent extends Equatable {
 }
 
 class PacienteAddNewEvent extends PacienteAddEvent {
-
   const PacienteAddNewEvent();
 
   @override
   List<Object> get props => [];
+}
+
+class PacienteDetailsInReadOnlyEvent extends PacienteAddEvent {
+  final Paciente paciente;
+  const PacienteDetailsInReadOnlyEvent({required this.paciente});
+
+  @override
+  List<Object> get props => [paciente];
 }
 
 class PacienteEditEvent extends PacienteAddEvent {

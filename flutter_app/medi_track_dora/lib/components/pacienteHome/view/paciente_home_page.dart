@@ -139,14 +139,9 @@ class PacienteListItemState extends State<PacienteListItem> {
               ),
               IconButton(
                 onPressed: () {
-                  // Handle edit button press
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          PacienteDetailPage(data: widget.item),
-                    ),
-                  );
+                  BlocProvider.of<PacienteAddBloc>(context)
+                      .add(PacienteDetailsInReadOnlyEvent(paciente: widget.item));
+                  Navigator.pushNamed(context, '/pacienteDetails');
                 },
                 icon: const Icon(Icons.info),
               ),

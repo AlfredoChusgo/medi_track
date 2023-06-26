@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/estadia_paciente_filter_model.dart';
 import '../../estadiaPacienteFilter/view/estadia_paciente_filter_page.dart';
@@ -14,6 +15,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
     return Builder(builder: (context) {
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Estadia Pacientes'),
           actions: [
             IconButton(
@@ -82,7 +84,7 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme.titleMedium;
     final title = widget.item.paciente.fullName;
-    final subTitle = '${widget.item.tipoServicioReadable} ';
+    final subTitle = '${widget.item.tipoServicioReadable} ${DateFormat('dd-MM-yyyy').format(widget.item.fechaIngreso)} ';
     return ExpansionTile(
       leading: const Icon(Icons.medical_information),
       title: Text(title, style: textTheme),

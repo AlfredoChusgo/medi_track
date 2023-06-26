@@ -16,8 +16,9 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
   PacienteRepository pacienteRepository;
 
   PacienteAddBloc({required this.pacienteRepository})
-      : super(PacienteAddFormState.Initial()) {
+      : super(PacienteAddFormState.initial()) {
     on<PacienteAddEvent>(_onPacienteAddEvent);
+    on<PacienteDetailsInReadOnlyEvent>(_onPacienteDetailsInReadOnlyEvent);
   }
 
   Future<FutureOr<void>> _onPacienteAddEvent(
@@ -127,7 +128,7 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
 
     switch (event.runtimeType) {
       case PacienteAddNewEvent:
-        emit(PacienteAddFormState.Initial());
+        emit(PacienteAddFormState.initial());
 
       case PacienteEditEvent:
         PacienteEditEvent editPacienteEvent = event as PacienteEditEvent;
@@ -191,5 +192,9 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
         }
         break;
     }
+  }
+
+  FutureOr<void> _onPacienteDetailsInReadOnlyEvent(PacienteDetailsInReadOnlyEvent event, Emitter<PacienteAddState> emit) {
+      emit(PacienteAddFormState.copyWith(paciente: event.paciente).copyWith(readOnly: true));
   }
 }

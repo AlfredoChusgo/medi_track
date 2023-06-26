@@ -26,7 +26,11 @@ class PacienteAddPage extends StatelessWidget {
 
             if (state.shouldPop) {
               //Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(context, '/',(route) => false,);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/',
+                (route) => false,
+              );
             }
 
             Flushbar(
@@ -34,13 +38,16 @@ class PacienteAddPage extends StatelessWidget {
               title: "Accion",
               message: message,
             ).show(Navigator.of(context).context);
-
           }
         },
         child: BlocBuilder<PacienteAddBloc, PacienteAddState>(
           builder: (context, state) {
             if (state is PacienteAddFormState) {
-              return PacienteAddForm(state: state,saveButtonText: saveButtonText,callback: callback,);
+              return PacienteAddForm(
+                  state: state,
+                  saveButtonText: saveButtonText,
+                  callback: callback,
+                  readOnly: state.readOnly);
             }
             //Navigator.pop(context);
             return const Center(child: CircularProgressIndicator());
@@ -55,17 +62,22 @@ class PacienteAddForm extends StatelessWidget {
   final PacienteAddFormState state;
   final String saveButtonText;
   final void Function() callback;
-
+  final bool readOnly;
   late final TextEditingController _fechaNacimientoController;
 
-  PacienteAddForm({required this.state, required this.saveButtonText, required this.callback,super.key}) {
+  PacienteAddForm(
+      {required this.state,
+      required this.saveButtonText,
+      required this.callback,
+      required this.readOnly,
+      super.key}) {
     _fechaNacimientoController = TextEditingController(
         text: DateFormat('dd-MM-yyyy').format(state.fechaNacimiento));
   }
 
   @override
   Widget build(BuildContext context) {
-    final PacienteAddBloc _pacienteFormBloc =
+    final PacienteAddBloc pacienteFormBloc =
         BlocProvider.of<PacienteAddBloc>(context);
 
     return SingleChildScrollView(
@@ -80,9 +92,10 @@ class PacienteAddForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             TextFormField(
               //controller: _ciController,
+              readOnly: readOnly,
               initialValue: state.ci,
               onChanged: (value) {
-                _pacienteFormBloc.add(CIChanged(value));
+                pacienteFormBloc.add(CIChanged(value));
               },
               decoration:
                   const InputDecoration(labelText: 'Carnet de identidad'),
@@ -90,25 +103,28 @@ class PacienteAddForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             TextFormField(
               //controller: _nombreController,
+              readOnly: readOnly,
               initialValue: state.nombre,
               onChanged: (value) {
-                _pacienteFormBloc.add(NombreChanged(value));
+                pacienteFormBloc.add(NombreChanged(value));
               },
               decoration: const InputDecoration(labelText: 'Nombre'),
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.apellidoPaterno,
+              readOnly: readOnly,
               onChanged: (value) {
-                _pacienteFormBloc.add(ApellidoPaternoChanged(value));
+                pacienteFormBloc.add(ApellidoPaternoChanged(value));
               },
               decoration: const InputDecoration(labelText: 'Apellido Paterno'),
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.apellidoMaterno,
+              readOnly: readOnly,
               onChanged: (value) {
-                _pacienteFormBloc.add(ApellidoMaternoChanged(value));
+                pacienteFormBloc.add(ApellidoMaternoChanged(value));
               },
               decoration: const InputDecoration(labelText: 'Apellido Materno'),
             ),
@@ -118,42 +134,49 @@ class PacienteAddForm extends StatelessWidget {
             TextFormField(
               readOnly: true,
               controller: _fechaNacimientoController,
-              onTap: () => showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now())
-                  .then((value) {
-                return _pacienteFormBloc
-                    .add(FechaNacimientoChanged(value ?? DateTime.now()));
-              }),
+              onTap: () {
+                if (!readOnly) {
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now())
+                      .then((value) {
+                    pacienteFormBloc
+                        .add(FechaNacimientoChanged(value ?? DateTime.now()));
+                  });
+                }
+              },
               decoration:
                   const InputDecoration(labelText: 'Fecha de nacimiento'),
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.ocupacion,
+              readOnly: readOnly,
               onChanged: (value) {
-                _pacienteFormBloc.add(OcupacionChanged(value));
+                pacienteFormBloc.add(OcupacionChanged(value));
               },
               decoration: const InputDecoration(labelText: 'Ocupacion'),
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.procedencia,
+              readOnly: readOnly,
               onChanged: (value) {
-                _pacienteFormBloc.add(ProcedenciaChanged(value));
+                pacienteFormBloc.add(ProcedenciaChanged(value));
               },
               decoration: const InputDecoration(labelText: 'Procedencia'),
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.telefonoCelular.toString(),
+              readOnly: readOnly,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
-              onChanged: (value) => _pacienteFormBloc
+              onChanged: (value) => pacienteFormBloc
                   .add(TelefonoCelularChanged(int.tryParse(value) ?? 000000)),
               decoration: const InputDecoration(
                 labelText: 'Telefono Celular',
@@ -162,11 +185,12 @@ class PacienteAddForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.telefonoFijo.toString(),
+              readOnly: readOnly,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
-              onChanged: (value) => _pacienteFormBloc
+              onChanged: (value) => pacienteFormBloc
                   .add(TelefonoFijoChanged(int.tryParse(value) ?? 000000)),
               decoration: const InputDecoration(
                 labelText: 'Telefono Fijo',
@@ -175,8 +199,9 @@ class PacienteAddForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             TextFormField(
               initialValue: state.direccionResidencia,
+              readOnly: readOnly,
               onChanged: (value) {
-                _pacienteFormBloc.add(DireccionResidenciaChanged(value));
+                pacienteFormBloc.add(DireccionResidenciaChanged(value));
               },
               decoration:
                   const InputDecoration(labelText: 'Direccion de residencia'),
@@ -187,6 +212,7 @@ class PacienteAddForm extends StatelessWidget {
                 "Contactos de emergencia",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
+              if(!readOnly)
               IconButton.filledTonal(
                 onPressed: () =>
                     {Navigator.pushNamed(context, '/contactoEmergenciaAdd')},
@@ -201,10 +227,11 @@ class PacienteAddForm extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ContactoEmergenciaListItem(
-                    state.contactosEmergencia[index]);
+                    state.contactosEmergencia[index],readOnly);
               },
             ),
             const SizedBox(height: 16.0),
+            if(!readOnly)
             ElevatedButton(
               //width: double.infinity,
               onPressed: () {
@@ -299,7 +326,7 @@ class _SexoDropdownButtonState extends State<_SexoDropdownButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("Sexo"),
+          const Text("Sexo"),
           DropdownButton<Sexo>(
             key: const Key('newCarForm_brand_dropdownButton'),
             items: Sexo.values.map((Sexo sexo) {
@@ -325,7 +352,9 @@ class _SexoDropdownButtonState extends State<_SexoDropdownButton> {
 
 class ContactoEmergenciaListItem extends StatefulWidget {
   final ContactoEmergencia item;
-  const ContactoEmergenciaListItem(this.item, {super.key});
+  final bool readOnly;
+
+  const ContactoEmergenciaListItem(this.item,this.readOnly, {super.key});
   @override
   ContactoEmergenciaListItemState createState() =>
       ContactoEmergenciaListItemState();
@@ -337,7 +366,7 @@ class ContactoEmergenciaListItemState
   bool _isExpanded = false;
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     final subTitle =
         '${widget.item.nombre} ${widget.item.apellidoPaterno} ${widget.item.apellidoMaterno}';
     // final subTitle =
@@ -392,22 +421,11 @@ class ContactoEmergenciaListItemState
               )
             ],
           ),
+          if(!widget.readOnly)
         ButtonBar(
           children: [
             IconButton(
               onPressed: () {
-                // Handle edit button press
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     content: Text('This is a snackbar'),
-                //     action: SnackBarAction(
-                //       label: 'Undo',
-                //       onPressed: () {
-                //         // Do something
-                //       },
-                //     ),
-                //   ),
-                // );
                 Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -19,6 +19,8 @@ class PacienteAddFormState extends PacienteAddState {
   final int telefonoFijo;
   final String direccionResidencia;
   final List<ContactoEmergencia> contactosEmergencia;
+
+  final bool readOnly;
   PacienteAddFormState(
       {required this.id,
       required this.ci,
@@ -32,9 +34,10 @@ class PacienteAddFormState extends PacienteAddState {
       required this.telefonoCelular,
       required this.telefonoFijo,
       required this.direccionResidencia,
-      required this.contactosEmergencia});
+      required this.contactosEmergencia,
+      required this.readOnly});
 
-  PacienteAddFormState.Initial()
+  PacienteAddFormState.initial()
       : id = '',
         ci = '',
         nombre = '',
@@ -47,7 +50,8 @@ class PacienteAddFormState extends PacienteAddState {
         telefonoCelular = 0,
         telefonoFijo = 0,
         direccionResidencia = '',
-        contactosEmergencia = [];
+        contactosEmergencia = [],
+        readOnly = false;
 
   PacienteAddFormState copyWith({
     String? id,
@@ -62,7 +66,8 @@ class PacienteAddFormState extends PacienteAddState {
     int? telefonoCelular,
     int? telefonoFijo,
     String? direccionResidencia,
-    List<ContactoEmergencia>? contactosEmergencia 
+    List<ContactoEmergencia>? contactosEmergencia,
+    bool? readOnly
   }) {
     return PacienteAddFormState(
       id: id ?? this.id,
@@ -77,7 +82,9 @@ class PacienteAddFormState extends PacienteAddState {
       telefonoCelular: telefonoCelular ?? this.telefonoCelular,
       telefonoFijo: telefonoFijo ?? this.telefonoFijo,
       direccionResidencia: direccionResidencia ?? this.direccionResidencia,
-      contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia
+      contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
+      readOnly : readOnly ?? this.readOnly
+      
     );
   }
 
@@ -95,7 +102,8 @@ class PacienteAddFormState extends PacienteAddState {
       telefonoCelular: paciente.telefonoCelular,
       telefonoFijo: paciente.telefonoFijo,
       direccionResidencia: paciente.direccionResidencia,
-      contactosEmergencia: paciente.contactosEmergencia
+      contactosEmergencia: paciente.contactosEmergencia,
+      readOnly : false,
     );
   }
 
@@ -131,7 +139,8 @@ class PacienteAddFormState extends PacienteAddState {
         telefonoCelular,
         telefonoFijo,
         direccionResidencia,
-        contactosEmergencia
+        contactosEmergencia,
+        readOnly
       ];
 }
 
