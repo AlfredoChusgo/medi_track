@@ -10,13 +10,20 @@ class EstadiaPacienteFilter extends Equatable {
   final DateTime fechaIngresoInicio;
   final DateTime fechaIngresoFin;
   final TipoServicio tipoServicio;
+  final bool pacienteFilterEnabled;
+  final bool fechaFilterEnabled;
+  final bool servicioFilterEnabled;
 
   const EstadiaPacienteFilter(
       {required this.pacienteName,
       required this.paciente,
       required this.fechaIngresoFin,
       required this.fechaIngresoInicio,
-      required this.tipoServicio});
+      required this.tipoServicio,
+      required this.pacienteFilterEnabled,
+      required this.fechaFilterEnabled,
+      required this.servicioFilterEnabled,
+      });
 
   factory EstadiaPacienteFilter.empty() {
     return EstadiaPacienteFilter(
@@ -24,7 +31,10 @@ class EstadiaPacienteFilter extends Equatable {
         paciente: Paciente.empty(),
         fechaIngresoFin: DateTime.now().add(const Duration(days: -20)),
         fechaIngresoInicio: DateTime.now(),
-        tipoServicio: TipoServicio.desconocido);
+        tipoServicio: TipoServicio.desconocido,
+        servicioFilterEnabled: false,
+        pacienteFilterEnabled: false,
+        fechaFilterEnabled: false);
   }
 
   EstadiaPacienteFilter copyWith({
@@ -33,6 +43,10 @@ class EstadiaPacienteFilter extends Equatable {
     DateTime? fechaIngresoInicio,
     DateTime? fechaIngresoFin,
     TipoServicio? tipoServicio,
+    bool? pacienteFilterEnabled,
+    bool? fechaFilterEnabled,
+    bool? servicioFilterEnabled,
+
   }) {
     return EstadiaPacienteFilter(
       pacienteName: pacienteName ?? this.pacienteName,
@@ -40,6 +54,9 @@ class EstadiaPacienteFilter extends Equatable {
       fechaIngresoInicio: fechaIngresoInicio ?? this.fechaIngresoInicio,
       fechaIngresoFin: fechaIngresoFin ?? this.fechaIngresoFin,
       tipoServicio: tipoServicio ?? this.tipoServicio,
+      pacienteFilterEnabled: pacienteFilterEnabled ?? this.pacienteFilterEnabled,
+      fechaFilterEnabled: fechaFilterEnabled ?? this.fechaFilterEnabled,
+      servicioFilterEnabled: servicioFilterEnabled ?? this.servicioFilterEnabled,
     );
   }
 

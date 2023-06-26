@@ -7,7 +7,7 @@ import 'package:medi_track_dora/components/pacienteHome/paciente.dart';
 import '../estadia_paciente_filter.dart';
 
 class EstadiaPacienteFilterPage {
-  static void openBottomSheet(BuildContext context,Function callback) {
+  static void openBottomSheet(BuildContext context, Function callback) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -23,60 +23,19 @@ class EstadiaPacienteFilterPage {
                     builder: (context, state) {
                       return Column(
                         children: [
-                          Text("Seleccionar filtros ",style: Theme.of(context).textTheme.labelLarge,),
-                          if (state.paciente.isLeft())
-                            ...getSearchPacienteWidgets(state, context)
-                          else if (state.paciente.isRight())
-                            getPacienteSelectedWidget(state, context),
+                          Text(
+                            "Seleccionar filtros ",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          ...getPacientesFilter(state, context),
                           const SizedBox(height: 16.0),
-                          TextFormField(
-                            readOnly: true,
-                            controller: TextEditingController(
-                                text: DateFormat('dd-MM-yyyy')
-                                    .format(state.fechaIngresoInicio)),
-                            onTap: () => showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now())
-                                .then((value) {
-                              context.read<EstadiaPacienteFilterBloc>().add(
-                                  SelectFechaIngresoInicioEvent(
-                                      fechaIngresoInicio:
-                                          value ?? DateTime.now()));
-                            }),
-                            decoration: const InputDecoration(
-                                labelText: 'Fecha ingreso inicio'),
-                          ),
+                          ...getFechaFilterWidget(
+                              context,
+                              state.fechaIngresoInicio,
+                              state.fechaIngresoFin,
+                              state.fechaFilterEnabled),
                           const SizedBox(height: 16.0),
-                          TextFormField(
-                            readOnly: true,
-                            controller: TextEditingController(
-                                text: DateFormat('dd-MM-yyyy')
-                                    .format(state.fechaIngresoFin)),
-                            onTap: () => showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now())
-                                .then((value) {
-                              context.read<EstadiaPacienteFilterBloc>().add(
-                                  SelectFechaIngresoFinEvent(
-                                      fechaIngresoFin:
-                                          value ?? DateTime.now()));
-                            }),
-                            decoration: const InputDecoration(
-                                labelText: 'Fecha ingreso fin'),
-                          ),
-                          TextFormField(
-                            readOnly: true,
-                            //initialValue: state.tipoServicio.toString(),
-                            controller: TextEditingController(
-                                text: state.tipoServicio.toString()),
-                            onTap: () => showServicioDialog(context),
-                            decoration:
-                                const InputDecoration(labelText: 'Servicio'),
-                          ),
+                          ...getServicioFilterWidget(state, context),
                           ElevatedButton(
                             onPressed: () {
                               // Add your button onPressed logic here
@@ -101,11 +60,8 @@ class EstadiaPacienteFilterPage {
     return [
       const SizedBox(height: 16.0),
       TextFormField(
-        //controller: _ciController,
         initialValue: "",
-        onChanged: (value) {
-          //_pacienteFormBloc.add(CIChanged(value));
-        },
+        onChanged: (value) {},
         onFieldSubmitted: (value) {
           context
               .read<EstadiaPacienteFilterBloc>()
@@ -135,6 +91,167 @@ class EstadiaPacienteFilterPage {
                   },
                 ),
               ))
+    ];
+  }
+
+  static List<Widget> getFechaFilterWidget(BuildContext context,
+      DateTime fechaIngresoInicio, DateTime fechaEgresoInicio, bool enabled) {
+    return [
+      ExpansionPanelList(
+        expandedHeaderPadding: EdgeInsets.zero,
+        elevation: 1,
+        expansionCallback: (panelIndex, isExpanded) {
+          context.read<EstadiaPacienteFilterBloc>().add(!isExpanded
+              ? EnableFechaFilterEvent()
+              : DisableFechaFilterEvent());
+        },
+        children: [
+          ExpansionPanel(
+            headerBuilder: (context, isExpanded) {
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: SwitchListTile(
+                  title: Text('Filtrar por fecha'),
+                  value: enabled,
+                  onChanged: (value) {
+                    context.read<EstadiaPacienteFilterBloc>().add(value
+                        ? EnableFechaFilterEvent()
+                        : DisableFechaFilterEvent());
+                  },
+                ),
+              );
+            },
+            body: Column(
+              children: [
+                TextFormField(
+                  readOnly: true,
+                  controller: TextEditingController(
+                      text: DateFormat('dd-MM-yyyy').format(fechaEgresoInicio)),
+                  onTap: () => showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now())
+                      .then((value) {
+                    context.read<EstadiaPacienteFilterBloc>().add(
+                        SelectFechaIngresoInicioEvent(
+                            fechaIngresoInicio: value ?? DateTime.now()));
+                  }),
+                  decoration:
+                      const InputDecoration(labelText: 'Fecha ingreso inicio'),
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  readOnly: true,
+                  controller: TextEditingController(
+                      text: DateFormat('dd-MM-yyyy').format(fechaEgresoInicio)),
+                  onTap: () => showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now())
+                      .then((value) {
+                    context.read<EstadiaPacienteFilterBloc>().add(
+                        SelectFechaIngresoFinEvent(
+                            fechaIngresoFin: value ?? DateTime.now()));
+                  }),
+                  decoration:
+                      const InputDecoration(labelText: 'Fecha ingreso fin'),
+                )
+              ],
+            ),
+            isExpanded: enabled,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  static List<Widget> getServicioFilterWidget(
+      EstadiaPacienteFilterState state, BuildContext context) {
+    return [
+      ExpansionPanelList(
+        expandedHeaderPadding: EdgeInsets.zero,
+        elevation: 1,
+        expansionCallback: (panelIndex, isExpanded) {
+          context.read<EstadiaPacienteFilterBloc>().add(!isExpanded
+              ? EnableServicioFilterEvent()
+              : DisableServicioFilterEvent());
+        },
+        children: [
+          ExpansionPanel(
+            headerBuilder: (context, isExpanded) {
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SwitchListTile(
+                  title: const Text('Filtrar por servicio'),
+                  value: state.servicioFilterEnabled,
+                  onChanged: (value) {
+                    context.read<EstadiaPacienteFilterBloc>().add(value
+                        ? EnableServicioFilterEvent()
+                        : DisableServicioFilterEvent());
+                  },
+                ),
+              );
+            },
+            body: Column(
+              children: [
+                TextFormField(
+                  readOnly: true,
+                  //initialValue: state.tipoServicio.toString(),
+                  controller: TextEditingController(
+                      text: state.tipoServicio.toString()),
+                  onTap: () => showServicioDialog(context),
+                  decoration: const InputDecoration(labelText: 'Servicio'),
+                ),
+              ],
+            ),
+            isExpanded: state.servicioFilterEnabled,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  static List<Widget> getPacientesFilter(
+      EstadiaPacienteFilterState state, BuildContext context) {
+    return [
+      ExpansionPanelList(
+        expandedHeaderPadding: EdgeInsets.zero,
+        elevation: 1,
+        expansionCallback: (panelIndex, isExpanded) {
+          context.read<EstadiaPacienteFilterBloc>().add(!isExpanded
+              ? EnablePacienteFilterEvent()
+              : DisablePacienteFilterEvent());
+        },
+        children: [
+          ExpansionPanel(
+            headerBuilder: (context, isExpanded) {
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: SwitchListTile(
+                  title: Text('Filtrar por paciente'),
+                  value: state.pacienteFilterEnabled,
+                  onChanged: (value) {
+                    context.read<EstadiaPacienteFilterBloc>().add(value
+                        ? EnablePacienteFilterEvent()
+                        : DisablePacienteFilterEvent());
+                  },
+                ),
+              );
+            },
+            body: Column(
+              children: [
+                if (state.paciente.isLeft())
+                  ...getSearchPacienteWidgets(state, context)
+                else if (state.paciente.isRight())
+                  getPacienteSelectedWidget(state, context),
+              ],
+            ),
+            isExpanded: state.pacienteFilterEnabled,
+          ),
+        ],
+      ),
     ];
   }
 

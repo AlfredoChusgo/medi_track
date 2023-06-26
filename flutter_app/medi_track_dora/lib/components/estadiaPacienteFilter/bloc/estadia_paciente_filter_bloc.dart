@@ -22,6 +22,15 @@ class EstadiaPacienteFilterBloc
     on<SelectTipoServicioEvent>(_onSelectTipoServicioEvent);
     on<SelectFechaIngresoFinEvent>(_onSelectFechaIngresoFinEvent);
     on<SelectFechaIngresoInicioEvent>(_onSelectFechaIngresoInicioEvent);
+
+    on<EnablePacienteFilterEvent>(_onEnablePacienteFilterEvent);
+    on<DisablePacienteFilterEvent>(_onDisablePacienteFilterEvent);
+
+    on<EnableFechaFilterEvent>(_onEnableFechaFilterEvent);
+    on<DisableFechaFilterEvent>(_onDisableFechaFilterEvent);
+
+    on<EnableServicioFilterEvent>(_onEnableServicioFilterEvent);
+    on<DisableServicioFilterEvent>(_onDisableServicioFilterEvent);
   }
 
   FutureOr<void> _onSearchPacienteByNameEvent(SearchPacienteByNameEvent event,
@@ -66,12 +75,42 @@ class EstadiaPacienteFilterBloc
 
   FutureOr<void> _onSelectFechaIngresoFinEvent(SelectFechaIngresoFinEvent event,
       Emitter<EstadiaPacienteFilterState> emit) {
-        emit(state.copyWith(fechaIngresoFin: event.fechaIngresoFin));
-      }
+    emit(state.copyWith(fechaIngresoFin: event.fechaIngresoFin));
+  }
 
   FutureOr<void> _onSelectFechaIngresoInicioEvent(
       SelectFechaIngresoInicioEvent event,
       Emitter<EstadiaPacienteFilterState> emit) {
-        emit(state.copyWith(fechaIngresoInicio: event.fechaIngresoInicio));
+    emit(state.copyWith(fechaIngresoInicio: event.fechaIngresoInicio));
+  }
+
+  FutureOr<void> _onEnablePacienteFilterEvent(EnablePacienteFilterEvent event,
+      Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(pacienteFilterEnabled: true));
+      }
+
+  FutureOr<void> _onDisablePacienteFilterEvent(DisablePacienteFilterEvent event,
+      Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(pacienteFilterEnabled: false));
+      }
+
+  FutureOr<void> _onEnableFechaFilterEvent(
+      EnableFechaFilterEvent event, Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(fechaFilterEnabled: true));
+      }
+
+  FutureOr<void> _onDisableFechaFilterEvent(DisableFechaFilterEvent event,
+      Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(fechaFilterEnabled: false));
+      }
+
+  FutureOr<void> _onEnableServicioFilterEvent(EnableServicioFilterEvent event,
+      Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(servicioFilterEnabled: true));
+      }
+
+  FutureOr<void> _onDisableServicioFilterEvent(DisableServicioFilterEvent event,
+      Emitter<EstadiaPacienteFilterState> emit) {
+        emit(state.copyWith(servicioFilterEnabled: false));
       }
 }
