@@ -107,12 +107,17 @@ class PacienteListItemState extends State<PacienteListItem> {
         '${widget.item.nombre} ${widget.item.apellidoPaterno} ${widget.item.apellidoMaterno}';
     final subTitle =
         '${widget.item.sexo.toString()} ${widget.item.direccionResidencia} ';
+    var backgroundColor =
+        widget.item.sexo == Sexo.masculino ? Colors.blue : Colors.pink;
     return ExpansionTile(
+      backgroundColor: backgroundColor[200],
+      collapsedBackgroundColor: backgroundColor[100],
       leading: const Icon(Icons.person),
       title: Text(title, style: textTheme),
       collapsedTextColor: Colors.black,
       subtitle: Text(subTitle, style: Theme.of(context).textTheme.bodySmall),
       //trailing: const Icon(Icons.menu),
+
       onExpansionChanged: (value) {
         setState(() {
           _isExpanded = value;
@@ -128,10 +133,18 @@ class PacienteListItemState extends State<PacienteListItem> {
               IconButton(
                 onPressed: () {
                   EstadiaPacienteFilter filter = EstadiaPacienteFilter.empty();
-                  
-                  context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshWithFiltersEvent(filter: filter.copyWith(paciente: widget.item,pacienteFilterEnabled: true)));
-                  context.read<EstadiaPacienteFilterBloc>().add(SelectPacienteFromListevent(paciente: widget.item));
-                  context.read<EstadiaPacienteFilterBloc>().add(EnablePacienteFilterEvent());                  
+
+                  context.read<EstadiaPacienteHomeBloc>().add(
+                      EstadiaPacienteHomeRefreshWithFiltersEvent(
+                          filter: filter.copyWith(
+                              paciente: widget.item,
+                              pacienteFilterEnabled: true)));
+                  context
+                      .read<EstadiaPacienteFilterBloc>()
+                      .add(SelectPacienteFromListevent(paciente: widget.item));
+                  context
+                      .read<EstadiaPacienteFilterBloc>()
+                      .add(EnablePacienteFilterEvent());
 
                   Navigator.pushNamed(context, '/estadiaPacienteFiltered');
                 },
@@ -139,8 +152,8 @@ class PacienteListItemState extends State<PacienteListItem> {
               ),
               IconButton(
                 onPressed: () {
-                  BlocProvider.of<PacienteAddBloc>(context)
-                      .add(PacienteDetailsInReadOnlyEvent(paciente: widget.item));
+                  BlocProvider.of<PacienteAddBloc>(context).add(
+                      PacienteDetailsInReadOnlyEvent(paciente: widget.item));
                   Navigator.pushNamed(context, '/pacienteDetails');
                 },
                 icon: const Icon(Icons.info),

@@ -52,7 +52,6 @@ class ProductionApp extends StatelessWidget {
         '/pacienteDetails': (buildContext) => PacienteAddPage(
             saveButtonText: "",
             callback: () {
-
             }),
         '/contactoEmergenciaAdd': (buildContext) => ContactoEmergenciaPage(
               model: ContactoEmergencia.empty(),

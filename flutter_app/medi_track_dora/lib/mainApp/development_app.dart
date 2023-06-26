@@ -48,6 +48,8 @@ class DevelopmentApp extends StatelessWidget {
               BlocProvider.of<PacienteAddBloc>(buildContext)
                   .add(const PacientePerformUpdate());
             }),
+        '/pacienteDetails': (buildContext) =>
+            PacienteAddPage(saveButtonText: "", callback: () {}),
         '/contactoEmergenciaAdd': (buildContext) => ContactoEmergenciaPage(
               model: ContactoEmergencia.empty(),
               saveButtonText: "Guardar",
