@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:medi_track_dora/models/estadia_paciente_model.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:convert';
 
 enum Sexo { masculino, femenino }
 

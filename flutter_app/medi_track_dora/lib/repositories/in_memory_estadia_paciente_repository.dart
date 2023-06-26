@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 
-import '../components/pacienteHome/in_memory_paciente_repository.dart';
-import '../components/pacienteHome/paciente_repository.dart';
+import 'in_memory_paciente_repository.dart';
+import 'paciente_repository.dart';
 import '../models/estadia_paciente_filter_model.dart';
 import '../models/estadia_paciente_model.dart';
 import 'estadia_paciente_repository.dart';

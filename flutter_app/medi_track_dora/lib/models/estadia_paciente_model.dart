@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:convert';
 
-import '../components/pacienteHome/paciente.dart';
+import 'paciente.dart';
 
 enum TipoServicio {
   desconocido,

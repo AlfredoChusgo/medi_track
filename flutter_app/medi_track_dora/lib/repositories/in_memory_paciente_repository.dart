@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-import 'paciente.dart';
+import '../models/paciente.dart';
 import 'paciente_repository.dart';
 
 class InMemoryPacienteRepository implements PacienteRepository {

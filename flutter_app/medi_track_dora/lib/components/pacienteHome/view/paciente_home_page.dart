@@ -8,7 +8,7 @@ import '../../../models/estadia_paciente_filter_model.dart';
 import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../../pacienteDetail/view/paciente_detail_page.dart';
 import '../../search_app_bar/view/search_bar_app_bar.dart';
-import '../paciente.dart';
+import '../../../models/paciente.dart';
 
 class PacienteHomePage extends StatelessWidget {
   const PacienteHomePage({super.key});

@@ -6,8 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 
 import '../../contactoEmergenciaAdd/view/contacto_emergencia_page.dart';
-import '../../pacienteHome/in_memory_paciente_repository.dart';
-import '../../pacienteHome/paciente.dart';
+import '../../../models/paciente.dart';
 
 class PacienteAddPage extends StatelessWidget {
   final String saveButtonText;
@@ -44,7 +43,7 @@ class PacienteAddPage extends StatelessWidget {
               return PacienteAddForm(state: state,saveButtonText: saveButtonText,callback: callback,);
             }
             //Navigator.pop(context);
-            return Center(child: const CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
@@ -57,39 +56,11 @@ class PacienteAddForm extends StatelessWidget {
   final String saveButtonText;
   final void Function() callback;
 
-  final TextEditingController _idController = TextEditingController();
-  late final TextEditingController _ciController;
-  late final TextEditingController _nombreController;
-  late final TextEditingController _apellidoPaternoController;
-  late final TextEditingController _apellidoMaternoController;
   late final TextEditingController _fechaNacimientoController;
-  late final TextEditingController _sexoController;
-  late final TextEditingController _ocupacionController;
-  late final TextEditingController _procedenciaController;
-  late final TextEditingController _telefonoCelularController;
-  late final TextEditingController _telefonoFijoController;
-  late final TextEditingController _direccionResidenciaController;
 
   PacienteAddForm({required this.state, required this.saveButtonText, required this.callback,super.key}) {
-    //_idController = TextEditingController();
-    _ciController = TextEditingController(text: state.ci);
-    _nombreController = TextEditingController();
-    //_nombreController.set
-    _apellidoPaternoController =
-        TextEditingController(text: state.apellidoPaterno);
-    _apellidoMaternoController =
-        TextEditingController(text: state.apellidoMaterno);
     _fechaNacimientoController = TextEditingController(
         text: DateFormat('dd-MM-yyyy').format(state.fechaNacimiento));
-    _sexoController = TextEditingController(text: state.sexo.toString());
-    _ocupacionController = TextEditingController(text: state.ocupacion);
-    _procedenciaController = TextEditingController(text: state.procedencia);
-    _telefonoCelularController =
-        TextEditingController(text: state.telefonoCelular.toString());
-    _telefonoFijoController =
-        TextEditingController(text: state.telefonoFijo.toString());
-    _direccionResidenciaController =
-        TextEditingController(text: state.direccionResidencia);
   }
 
   @override
@@ -142,7 +113,7 @@ class PacienteAddForm extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Apellido Materno'),
             ),
             const SizedBox(height: 16.0),
-            _SexoDropdownButton(),
+            const _SexoDropdownButton(),
             const SizedBox(height: 16.0),
             TextFormField(
               readOnly: true,
@@ -227,7 +198,7 @@ class PacienteAddForm extends StatelessWidget {
               shrinkWrap: true,
               itemCount: state
                   .contactosEmergencia.length, // Number of items in the list
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ContactoEmergenciaListItem(
                     state.contactosEmergencia[index]);
@@ -265,7 +236,7 @@ class PacienteAddForm extends StatelessWidget {
     ];
   }
 
-  List<Widget> BuildContactosEmergencia(
+  List<Widget> buildContactosEmergencia(
       List<ContactoEmergencia> contactosEmergencia, BuildContext context) {
     List<Widget> widgets = contactosEmergencia
         .map((e) => Column(
@@ -366,8 +337,7 @@ class ContactoEmergenciaListItemState
   bool _isExpanded = false;
 
   @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme.titleMedium;
+  Widget build(BuildContext context) {    
     final subTitle =
         '${widget.item.nombre} ${widget.item.apellidoPaterno} ${widget.item.apellidoMaterno}';
     // final subTitle =

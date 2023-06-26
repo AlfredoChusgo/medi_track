@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/search_bar_bloc.dart';
 
 class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
-  late TextEditingController textController;
+  late final TextEditingController textController;
   final String barTitle;
   final void Function(String searchText) searchTextCallback;
   final void Function() defaultStateCallback;

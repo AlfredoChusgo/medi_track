@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/estadia_paciente.dart';
-import 'package:medi_track_dora/components/pacienteHome/paciente_repository.dart';
+import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/models/estadia_paciente_filter_model.dart';
-import 'package:meta/meta.dart';
 import 'dart:async';
-import '../../pacienteHome/paciente.dart';
+import '../../../models/paciente.dart';
 import 'package:dartz/dartz.dart';
 
 part 'estadia_paciente_filter_event.dart';

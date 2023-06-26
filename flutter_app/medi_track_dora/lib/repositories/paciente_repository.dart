@@ -1,6 +1,6 @@
 
 
-import 'paciente.dart';
+import '../models/paciente.dart';
 
 abstract class PacienteRepository {
   

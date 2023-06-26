@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../pacienteHome/paciente.dart';
+import '../../../models/paciente.dart';
 
 
 

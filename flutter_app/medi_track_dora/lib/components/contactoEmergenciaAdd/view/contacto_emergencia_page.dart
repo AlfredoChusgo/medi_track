@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 
-import '../../pacienteHome/paciente.dart';
+import '../../../models/paciente.dart';
 
 class ContactoEmergenciaPage extends StatelessWidget {
   final ContactoEmergencia model;
@@ -26,7 +24,6 @@ class ContactoEmergenciaAddForm extends StatelessWidget {
   final String saveButtonText;
   final void Function(ContactoEmergencia contactoEmergencia) callback;
 
-  final TextEditingController _idController = TextEditingController();
   late final TextEditingController _nombreController;
   late final TextEditingController _relacionFamiliarController;
   late final TextEditingController _apellidoPaternoController;
@@ -49,8 +46,6 @@ class ContactoEmergenciaAddForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PacienteAddBloc _pacienteFormBloc =
-        BlocProvider.of<PacienteAddBloc>(context);
 
     return SingleChildScrollView(
       child: Padding(

@@ -1,7 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../components/pacienteHome/paciente.dart';
+import 'paciente.dart';
 import 'estadia_paciente_model.dart';
 
 class EstadiaPacienteFilter extends Equatable {

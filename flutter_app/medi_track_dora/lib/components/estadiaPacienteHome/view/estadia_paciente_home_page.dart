@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +35,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
               builder: (context, state) {
                 return switch (state) {
-                  EstadiaPacienteHomeLoadingState() => CircularProgressIndicator(),
+                  EstadiaPacienteHomeLoadingState() => const CircularProgressIndicator(),
                   EstadiaPacienteHomeLoadedState() => ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.estadiaPacientes
@@ -48,7 +47,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
                       },
                     ),
                   EstadiaPacienteHomeErrorState() =>
-                    Text(state.errorMessage ?? 'Something')
+                    Text(state.errorMessage)
                 };
               },
             )

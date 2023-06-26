@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/estadia_paciente.dart';
-import 'package:medi_track_dora/components/pacienteHome/paciente.dart';
 
 import '../estadia_paciente_filter.dart';
 
@@ -109,9 +108,9 @@ class EstadiaPacienteFilterPage {
           ExpansionPanel(
             headerBuilder: (context, isExpanded) {
               return Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SwitchListTile(
-                  title: Text('Filtrar por fecha'),
+                  title: const Text('Filtrar por fecha'),
                   value: enabled,
                   onChanged: (value) {
                     context.read<EstadiaPacienteFilterBloc>().add(value
@@ -228,9 +227,9 @@ class EstadiaPacienteFilterPage {
           ExpansionPanel(
             headerBuilder: (context, isExpanded) {
               return Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SwitchListTile(
-                  title: Text('Filtrar por paciente'),
+                  title: const Text('Filtrar por paciente'),
                   value: state.pacienteFilterEnabled,
                   onChanged: (value) {
                     context.read<EstadiaPacienteFilterBloc>().add(value
@@ -288,7 +287,7 @@ class EstadiaPacienteFilterPage {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Select an option'),
+          title: const Text('Select an option'),
           content: SingleChildScrollView(
             child: ListBody(
               children: [

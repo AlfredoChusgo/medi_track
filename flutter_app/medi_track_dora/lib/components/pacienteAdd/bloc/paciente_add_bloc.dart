@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../pacienteHome/paciente.dart';
-import '../../pacienteHome/paciente_repository.dart';
+import '../../../models/paciente.dart';
+import '../../../repositories/paciente_repository.dart';
 
 part 'paciente_add_event.dart';
 part 'paciente_add_state.dart';

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medi_track_dora/components/pacienteHome/paciente_repository.dart';
+import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 import 'package:medi_track_dora/mainApp/development_app.dart';
 import 'package:medi_track_dora/mainApp/production_app.dart';
@@ -11,7 +11,7 @@ import '../components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.da
 import '../components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import '../components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../components/pacienteHome/bloc/paciente_home_bloc.dart';
-import '../components/pacienteHome/in_memory_paciente_repository.dart';
+import '../repositories/in_memory_paciente_repository.dart';
 import '../components/search_app_bar/bloc/search_bar_bloc.dart';
 import '../repositories/estadia_paciente_repository.dart';
 import '../repositories/in_memory_estadia_paciente_repository.dart';

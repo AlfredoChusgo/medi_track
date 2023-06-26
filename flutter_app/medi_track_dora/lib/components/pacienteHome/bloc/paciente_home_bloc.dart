@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:medi_track_dora/components/pacienteHome/paciente_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:medi_track_dora/repositories/paciente_repository.dart';
 
-import '../paciente.dart';
+import '../../../models/paciente.dart';
 
 part 'paciente_home_event.dart';
 part 'paciente_home_state.dart';
