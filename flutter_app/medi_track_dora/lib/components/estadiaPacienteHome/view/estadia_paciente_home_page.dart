@@ -55,15 +55,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             },
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // FAB onPressed action
-            // BlocProvider.of<PacienteAddBloc>(context)
-            //     .add(const PacienteAddNewEvent());
-            // Navigator.pushNamed(context, '/pacienteAdd');
-          },
-          child: const Icon(Icons.add),
-        ),
       );
     });
   }

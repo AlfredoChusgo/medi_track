@@ -7,7 +7,6 @@ import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.
 
 import '../../../models/estadia_paciente_filter_model.dart';
 import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
-import '../../pacienteDetail/view/paciente_detail_page.dart';
 import '../../search_app_bar/view/search_bar_app_bar.dart';
 import '../../../models/paciente.dart';
 
@@ -112,6 +111,9 @@ class PacienteListItemState extends State<PacienteListItem> {
     return ExpansionTile(
       backgroundColor: backgroundColor[200],
       collapsedBackgroundColor: backgroundColor[100],
+      collapsedIconColor: backgroundColor[300],
+      iconColor: backgroundColor[400],
+
       leading: const Icon(Icons.person),
       title: Text(title, style: textTheme),
       collapsedTextColor: Colors.black,
@@ -128,57 +130,74 @@ class PacienteListItemState extends State<PacienteListItem> {
         //   title: Text('Item Details'),
         // ),
         if (_isExpanded)
-          ButtonBar(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                onPressed: () {
-                  EstadiaPacienteFilter filter = EstadiaPacienteFilter.empty();
+              ButtonBar(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    EstadiaPacienteFilter filter =
+                        EstadiaPacienteFilter.empty();
 
-                  context.read<EstadiaPacienteHomeBloc>().add(
-                      EstadiaPacienteHomeRefreshWithFiltersEvent(
-                          filter: filter.copyWith(
-                              paciente: widget.item,
-                              pacienteFilterEnabled: true)));
-                  context
-                      .read<EstadiaPacienteFilterBloc>()
-                      .add(SelectPacienteFromListevent(paciente: widget.item));
-                  context
-                      .read<EstadiaPacienteFilterBloc>()
-                      .add(EnablePacienteFilterEvent());
+                    context.read<EstadiaPacienteHomeBloc>().add(
+                        EstadiaPacienteHomeRefreshWithFiltersEvent(
+                            filter: filter.copyWith(
+                                paciente: widget.item,
+                                pacienteFilterEnabled: true)));
+                    context.read<EstadiaPacienteFilterBloc>().add(
+                        SelectPacienteFromListevent(paciente: widget.item));
+                    context
+                        .read<EstadiaPacienteFilterBloc>()
+                        .add(EnablePacienteFilterEvent());
 
-                  Navigator.pushNamed(context, '/estadiaPacienteFiltered');
-                },
-                icon: const Icon(Icons.local_hospital_sharp),
-              ),
-              IconButton(
-                onPressed: () {
-                  BlocProvider.of<PacienteAddBloc>(context).add(
-                      PacienteDetailsInReadOnlyEvent(paciente: widget.item));
-                  Navigator.pushNamed(context, '/pacienteDetails');
-                },
-                icon: const Icon(Icons.info),
-              ),
-              IconButton(
-                onPressed: () {
-                  BlocProvider.of<PacienteAddBloc>(context)
-                      .add(PacienteEditEvent(widget.item));
-                  Navigator.pushNamed(context, '/pacienteEdit');
-                },
-                icon: const Icon(Icons.edit),
-              ),
-              IconButton(
-                onPressed: () {
-                  // Handle remove button press
-                  BlocProvider.of<PacienteAddBloc>(context)
-                      .add(PacientePerformDelete(id: widget.item.id));
-                },
-                icon: const Icon(Icons.delete),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                    Navigator.pushNamed(context, '/estadiaPacienteFiltered');
+                  },
+                  icon: const Icon(Icons.history),
                 ),
+                                  IconButton(
+                  onPressed: () {
+                    //todo
+
+                  },
+                  icon: const Icon(Icons.add),
+                ),
+              ],
+              ),
+              ButtonBar(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      BlocProvider.of<PacienteAddBloc>(context).add(
+                          PacienteDetailsInReadOnlyEvent(
+                              paciente: widget.item));
+                      Navigator.pushNamed(context, '/pacienteDetails');
+                    },
+                    icon: const Icon(Icons.info),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      BlocProvider.of<PacienteAddBloc>(context)
+                          .add(PacienteEditEvent(widget.item));
+                      Navigator.pushNamed(context, '/pacienteEdit');
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      // Handle remove button press
+                      BlocProvider.of<PacienteAddBloc>(context)
+                          .add(PacientePerformDelete(id: widget.item.id));
+                    },
+                    icon: const Icon(Icons.delete),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
+          )
       ],
     );
   }
