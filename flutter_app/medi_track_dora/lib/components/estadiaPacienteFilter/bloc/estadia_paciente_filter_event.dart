@@ -2,6 +2,13 @@ part of 'estadia_paciente_filter_bloc.dart';
 
 sealed class EstadiaPacienteFilterEvent extends Equatable {}
 
+// class SetEstadiaPacienteFilterEvent extends EstadiaPacienteFilterEvent {
+//   final EstadiaPacienteFilter filter;
+//   SetEstadiaPacienteFilterEvent({required this.filter});
+// @override
+//   List<Object?> get props => [filter];
+// }
+
 class SearchPacienteByNameEvent extends EstadiaPacienteFilterEvent {
   final String name;
 

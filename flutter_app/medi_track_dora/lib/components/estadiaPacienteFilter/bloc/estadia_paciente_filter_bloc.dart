@@ -112,4 +112,5 @@ class EstadiaPacienteFilterBloc
       Emitter<EstadiaPacienteFilterState> emit) {
         emit(state.copyWith(servicioFilterEnabled: false));
       }
+
 }

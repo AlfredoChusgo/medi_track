@@ -10,7 +10,7 @@ class EstadiaPacienteHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
+    
     return Builder(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -31,27 +31,27 @@ class EstadiaPacienteHomePage extends StatelessWidget {
         ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: Column(children: [
-            BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
-              builder: (context, state) {
-                return switch (state) {
-                  EstadiaPacienteHomeLoadingState() => const CircularProgressIndicator(),
-                  EstadiaPacienteHomeLoadedState() => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.estadiaPacientes
-                          .length, // Number of items in the list
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return EstadiaPacienteListItem(
-                            state.estadiaPacientes[index]);
-                      },
-                    ),
-                  EstadiaPacienteHomeErrorState() =>
-                    Text(state.errorMessage)
-                };
-              },
-            )
-          ]),
+          child: BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
+            builder: (context, state) {
+              return switch (state) {
+                EstadiaPacienteHomeLoadingState() => const Expanded(child: Center(child: CircularProgressIndicator())),
+                EstadiaPacienteHomeLoadedState() => Column(children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.estadiaPacientes
+                        .length, // Number of items in the list
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return EstadiaPacienteListItem(
+                          state.estadiaPacientes[index]);
+                    },
+                  )
+                ]),
+                EstadiaPacienteHomeErrorState() =>
+                  Text(state.errorMessage)
+              };
+            },
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
