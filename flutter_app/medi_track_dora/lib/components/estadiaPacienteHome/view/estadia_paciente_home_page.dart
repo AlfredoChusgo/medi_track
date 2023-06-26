@@ -11,46 +11,44 @@ class EstadiaPacienteHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
+    //context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshEvent());
     return Builder(builder: (context) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Estadia Pacientes'),
           actions: [
-            IconButton(onPressed: (){
-              EstadiaPacienteFilterPage.openBottomSheet(context, (EstadiaPacienteFilter estadiaPacienteFilter) {
-                context.read<EstadiaPacienteHomeBloc>().add(EstadiaPacienteHomeRefreshWithFiltersEvent(filter: estadiaPacienteFilter));
-              });
-            }, icon: const Icon(Icons.filter_alt_sharp))
+            IconButton(
+                onPressed: () {
+                  EstadiaPacienteFilterPage.openBottomSheet(context,
+                      (EstadiaPacienteFilter estadiaPacienteFilter) {
+                    context.read<EstadiaPacienteHomeBloc>().add(
+                        EstadiaPacienteHomeRefreshWithFiltersEvent(
+                            filter: estadiaPacienteFilter));
+                  });
+                },
+                icon: const Icon(Icons.filter_alt_sharp))
           ],
           //floating: true,
         ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(children: [
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate(
-            //     (context, index) => ListTile(
-            //       title: Text('Item $index'),
-            //     ),
-            //     childCount: 20,
-            //   ),
-            // ),
             BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
               builder: (context, state) {
-                return switch(state){
-                  EstadiaPacienteHomeLoadingState()=> const CircularProgressIndicator(),
+                return switch (state) {
+                  EstadiaPacienteHomeLoadingState() => CircularProgressIndicator(),
                   EstadiaPacienteHomeLoadedState() => ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.estadiaPacientes
-                      .length, // Number of items in the list
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return EstadiaPacienteListItem(
-                        state.estadiaPacientes[index]);
-                  },
-                ),
-                EstadiaPacienteHomeErrorState() => Text(state.errorMessage ?? 'Something')
+                      shrinkWrap: true,
+                      itemCount: state.estadiaPacientes
+                          .length, // Number of items in the list
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return EstadiaPacienteListItem(
+                            state.estadiaPacientes[index]);
+                      },
+                    ),
+                  EstadiaPacienteHomeErrorState() =>
+                    Text(state.errorMessage ?? 'Something')
                 };
               },
             )
@@ -62,7 +60,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             // BlocProvider.of<PacienteAddBloc>(context)
             //     .add(const PacienteAddNewEvent());
             // Navigator.pushNamed(context, '/pacienteAdd');
-            
           },
           child: const Icon(Icons.add),
         ),
@@ -70,7 +67,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
     });
   }
 }
-
 
 class EstadiaPacienteListItem extends StatefulWidget {
   final EstadiaPaciente item;

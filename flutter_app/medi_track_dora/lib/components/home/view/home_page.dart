@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/estadia_paciente.dart';
 
 import '../../pacienteHome/view/paciente_home_page.dart';
@@ -6,21 +7,20 @@ import '../../pacienteHome/view/paciente_home_page.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-                  'Administracion',                
-                ),
+            'Administracion',
+          ),
         ),
-      bottomNavigationBar: const NavigationExample(),),
+        bottomNavigationBar: const NavigationExample(),
+      ),
     );
   }
 }
-
 
 class NavigationExample extends StatefulWidget {
   const NavigationExample({super.key});
@@ -60,11 +60,18 @@ class _NavigationExampleState extends State<NavigationExample> {
           child: const PacienteHomePage(),
         ),
         Container(
-          color: Colors.green,
-          alignment: Alignment.center,
-          child: const EstadiaPacienteHomePage()
-        ),
+            color: Colors.green,
+            alignment: Alignment.center,
+            child: getEstadiaPacienteHomePage()),
+        //child: const EstadiaPacienteHomePage()),
       ][currentPageIndex],
     );
+  }
+
+  Widget getEstadiaPacienteHomePage() {
+    context
+        .read<EstadiaPacienteHomeBloc>()
+        .add(EstadiaPacienteHomeRefreshEvent());
+    return const EstadiaPacienteHomePage();
   }
 }

@@ -30,7 +30,8 @@ class ProductionApp extends StatelessWidget {
           // return EstadiaPacienteHomePage();
 
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
-          return const HomePage();},        
+          return const HomePage();
+        },
         '/pacienteHome': (_) {
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();
@@ -61,6 +62,9 @@ class ProductionApp extends StatelessWidget {
           context
               .read<EstadiaPacienteHomeBloc>()
               .add(EstadiaPacienteHomeRefreshEvent());
+          return const EstadiaPacienteHomePage();
+        },
+        '/estadiaPacienteFiltered': (_) {
           return const EstadiaPacienteHomePage();
         },
         //'/cart': (_) => const CartPage(),

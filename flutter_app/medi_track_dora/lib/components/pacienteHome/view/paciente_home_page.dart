@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 
+import '../../../models/estadia_paciente_filter_model.dart';
 import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../../pacienteDetail/view/paciente_detail_page.dart';
 import '../../search_app_bar/view/search_bar_app_bar.dart';
@@ -125,9 +126,10 @@ class PacienteListItemState extends State<PacienteListItem> {
             children: [
               IconButton(
                 onPressed: () {
-                  // BlocProvider.of<EstadiaPacienteHomeBloc>(context)
-                  //     .add(PacienteEditEvent(widget.item));
-                  // Navigator.pushNamed(context, '/pacienteEdit');
+                  EstadiaPacienteFilter filter = EstadiaPacienteFilter.empty();
+                  BlocProvider.of<EstadiaPacienteHomeBloc>(context)
+                      .add(EstadiaPacienteHomeRefreshWithFiltersEvent(filter: filter.copyWith(paciente: widget.item,pacienteFilterEnabled: true)));
+                  Navigator.pushNamed(context, '/estadiaPacienteFiltered');
                 },
                 icon: const Icon(Icons.local_hospital_sharp),
               ),

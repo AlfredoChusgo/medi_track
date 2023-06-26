@@ -27,10 +27,11 @@ class DevelopmentApp extends StatelessWidget {
           context
               .read<EstadiaPacienteHomeBloc>()
               .add(EstadiaPacienteHomeRefreshEvent());
-          return const EstadiaPacienteHomePage();},
+          return const EstadiaPacienteHomePage();
+        },
 
-          //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
-          //return const HomePage();},        
+        //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+        //return const HomePage();},
         '/pacienteHome': (_) {
           context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
           return const PacienteHomePage();
@@ -61,6 +62,9 @@ class DevelopmentApp extends StatelessWidget {
           context
               .read<EstadiaPacienteHomeBloc>()
               .add(EstadiaPacienteHomeRefreshEvent());
+          return const EstadiaPacienteHomePage();
+        },
+        '/estadiaPacienteFiltered': (_) {
           return const EstadiaPacienteHomePage();
         },
         //'/cart': (_) => const CartPage(),

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:medi_track_dora/models/estadia_paciente_filter_model.dart';
-import 'package:meta/meta.dart';
 
 import '../../../models/estadia_paciente_model.dart';
 import '../../../repositories/estadia_paciente_repository.dart';
@@ -23,6 +22,7 @@ class EstadiaPacienteHomeBloc extends Bloc<EstadiaPacienteHomeEvent, EstadiaPaci
     Future<void> _onEstadiaPacienteHomeRefreshEvent(EstadiaPacienteHomeRefreshEvent event, Emitter<EstadiaPacienteHomeState> emit) async {
     try {
       emit(EstadiaPacienteHomeLoadingState());
+      await Future.delayed(Duration(seconds: 1));
       emit(EstadiaPacienteHomeLoadedState(estadiaPacientes: await _repository.getEstadiaPacientes()));
     } catch (e) {
       emit(EstadiaPacienteHomeErrorState(errorMessage: e.toString()));
@@ -32,6 +32,7 @@ class EstadiaPacienteHomeBloc extends Bloc<EstadiaPacienteHomeEvent, EstadiaPaci
   FutureOr<void> _onEstadiaPacienteHomeRefreshWithFiltersEvent(EstadiaPacienteHomeRefreshWithFiltersEvent event, Emitter<EstadiaPacienteHomeState> emit) async {
         try {
       emit(EstadiaPacienteHomeLoadingState());
+      await Future.delayed(Duration(seconds: 1));
       emit(EstadiaPacienteHomeLoadedState(estadiaPacientes: await _repository.getEstadiaPacientesWithFilter(event.filter)));
     } catch (e) {
       emit(EstadiaPacienteHomeErrorState(errorMessage: e.toString()));
