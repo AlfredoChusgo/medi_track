@@ -154,5 +154,5 @@ class PacienteActionResponse extends PacienteAddState {
   PacienteActionResponse({required this.message, required this.isError, required this.shouldPop});
 
   @override
-  List<Object> get props => [message,isError];
+  List<Object> get props => [message,isError,shouldPop];
 }

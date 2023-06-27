@@ -16,3 +16,4 @@ create sqlite repositories
 
 agregar view paciente details. done
 
+import export data

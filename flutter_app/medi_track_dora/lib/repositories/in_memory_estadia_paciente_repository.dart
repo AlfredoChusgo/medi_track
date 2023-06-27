@@ -74,16 +74,6 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
     List<EstadiaPaciente> list = await loadData();
     //
     return list.where((estadiaPaciente) {
-      // Filter by pacienteName
-      // if (filterState.pacienteFilterEnabled) {
-      //   final pacienteNameFilter = filterState.pacienteName.toLowerCase();
-      //   final estadiaPacienteName =
-      //       estadiaPaciente.paciente.nombre.toLowerCase();
-      //   if (!estadiaPacienteName.contains(pacienteNameFilter)) {
-      //     return false;
-      //   }
-      // }
-
       // Filter by paciente
       if (filterState.pacienteFilterEnabled) {
         final pacienteFilter = filterState.paciente;

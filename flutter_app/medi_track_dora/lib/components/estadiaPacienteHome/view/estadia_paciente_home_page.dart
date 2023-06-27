@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../models/estadia_paciente_filter_model.dart';
 import '../../estadiaPacienteFilter/view/estadia_paciente_filter_page.dart';
+import '../../estadiaPacienteForm/estadia_paciente.dart';
 import '../estadia_paciente.dart';
 
 class EstadiaPacienteHomePage extends StatelessWidget {
@@ -11,7 +12,6 @@ class EstadiaPacienteHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Builder(builder: (context) {
       return Scaffold(
         appBar: AppBar(
@@ -36,21 +36,21 @@ class EstadiaPacienteHomePage extends StatelessWidget {
           child: BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
             builder: (context, state) {
               return switch (state) {
-                EstadiaPacienteHomeLoadingState() => const Expanded(child: Center(child: CircularProgressIndicator())),
+                EstadiaPacienteHomeLoadingState() => const Expanded(
+                    child: Center(child: CircularProgressIndicator())),
                 EstadiaPacienteHomeLoadedState() => Column(children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.estadiaPacientes
-                        .length, // Number of items in the list
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return EstadiaPacienteListItem(
-                          state.estadiaPacientes[index]);
-                    },
-                  )
-                ]),
-                EstadiaPacienteHomeErrorState() =>
-                  Text(state.errorMessage)
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.estadiaPacientes
+                          .length, // Number of items in the list
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return EstadiaPacienteListItem(
+                            state.estadiaPacientes[index]);
+                      },
+                    )
+                  ]),
+                EstadiaPacienteHomeErrorState() => Text(state.errorMessage)
               };
             },
           ),
@@ -75,7 +75,8 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme.titleMedium;
     final title = widget.item.paciente.fullName;
-    final subTitle = '${widget.item.tipoServicioReadable} ${DateFormat('dd-MM-yyyy').format(widget.item.fechaIngreso)} ';
+    final subTitle =
+        '${widget.item.tipoServicioReadable} ${DateFormat('dd-MM-yyyy').format(widget.item.fechaIngreso)} ';
     return ExpansionTile(
       leading: const Icon(Icons.medical_information),
       title: Text(title, style: textTheme),
@@ -96,30 +97,26 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
             children: [
               IconButton(
                 onPressed: () {
-                  // Handle edit button press
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         PacienteDetailPage(data: widget.item),
-                  //   ),
-                  // );
+                  BlocProvider.of<EstadiaPacienteFormBloc>(context).add(
+                      ReadEstadiaPacienteFormEvent(
+                          estadiaPaciente: widget.item));
+                  Navigator.pushNamed(context, '/estadiaPacienteDetail');
                 },
                 icon: const Icon(Icons.info),
               ),
               IconButton(
                 onPressed: () {
-                  // BlocProvider.of<PacienteAddBloc>(context)
-                  //     .add(PacienteEditEvent(widget.item));
-                  // Navigator.pushNamed(context, '/pacienteEdit');
+                  BlocProvider.of<EstadiaPacienteFormBloc>(context).add(
+                      EditEstadiaPacienteFormEvent(
+                          estadiaPaciente: widget.item));
+                  Navigator.pushNamed(context, '/estadiaPacienteEdit');
                 },
                 icon: const Icon(Icons.edit),
               ),
               IconButton(
                 onPressed: () {
-                  // Handle remove button press
-                  // BlocProvider.of<PacienteAddBloc>(context)
-                  //     .add(PacientePerformDelete(id: widget.item.id));
+                  BlocProvider.of<EstadiaPacienteFormBloc>(context)
+                      .add(DeleteEstadiaPacienteFormEvent(id: widget.item.id));
                 },
                 icon: const Icon(Icons.delete),
                 style: ElevatedButton.styleFrom(

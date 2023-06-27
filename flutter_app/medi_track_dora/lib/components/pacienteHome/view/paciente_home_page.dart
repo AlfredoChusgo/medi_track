@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.dart';
+import 'package:medi_track_dora/components/estadiaPacienteForm/bloc/estadia_paciente_form_bloc.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 
@@ -134,35 +135,38 @@ class PacienteListItemState extends State<PacienteListItem> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ButtonBar(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    EstadiaPacienteFilter filter =
-                        EstadiaPacienteFilter.empty();
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      EstadiaPacienteFilter filter =
+                          EstadiaPacienteFilter.empty();
 
-                    context.read<EstadiaPacienteHomeBloc>().add(
-                        EstadiaPacienteHomeRefreshWithFiltersEvent(
-                            filter: filter.copyWith(
-                                paciente: widget.item,
-                                pacienteFilterEnabled: true)));
-                    context.read<EstadiaPacienteFilterBloc>().add(
-                        SelectPacienteFromListevent(paciente: widget.item));
-                    context
-                        .read<EstadiaPacienteFilterBloc>()
-                        .add(EnablePacienteFilterEvent());
+                      context.read<EstadiaPacienteHomeBloc>().add(
+                          EstadiaPacienteHomeRefreshWithFiltersEvent(
+                              filter: filter.copyWith(
+                                  paciente: widget.item,
+                                  pacienteFilterEnabled: true)));
+                      context.read<EstadiaPacienteFilterBloc>().add(
+                          SelectPacienteFromListevent(paciente: widget.item));
+                      context
+                          .read<EstadiaPacienteFilterBloc>()
+                          .add(EnablePacienteFilterEvent());
 
-                    Navigator.pushNamed(context, '/estadiaPacienteFiltered');
-                  },
-                  icon: const Icon(Icons.history),
-                ),
-                                  IconButton(
-                  onPressed: () {
-                    //todo
-
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-              ],
+                      Navigator.pushNamed(context, '/estadiaPacienteFiltered');
+                    },
+                    icon: const Icon(Icons.history),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      //todo
+                      context
+                          .read<EstadiaPacienteFormBloc>()
+                          .add(NewEstadiaPacienteFormEvent(paciente: widget.item));
+                      Navigator.pushNamed(context, '/estadiaPacienteAdd');                      
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
               ),
               ButtonBar(
                 children: [

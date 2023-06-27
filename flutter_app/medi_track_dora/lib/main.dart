@@ -4,6 +4,7 @@ import 'mainApp/main_app_builder.dart';
 
 void main() {
   ApplicationConfiguration config =
+      //ApplicationConfiguration(isDevelopment: true);
       ApplicationConfiguration(isDevelopment: false);
   runApp(MainAppBuilder(config: config).build());
 }

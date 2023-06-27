@@ -4,9 +4,12 @@ import 'package:medi_track_dora/components/contactoEmergenciaAdd/view/contacto_e
 import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.dart';
 
+import '../components/estadiaPacienteForm/estadia_paciente.dart';
+import '../components/estadiaPacienteForm/view/estadia_paciente_form_page.dart';
 import '../components/estadiaPacienteHome/view/estadia_paciente_home_page.dart';
 import '../components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../components/pacienteHome/bloc/paciente_home_bloc.dart';
+import '../models/estadia_paciente_model.dart';
 import '../models/paciente.dart';
 import '../repositories/paciente_repository.dart';
 import '../components/pacienteHome/view/paciente_home_page.dart';
@@ -23,10 +26,16 @@ class DevelopmentApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (_) {
-          context
-              .read<EstadiaPacienteHomeBloc>()
-              .add(EstadiaPacienteHomeRefreshEvent());
-          return const EstadiaPacienteHomePage();
+          // context
+          //     .read<EstadiaPacienteHomeBloc>()
+          //     .add(EstadiaPacienteHomeRefreshEvent());
+          // return const EstadiaPacienteHomePage();
+          return EstadiaPacienteFormPage(saveButtonText: "Guardar",
+            callback: (EstadiaPaciente estadiaPaciente) {
+                context.read<EstadiaPacienteFormBloc>().add(
+                    SaveEstadiaPacienteFormEvent(
+                        estadiaPaciente: estadiaPaciente));
+            });
         },
 
         //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
