@@ -166,7 +166,7 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
               minLines: 1,
               maxLines: 2,
               controller:
-                  TextEditingController(text: widget.state.accionesRealizadas),
+                  accionesRealizadasController,
               decoration:
                   const InputDecoration(labelText: 'Acciones Realizadas'),
             ),
@@ -176,7 +176,7 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
               minLines: 1,
               maxLines: 2,
               controller:
-                  TextEditingController(text: widget.state.observaciones),
+                  observacionesController,
               decoration: const InputDecoration(labelText: 'Observaciones'),
             ),
             const SizedBox(height: 16.0),
@@ -185,7 +185,7 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
               minLines: 1,
               maxLines: 2,
               controller:
-                  TextEditingController(text: widget.state.observaciones),
+                  diagnosticoController,
               decoration: const InputDecoration(labelText: 'Diagnostico'),
             ),
             const SizedBox(height: 16.0),
@@ -198,6 +198,12 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
                     showServicioDialog(context, (selectedValue) {
                       setState(() {
                         tipoServicioController.text = selectedValue;
+                        // accionesRealizadasController
+                        // //fechaIngresoController.text = ;
+                        // observacionesController.text = ;
+                        // fechaEgresoController.text = ;
+                        // diagnosticoController.text = ;
+                        // tipoServicioController.text = ;
                       });
                     })
                   }
