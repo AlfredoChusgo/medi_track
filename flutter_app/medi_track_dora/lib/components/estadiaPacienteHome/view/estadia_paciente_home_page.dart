@@ -39,20 +39,20 @@ class EstadiaPacienteHomePage extends StatelessWidget {
             listener: (listenerContext, state) {
               if (state is EstadiaPacienteAddedSuccessfully ||
                   state is EstadiaPacienteUpdatedSuccessfully ||
-                  state is EstadiaPacienteDeletedSuccessfully
-                  ) {
+                  state is EstadiaPacienteDeletedSuccessfully) {
                 String message = (state as dynamic).message;
 
-                Future.delayed(Duration.zero,(){
+                Future.delayed(Duration.zero, () {
                   Flushbar(
-                  duration: const Duration(seconds: 2),
-                  title: "Evento",
-                  message: message,
-                ).show(context);
+                    duration: const Duration(seconds: 2),
+                    title: "Evento",
+                    message: message,
+                  ).show(context);
                 });
 
-                context.read<EstadiaPacienteHomeBloc>().add(
-                        EstadiaPacienteHomeRefreshEvent());
+                context
+                    .read<EstadiaPacienteHomeBloc>()
+                    .add(EstadiaPacienteHomeRefreshEvent());
               }
             },
             child:
@@ -73,7 +73,12 @@ class EstadiaPacienteHomePage extends StatelessWidget {
                         },
                       )
                     ]),
-                  EstadiaPacienteHomeErrorState() => Text(state.errorMessage)
+                  EstadiaPacienteHomeErrorState() => Text(state.errorMessage),
+                  EstadiaPacienteEmptyListState() => Expanded(
+                      child: Center(
+                          child: Text('Sin nada \nque mostrar.... \u{1F644}',
+                              style:
+                                  Theme.of(context).textTheme.headlineMedium)))
                 };
               },
             ),
@@ -139,8 +144,9 @@ class EstadiaPacienteListItemState extends State<EstadiaPacienteListItem> {
               ),
               IconButton(
                 onPressed: () {
-                  BlocProvider.of<EstadiaPacienteFormBloc>(context)
-                      .add(DeleteEstadiaPacienteFormEvent(id: widget.item.id));
+                  context.read<EstadiaPacienteHomeBloc>().add(DeleteEstadiaPacienteEvent(id:widget.item.id));
+                  // BlocProvider.of<EstadiaPacienteFormBloc>(context)
+                  //     .add(DeleteEstadiaPacienteFormEvent(id: widget.item.id));
                 },
                 icon: const Icon(Icons.delete),
                 style: ElevatedButton.styleFrom(

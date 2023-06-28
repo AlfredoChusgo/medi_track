@@ -102,4 +102,30 @@ class EstadiaPaciente extends Equatable {
       tipoServicio: tipoServicio ?? this.tipoServicio,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'paciente': paciente.toMap(), // Convert paciente to a map
+      'fechaIngreso': fechaIngreso.toIso8601String(),
+      'fechaEgreso': fechaEgreso.toIso8601String(),
+      'accionesRealizadas': accionesRealizadas,
+      'observaciones': observaciones,
+      'diagnostico': diagnostico,
+      'tipoServicio': tipoServicio.name, // Convert tipoServicio to a string
+    };
+  }
+
+  static EstadiaPaciente fromMap(Map<String, dynamic> map) {
+    return EstadiaPaciente(
+      id: map['id'],
+      paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
+      fechaIngreso: DateTime.parse(map['fechaIngreso']),
+      fechaEgreso: DateTime.parse(map['fechaEgreso']),
+      accionesRealizadas: map['accionesRealizadas'],
+      observaciones: map['observaciones'],
+      diagnostico: map['diagnostico'],
+      tipoServicio : TipoServicio.values.firstWhere((value) => value.toString().split('.').last == map['tipoServicio']),      
+    );
+  }
 }

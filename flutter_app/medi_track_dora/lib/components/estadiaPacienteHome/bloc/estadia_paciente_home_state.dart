@@ -11,6 +11,11 @@ class EstadiaPacienteHomeLoadingState extends EstadiaPacienteHomeState {
   List<Object> get props => [];
 }
 
+class EstadiaPacienteEmptyListState extends EstadiaPacienteHomeState {
+  @override
+  List<Object> get props => [];
+}
+
 class EstadiaPacienteHomeLoadedState extends EstadiaPacienteHomeState {
   EstadiaPacienteHomeLoadedState({required this.estadiaPacientes});
   final List<EstadiaPaciente> estadiaPacientes;

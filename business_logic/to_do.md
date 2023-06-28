@@ -16,7 +16,7 @@ ordenar resultados por fecha  descendiente del actual a antes
 
 agregar view paciente details. done 
 
-
 error handling 
+validar campos en blanco
 create sqlite repositories
 import export data

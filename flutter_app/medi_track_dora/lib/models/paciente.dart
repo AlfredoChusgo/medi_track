@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
@@ -123,7 +125,45 @@ class Paciente extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'ci': ci,
+      'nombre': nombre,
+      'apellidoPaterno': apellidoPaterno,
+      'apellidoMaterno': apellidoMaterno,
+      'fechaNacimiento': fechaNacimiento.millisecondsSinceEpoch,
+      'sexo': sexo.toString().split('.').last,
+      'ocupacion': ocupacion,
+      'procedencia': procedencia,
+      'telefonoCelular': telefonoCelular,
+      'telefonoFijo': telefonoFijo,
+      'direccionResidencia': direccionResidencia,
+      'contactosEmergencia': jsonEncode(contactosEmergencia)
+    };
+  }
+
+    static Paciente fromMap(Map<String, dynamic> map) {
+    return Paciente(
+      id: map['id'],
+      ci: map['ci'],
+      nombre: map['nombre'],
+      apellidoPaterno: map['apellidoPaterno'],
+      apellidoMaterno: map['apellidoMaterno'],
+      fechaNacimiento: DateTime.fromMillisecondsSinceEpoch(map['fechaNacimiento']),
+      sexo: Sexo.values.firstWhere((value) => value.toString().split('.').last == map['sexo']),
+      ocupacion: map['ocupacion'],
+      procedencia: map['procedencia'],
+      telefonoCelular: map['telefonoCelular'],
+      telefonoFijo: map['telefonoFijo'],
+      direccionResidencia: map['direccionResidencia'],
+      contactosEmergencia: (jsonDecode(map['contactosEmergencia']) as List<dynamic>).map((e) => ContactoEmergencia.fromMap(e)).toList(),
+    );
+  }
+
+  // ...
 }
+
 
 class ContactoEmergencia extends Equatable {
   const ContactoEmergencia(
@@ -196,6 +236,42 @@ class ContactoEmergencia extends Equatable {
       apellidoPaterno: json['apellidoPaterno'],
       telefono: json['telefono'],
       direccion: json['direccion'],
+    );
+  }
+
+    Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'relacionFamiliar': relacionFamiliar,
+      'nombre': nombre,
+      'apellidoMaterno': apellidoMaterno,
+      'apellidoPaterno': apellidoPaterno,
+      'telefono': telefono,
+      'direccion': direccion,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'relacionFamiliar': relacionFamiliar,
+      'nombre': nombre,
+      'apellidoMaterno': apellidoMaterno,
+      'apellidoPaterno': apellidoPaterno,
+      'telefono': telefono,
+      'direccion': direccion,
+    };
+  }
+
+  static ContactoEmergencia fromMap(Map<String, dynamic> map) {
+    return ContactoEmergencia(
+      id: map['id'],
+      relacionFamiliar: map['relacionFamiliar'],
+      nombre: map['nombre'],
+      apellidoMaterno: map['apellidoMaterno'],
+      apellidoPaterno: map['apellidoPaterno'],
+      telefono: map['telefono'],
+      direccion: map['direccion'],
     );
   }
 }

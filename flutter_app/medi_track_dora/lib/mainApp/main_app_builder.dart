@@ -4,6 +4,7 @@ import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 import 'package:medi_track_dora/mainApp/development_app.dart';
 import 'package:medi_track_dora/mainApp/production_app.dart';
+import 'package:medi_track_dora/repositories/sqlite_estadia_paciente_repository.dart';
 
 import '../components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.dart';
 import '../components/estadiaPacienteForm/estadia_paciente.dart';
@@ -14,6 +15,7 @@ import '../repositories/in_memory_paciente_repository.dart';
 import '../components/searchAppBar/bloc/search_bar_bloc.dart';
 import '../repositories/estadia_paciente_repository.dart';
 import '../repositories/in_memory_estadia_paciente_repository.dart';
+import '../repositories/sqlite_paciente_repository.dart';
 
 class MainAppBuilder {
   final ApplicationConfiguration config;
@@ -67,10 +69,10 @@ class MainAppBuilder {
     //repositories
     if (config.developmentConfig.isDevelopment) {
       pacienteRepository = InMemoryPacienteRepository(dataSize: config.developmentConfig.fakeDataSize);
-      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository);
+      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository, delayInSeconds: config.developmentConfig.delayOfResponseInSeonds);
     } else {
-      pacienteRepository = InMemoryPacienteRepository(dataSize: config.developmentConfig.fakeDataSize);
-      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository);
+      pacienteRepository = SqlitePacienteRepository();
+      estadiaPacienteRepository = SqliteEstadiaPacienteRepository();
     }
   }
 }

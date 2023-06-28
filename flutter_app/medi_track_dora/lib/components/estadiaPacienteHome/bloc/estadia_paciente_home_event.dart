@@ -15,3 +15,11 @@ class EstadiaPacienteHomeRefreshWithFiltersEvent extends EstadiaPacienteHomeEven
   @override  
   List<Object?> get props => [];  
 }
+
+final class DeleteEstadiaPacienteEvent extends EstadiaPacienteHomeEvent {
+  final String id;
+
+  DeleteEstadiaPacienteEvent({required this.id});
+  @override  
+  List<Object?> get props => [id];
+}

@@ -12,14 +12,14 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   List<EstadiaPaciente> list = [];
   final FakeDataSize dataSize;
   final PacienteRepository pacienteRepository;
+  final int delayInSeconds;
 
-  InMemoryEstadiaPacienteRepository({required this.dataSize, required this.pacienteRepository});
+  InMemoryEstadiaPacienteRepository({required this.dataSize, required this.pacienteRepository,required this.delayInSeconds});
 
   Future<List<EstadiaPaciente>> loadData() async {
     if (dataLoaded) {
       return list;
     }
-    await Future.delayed(const Duration(seconds: 1));
 
     String jsonData =
         await rootBundle.loadString('assets/estadia_pacientes_${dataSize.name}.json');
@@ -47,24 +47,27 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   @override
   Future<List<EstadiaPaciente>> getEstadiaPacientes() async {
     List<EstadiaPaciente> list = await loadData();
+    await Future.delayed(Duration(seconds: delayInSeconds));
     return list;
   }
 
   @override
   Future<void> saveEstadiaPaciente(EstadiaPaciente model) async {
-    await Future.delayed(const Duration(seconds: 0));
+    await Future.delayed(Duration(seconds: delayInSeconds));
     list.add(model);
   }
 
   @override
   Future<void> deleteEstadiaPaciente(String id) async {
     List<EstadiaPaciente> localList = await loadData();
+    await Future.delayed( Duration(seconds: delayInSeconds));
     list = [...localList.where((element) => element.id != id).toList()];
   }
 
   @override
   Future<void> updateEstadiaPaciente(EstadiaPaciente model) async {
     List<EstadiaPaciente> localList = await loadData();
+    await Future.delayed(Duration(seconds: delayInSeconds));
     list = [
       ...localList.where((element) => element.id != model.id).toList(),
       model
@@ -75,7 +78,7 @@ class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(
       EstadiaPacienteFilter filterState) async {
     List<EstadiaPaciente> list = await loadData();
-    //
+    await Future.delayed(Duration(seconds: delayInSeconds));
     return list.where((estadiaPaciente) {
       // Filter by paciente
       if (filterState.pacienteFilterEnabled) {

@@ -63,41 +63,40 @@ class EstadiaPacienteFormBloc
 
   FutureOr<void> _onSaveEstadiaPacienteFormEvent(
       SaveEstadiaPacienteFormEvent event,
-      Emitter<EstadiaPacienteFormState> emit) {
+      Emitter<EstadiaPacienteFormState> emit) async {
     try {
-      Future.delayed(const Duration(seconds: 1));
-      estadiaPacienteRepository.saveEstadiaPaciente(event.estadiaPaciente);
+      emit(EstadiaPacienteFormLoadingState());
+      await estadiaPacienteRepository.saveEstadiaPaciente(event.estadiaPaciente);
       emit(EstadiaPacienteAddedSuccessfully(
           message: "Estadia guardada exitosamente!"));
     } catch (error) {
-      emit(EstadiaPacientedError(
-          message: "!Ocurrio un error! $error"));
+      emit(EstadiaPacientedError(message: "!Ocurrio un error! $error"));
     }
   }
 
   FutureOr<void> _onUpdateEstadiaPacienteFormEvent(
       UpdateEstadiaPacienteFormEvent event,
-      Emitter<EstadiaPacienteFormState> emit) {
+      Emitter<EstadiaPacienteFormState> emit) async {
     try {
-      Future.delayed(const Duration(seconds: 1));
-      estadiaPacienteRepository.updateEstadiaPaciente(event.estadiaPaciente);
+      emit(EstadiaPacienteFormLoadingState());
+      await estadiaPacienteRepository.updateEstadiaPaciente(event.estadiaPaciente);
       emit(EstadiaPacienteUpdatedSuccessfully(
           message: "Estadia actualizada exitosamente!"));
     } catch (error) {
-      emit(EstadiaPacientedError(
-          message: "!Ocurrio un error! $error"));
+      emit(EstadiaPacientedError(message: "!Ocurrio un error! $error"));
     }
   }
 
-  FutureOr<void> _onDeleteEstadiaPacienteFormEvent(DeleteEstadiaPacienteFormEvent event, Emitter<EstadiaPacienteFormState> emit) {
-        try {
-      Future.delayed(const Duration(seconds: 1));
-      estadiaPacienteRepository.deleteEstadiaPaciente(event.id);
+  FutureOr<void> _onDeleteEstadiaPacienteFormEvent(
+      DeleteEstadiaPacienteFormEvent event,
+      Emitter<EstadiaPacienteFormState> emit) async {
+    try {
+      emit(EstadiaPacienteFormLoadingState());
+      await estadiaPacienteRepository.deleteEstadiaPaciente(event.id);
       emit(EstadiaPacienteDeletedSuccessfully(
-          message: "Estadia eliminada exitosamente!",id:event.id));
+          message: "Estadia eliminada exitosamente!", id: event.id));
     } catch (error) {
-      emit(EstadiaPacientedError(
-          message: "!Ocurrio un error! $error"));
+      emit(EstadiaPacientedError(message: "!Ocurrio un error! $error"));
     }
   }
 }

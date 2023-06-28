@@ -121,7 +121,7 @@ class PacienteAddFormState extends PacienteFormState {
       telefonoCelular: telefonoCelular,
       telefonoFijo: telefonoFijo,
       direccionResidencia: direccionResidencia,
-      contactosEmergencia: const []
+      contactosEmergencia: contactosEmergencia
     );
   }
 
