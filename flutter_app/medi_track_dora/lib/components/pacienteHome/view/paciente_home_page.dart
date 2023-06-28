@@ -105,8 +105,9 @@ class PacienteListItemState extends State<PacienteListItem> {
     final textTheme = Theme.of(context).textTheme.titleMedium;
     final title =
         '${widget.item.nombre} ${widget.item.apellidoPaterno} ${widget.item.apellidoMaterno}';
+    final icon = widget.item.sexo == Sexo.femenino ? Icons.female : Icons.male;
     final subTitle =
-        '${widget.item.sexo.toString()} ${widget.item.direccionResidencia} ';
+        '${widget.item.direccionResidencia} ';
     var backgroundColor =
         widget.item.sexo == Sexo.masculino ? Colors.blue : Colors.pink;
     return ExpansionTile(
@@ -115,7 +116,7 @@ class PacienteListItemState extends State<PacienteListItem> {
       collapsedIconColor: backgroundColor[300],
       iconColor: backgroundColor[400],
 
-      leading: const Icon(Icons.person),
+      leading: Icon(icon),
       title: Text(title, style: textTheme),
       collapsedTextColor: Colors.black,
       subtitle: Text(subTitle, style: Theme.of(context).textTheme.bodySmall),
