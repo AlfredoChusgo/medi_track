@@ -72,7 +72,7 @@ class MainAppBuilder {
       estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository, delayInSeconds: config.developmentConfig.delayOfResponseInSeonds);
     } else {
       pacienteRepository = SqlitePacienteRepository();
-      estadiaPacienteRepository = SqliteEstadiaPacienteRepository();
+      estadiaPacienteRepository = SqliteEstadiaPacienteRepository(pacienteRepository: pacienteRepository );
     }
   }
 }

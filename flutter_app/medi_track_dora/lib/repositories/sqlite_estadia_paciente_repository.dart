@@ -1,46 +1,28 @@
 import 'package:medi_track_dora/models/estadia_paciente_filter_model.dart';
 
 import 'package:medi_track_dora/models/estadia_paciente_model.dart';
+import 'package:medi_track_dora/models/paciente.dart';
+import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'estadia_paciente_repository.dart';
 import 'package:path/path.dart' as path;
 
+import 'sqlite_database_helper.dart';
+
 class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
-
   final Future<Database> _database;
-
-  SqliteEstadiaPacienteRepository() : _database = _openDatabase();
+  final PacienteRepository pacienteRepository;
+  SqliteEstadiaPacienteRepository({required this.pacienteRepository})
+      : _database = _openDatabase();
 
   static Future<Database> _openDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final pathToDatabase = path.join(dbPath, 'medi_track.db');
-
-    return openDatabase(
-      pathToDatabase,
-      version: 1,
-      onCreate: (db, version) {
-        // Create tables if needed
-        db.execute('''
-          CREATE TABLE IF NOT EXISTS estadia_pacientes (
-            id TEXT PRIMARY KEY,
-            pacienteId TEXT,
-            fechaIngreso INTEGER,
-            fechaEgreso INTEGER,
-            accionesRealizadas TEXT,
-            observaciones TEXT,
-            diagnostico TEXT,
-            tipoServicio TEXT,
-            FOREIGN KEY (pacienteId) REFERENCES pacientes (id)
-          )
-        ''');
-      },
-    );
+    return await SQLiteDatabaseHelper.openDatabaseHelper();
   }
 
   @override
   Future<void> deleteEstadiaPaciente(String id) async {
-    await(await _database).delete(
+    await (await _database).delete(
       'estadia_pacientes',
       where: 'id = ?',
       whereArgs: [id],
@@ -48,7 +30,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   }
 
   @override
-  Future<EstadiaPaciente> getEstadiaPaciente(String id) async{
+  Future<EstadiaPaciente> getEstadiaPaciente(String id) async {
     final List<Map<String, dynamic>> maps = await (await _database).query(
       'estadia_pacientes',
       where: 'id = ?',
@@ -57,22 +39,75 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
 
     if (maps.isNotEmpty) {
       return EstadiaPaciente.fromMap(maps.first);
-    }else{
+    } else {
       throw Exception("get paciente id:$id , not found");
     }
   }
 
   @override
-  Future<List<EstadiaPaciente>> getEstadiaPacientes() async{
+  Future<List<EstadiaPaciente>> getEstadiaPacientes() async {
     final db = await _database;
     final estadiasData = await db.query('estadia_pacientes');
-    return estadiasData.map((data) => EstadiaPaciente.fromMap(data)).toList();
-  
+
+    List<EstadiaPaciente> estadias = estadiasData.map((data) {
+      EstadiaPaciente estadia = EstadiaPaciente.fromMap(data);
+      return estadia;
+    }).toList();
+
+    await loadPacientes(estadias);
+    return estadias;
   }
 
-@override
-  Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(EstadiaPacienteFilter filterState) {
-    return Future.delayed(Duration.zero,()=>[]);
+  Future<void> loadPacientes(List<EstadiaPaciente> estadias) async {
+    for (var i = 0; i < estadias.length; i++) {
+      Paciente paciente =
+          await pacienteRepository.getPaciente(estadias[i].paciente.id);
+      estadias[i] = estadias[i].copyWith(paciente: paciente);
+    }
+  }
+
+  @override
+  Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(
+      EstadiaPacienteFilter filterState) async {
+    final 
+    db = await _database; // Get the reference to the SQLite database
+
+    final queryBuilder =
+        StringBuffer('SELECT * FROM estadia_pacientes WHERE 1=1');
+
+    if (filterState.pacienteFilterEnabled) {
+      queryBuilder.write(' AND paciente = ?');
+    }
+
+    if (filterState.fechaFilterEnabled) {
+      queryBuilder.write(' AND fechaIngreso >= ? AND fechaIngreso <= ?');
+    }
+
+    if (filterState.servicioFilterEnabled) {
+      queryBuilder.write(' AND tipoServicio = ?');
+    }
+
+    final query = queryBuilder.toString();
+
+    final queryParams = <dynamic>[];
+
+    if (filterState.pacienteFilterEnabled) {
+      queryParams.add(filterState.paciente);
+    }
+
+    if (filterState.fechaFilterEnabled) {
+      queryParams.add(filterState.fechaIngresoInicio);
+      queryParams.add(filterState.fechaIngresoFin);
+    }
+
+    if (filterState.servicioFilterEnabled) {
+      queryParams.add(filterState.tipoServicio.name);
+    }
+
+    final results = await db.rawQuery(query, queryParams);
+    final estadias = results.map((row) => EstadiaPaciente.fromMap(row)).toList();
+    await loadPacientes(estadias);
+    return estadias;    
   }
 
   @override
@@ -84,7 +119,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   @override
   Future<void> updateEstadiaPaciente(EstadiaPaciente estadiaPaciente) async {
     final db = await _database;
-    await db.update('estadia_pacientes', estadiaPaciente.toMap(), where: 'id = ?', whereArgs: [estadiaPaciente.id]);
+    await db.update('estadia_pacientes', estadiaPaciente.toMap(),
+        where: 'id = ?', whereArgs: [estadiaPaciente.id]);
   }
-
 }

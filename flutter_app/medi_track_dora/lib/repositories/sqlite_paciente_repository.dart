@@ -3,44 +3,14 @@ import 'package:path/path.dart' as path;
 
 import '../models/paciente.dart';
 import 'paciente_repository.dart';
+import 'sqlite_database_helper.dart';
 
 class SqlitePacienteRepository implements PacienteRepository {
   final Future<Database> _database;
   SqlitePacienteRepository() : _database = _openDatabase();
 
   static Future<Database> _openDatabase() async {
-    try {
-      final dbPath = await getDatabasesPath();
-      final pathToDatabase =
-          path.join(dbPath, 'medi_track.db'); // example 'medi_track.db'
-
-      return openDatabase(
-        pathToDatabase,
-        version: 1,
-        onCreate: (db, version) {
-          // Create tables if needed
-          db.execute('''
-          CREATE TABLE IF NOT EXISTS pacientes (
-            id TEXT PRIMARY KEY,
-            ci TEXT,
-            nombre TEXT,
-            apellidoPaterno TEXT,
-            apellidoMaterno TEXT,
-            fechaNacimiento INTEGER,
-            sexo TEXT,
-            ocupacion TEXT,
-            procedencia TEXT,
-            telefonoCelular INTEGER,
-            telefonoFijo INTEGER,
-            direccionResidencia TEXT,
-            contactosEmergencia TEXT
-          )
-        ''');
-        },
-      );
-    } catch (e) {
-      rethrow;
-    }
+    return await SQLiteDatabaseHelper.openDatabaseHelper();
   }
 
   @override

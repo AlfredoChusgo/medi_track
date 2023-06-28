@@ -106,7 +106,8 @@ class EstadiaPaciente extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'paciente': paciente.toMap(), // Convert paciente to a map
+      'pacienteId': paciente.id,
+      //'paciente': paciente.toMap(), // Convert paciente to a map
       'fechaIngreso': fechaIngreso.toIso8601String(),
       'fechaEgreso': fechaEgreso.toIso8601String(),
       'accionesRealizadas': accionesRealizadas,
@@ -119,7 +120,8 @@ class EstadiaPaciente extends Equatable {
   static EstadiaPaciente fromMap(Map<String, dynamic> map) {
     return EstadiaPaciente(
       id: map['id'],
-      paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
+      //paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
+      paciente: Paciente.empty().copyWith(id:map['pacienteId']),
       fechaIngreso: DateTime.parse(map['fechaIngreso']),
       fechaEgreso: DateTime.parse(map['fechaEgreso']),
       accionesRealizadas: map['accionesRealizadas'],

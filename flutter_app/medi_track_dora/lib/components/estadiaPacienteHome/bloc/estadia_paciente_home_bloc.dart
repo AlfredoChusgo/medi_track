@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 import 'package:medi_track_dora/models/estadia_paciente_filter_model.dart';
 
 import '../../../models/estadia_paciente_model.dart';
