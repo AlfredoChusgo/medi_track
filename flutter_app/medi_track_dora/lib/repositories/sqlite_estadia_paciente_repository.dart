@@ -76,7 +76,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
         StringBuffer('SELECT * FROM estadia_pacientes WHERE 1=1');
 
     if (filterState.pacienteFilterEnabled) {
-      queryBuilder.write(' AND paciente = ?');
+      queryBuilder.write(' AND pacienteId = ?');
     }
 
     if (filterState.fechaFilterEnabled) {
@@ -92,7 +92,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
     final queryParams = <dynamic>[];
 
     if (filterState.pacienteFilterEnabled) {
-      queryParams.add(filterState.paciente);
+      queryParams.add(filterState.paciente.id);
     }
 
     if (filterState.fechaFilterEnabled) {
