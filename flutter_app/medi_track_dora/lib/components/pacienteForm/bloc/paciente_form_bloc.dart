@@ -9,20 +9,20 @@ import 'package:uuid/uuid.dart';
 import '../../../models/paciente.dart';
 import '../../../repositories/paciente_repository.dart';
 
-part 'paciente_add_event.dart';
-part 'paciente_add_state.dart';
+part 'paciente_form_event.dart';
+part 'paciente_form_state.dart';
 
-class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
+class PacienteFormBloc extends Bloc<PacienteFormEvent, PacienteFormState> {
   PacienteRepository pacienteRepository;
 
-  PacienteAddBloc({required this.pacienteRepository})
+  PacienteFormBloc({required this.pacienteRepository})
       : super(PacienteAddFormState.initial()) {
-    on<PacienteAddEvent>(_onPacienteAddEvent);
+    on<PacienteFormEvent>(_onPacienteAddEvent);
     on<PacienteDetailsInReadOnlyEvent>(_onPacienteDetailsInReadOnlyEvent);
   }
 
   Future<FutureOr<void>> _onPacienteAddEvent(
-      PacienteAddEvent event, Emitter<PacienteAddState> emit) async {
+      PacienteFormEvent event, Emitter<PacienteFormState> emit) async {
     if (state is PacienteAddFormState) {
       PacienteAddFormState pacienteAddFormState = state as PacienteAddFormState;
       switch (event.runtimeType) {
@@ -194,7 +194,7 @@ class PacienteAddBloc extends Bloc<PacienteAddEvent, PacienteAddState> {
     }
   }
 
-  FutureOr<void> _onPacienteDetailsInReadOnlyEvent(PacienteDetailsInReadOnlyEvent event, Emitter<PacienteAddState> emit) {
+  FutureOr<void> _onPacienteDetailsInReadOnlyEvent(PacienteDetailsInReadOnlyEvent event, Emitter<PacienteFormState> emit) {
       emit(PacienteAddFormState.copyWith(paciente: event.paciente).copyWith(readOnly: true));
   }
 }

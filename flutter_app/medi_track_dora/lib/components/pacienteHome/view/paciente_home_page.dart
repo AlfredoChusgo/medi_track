@@ -7,8 +7,8 @@ import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paci
 import 'package:medi_track_dora/components/pacienteHome/bloc/paciente_home_bloc.dart';
 
 import '../../../models/estadia_paciente_filter_model.dart';
-import '../../pacienteAdd/bloc/paciente_add_bloc.dart';
-import '../../search_app_bar/view/search_bar_app_bar.dart';
+import '../../pacienteForm/paciente_form.dart';
+import '../../searchAppBar/view/search_bar_app_bar.dart';
 import '../../../models/paciente.dart';
 
 class PacienteHomePage extends StatelessWidget {
@@ -32,7 +32,7 @@ class PacienteHomePage extends StatelessWidget {
         slivers: [
           //const CatalogAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          BlocListener<PacienteAddBloc, PacienteAddState>(
+          BlocListener<PacienteFormBloc, PacienteFormState>(
             listener: (context, state) {
               if (state is PacienteActionResponse) {
                 String? message = state.message;
@@ -79,7 +79,7 @@ class PacienteHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // FAB onPressed action
-          BlocProvider.of<PacienteAddBloc>(context)
+          BlocProvider.of<PacienteFormBloc>(context)
               .add(const PacienteAddNewEvent());
           Navigator.pushNamed(context, '/pacienteAdd');
         },
@@ -172,7 +172,7 @@ class PacienteListItemState extends State<PacienteListItem> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      BlocProvider.of<PacienteAddBloc>(context).add(
+                      BlocProvider.of<PacienteFormBloc>(context).add(
                           PacienteDetailsInReadOnlyEvent(
                               paciente: widget.item));
                       Navigator.pushNamed(context, '/pacienteDetails');
@@ -181,7 +181,7 @@ class PacienteListItemState extends State<PacienteListItem> {
                   ),
                   IconButton(
                     onPressed: () {
-                      BlocProvider.of<PacienteAddBloc>(context)
+                      BlocProvider.of<PacienteFormBloc>(context)
                           .add(PacienteEditEvent(widget.item));
                       Navigator.pushNamed(context, '/pacienteEdit');
                     },
@@ -190,7 +190,7 @@ class PacienteListItemState extends State<PacienteListItem> {
                   IconButton(
                     onPressed: () {
                       // Handle remove button press
-                      BlocProvider.of<PacienteAddBloc>(context)
+                      BlocProvider.of<PacienteFormBloc>(context)
                           .add(PacientePerformDelete(id: widget.item.id));
                     },
                     icon: const Icon(Icons.delete),

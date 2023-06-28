@@ -1,11 +1,11 @@
-part of 'paciente_add_bloc.dart';
+part of 'paciente_form_bloc.dart';
 
-sealed class PacienteAddState extends Equatable {
+sealed class PacienteFormState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class PacienteAddFormState extends PacienteAddState {
+class PacienteAddFormState extends PacienteFormState {
   final String id;
   final String ci;
   final String nombre;
@@ -144,10 +144,10 @@ class PacienteAddFormState extends PacienteAddState {
       ];
 }
 
-class SavingInProgress extends PacienteAddState {}
+class SavingInProgress extends PacienteFormState {}
 
 
-class PacienteActionResponse extends PacienteAddState {
+class PacienteActionResponse extends PacienteFormState {
   final String message;
   final bool isError;
   final bool shouldPop;

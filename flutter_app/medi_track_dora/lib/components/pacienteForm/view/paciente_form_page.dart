@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:medi_track_dora/components/pacienteAdd/paciente_add.dart';
 
-import '../../contactoEmergenciaAdd/view/contacto_emergencia_page.dart';
+import '../../contactoEmergencia/view/contacto_emergencia_page.dart';
 import '../../../models/paciente.dart';
+import '../bloc/paciente_form_bloc.dart';
 
-class PacienteAddPage extends StatelessWidget {
+class PacienteFormPage extends StatelessWidget {
   final String saveButtonText;
   final void Function() callback;
-  const PacienteAddPage(
+  const PacienteFormPage(
       {super.key, required this.saveButtonText, required this.callback});
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class PacienteAddPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Formulario Nuevo Paciente'),
       ),
-      body: BlocListener<PacienteAddBloc, PacienteAddState>(
+      body: BlocListener<PacienteFormBloc, PacienteFormState>(
         listener: (context, state) {
           if (state is PacienteActionResponse) {
             String? message = state.message;
@@ -40,7 +40,7 @@ class PacienteAddPage extends StatelessWidget {
             ).show(Navigator.of(context).context);
           }
         },
-        child: BlocBuilder<PacienteAddBloc, PacienteAddState>(
+        child: BlocBuilder<PacienteFormBloc, PacienteFormState>(
           builder: (context, state) {
             if (state is PacienteAddFormState) {
               return PacienteAddForm(
@@ -77,8 +77,8 @@ class PacienteAddForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PacienteAddBloc pacienteFormBloc =
-        BlocProvider.of<PacienteAddBloc>(context);
+    final PacienteFormBloc pacienteFormBloc =
+        BlocProvider.of<PacienteFormBloc>(context);
 
     return SingleChildScrollView(
       child: Padding(
@@ -317,8 +317,8 @@ class _SexoDropdownButtonState extends State<_SexoDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    final PacienteAddBloc _pacienteFormBloc =
-        BlocProvider.of<PacienteAddBloc>(context);
+    final PacienteFormBloc _pacienteFormBloc =
+        BlocProvider.of<PacienteFormBloc>(context);
 
     sexoSelected ??= (_pacienteFormBloc.state as PacienteAddFormState).sexo;
 
@@ -434,7 +434,7 @@ class ContactoEmergenciaListItemState
                         model: widget.item,
                         saveButtonText: "Actualizar",
                         callback: (contactoEmergencia) {
-                          BlocProvider.of<PacienteAddBloc>(context).add(
+                          BlocProvider.of<PacienteFormBloc>(context).add(
                               ContactosEmergenciaUpdated(contactoEmergencia));
                           Navigator.pop(context);
                         },
@@ -447,7 +447,7 @@ class ContactoEmergenciaListItemState
             ),
             IconButton(
               onPressed: () {
-                BlocProvider.of<PacienteAddBloc>(context)
+                BlocProvider.of<PacienteFormBloc>(context)
                     .add(ContactosEmergenciaDeleted(widget.item.id));
                 // Handle remove button press
               },

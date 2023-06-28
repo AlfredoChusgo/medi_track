@@ -15,11 +15,11 @@ class ContactoEmergenciaPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Formulario Contacto Emergencia'),
       ),
-      body: ContactoEmergenciaAddForm(model: model,saveButtonText:saveButtonText,callback: callback,));
+      body: ContactoEmergenciaForm(model: model,saveButtonText:saveButtonText,callback: callback,));
   }
 }
 
-class ContactoEmergenciaAddForm extends StatelessWidget {
+class ContactoEmergenciaForm extends StatelessWidget {
   final ContactoEmergencia model;
   final String saveButtonText;
   final void Function(ContactoEmergencia contactoEmergencia) callback;
@@ -31,7 +31,7 @@ class ContactoEmergenciaAddForm extends StatelessWidget {
   late final TextEditingController _telefonoController;
   late final TextEditingController _direccionController;
 
-  ContactoEmergenciaAddForm({required this.model,super.key,required this.saveButtonText, required this.callback}) {
+  ContactoEmergenciaForm({required this.model,super.key,required this.saveButtonText, required this.callback}) {
     _nombreController = TextEditingController(text: model.nombre);
     _relacionFamiliarController = TextEditingController(text:model.relacionFamiliar);
     _apellidoPaternoController =

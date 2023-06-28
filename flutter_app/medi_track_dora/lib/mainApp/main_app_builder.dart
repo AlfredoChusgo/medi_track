@@ -8,10 +8,10 @@ import 'package:medi_track_dora/mainApp/production_app.dart';
 import '../components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.dart';
 import '../components/estadiaPacienteForm/estadia_paciente.dart';
 import '../components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
-import '../components/pacienteAdd/bloc/paciente_add_bloc.dart';
+import '../components/pacienteForm/paciente_form.dart';
 import '../components/pacienteHome/bloc/paciente_home_bloc.dart';
 import '../repositories/in_memory_paciente_repository.dart';
-import '../components/search_app_bar/bloc/search_bar_bloc.dart';
+import '../components/searchAppBar/bloc/search_bar_bloc.dart';
 import '../repositories/estadia_paciente_repository.dart';
 import '../repositories/in_memory_estadia_paciente_repository.dart';
 
@@ -43,7 +43,7 @@ class MainAppBuilder {
       ),
       BlocProvider(
         create: (context) =>
-            PacienteAddBloc(pacienteRepository: pacienteRepository),
+            PacienteFormBloc(pacienteRepository: pacienteRepository),
       ),
       BlocProvider(
         create: (context) => SearchBarBloc(),
