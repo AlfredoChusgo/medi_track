@@ -1,20 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:medi_track_dora/config/application_configuration.dart';
 
 import '../models/paciente.dart';
 import 'paciente_repository.dart';
 
 class InMemoryPacienteRepository implements PacienteRepository {
-  static bool dataLoaded = false;
-  static List<Paciente> list = [];
-  static Future<List<Paciente>> loadData() async {
+  final FakeDataSize dataSize;
+  InMemoryPacienteRepository({required this.dataSize});
+
+   bool dataLoaded = false;
+   List<Paciente> list = [];
+   Future<List<Paciente>> loadData() async {
     if (dataLoaded) {
       return list;
     }
     await Future.delayed(const Duration(seconds: 1));
 
-    String jsonData = await rootBundle.loadString('assets/pacientes.json');
+    String jsonData = await rootBundle.loadString('assets/pacientes_${dataSize.name}.json');
 
     final List<dynamic> jsonList = json.decode(jsonData);
     list = jsonList.map((json) => Paciente.fromJson(json)).toList();

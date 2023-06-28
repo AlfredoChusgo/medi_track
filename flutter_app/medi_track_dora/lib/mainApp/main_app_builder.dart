@@ -25,7 +25,7 @@ class MainAppBuilder {
   }
 
   Widget build() {
-    if (config.isDevelopment) {
+    if (config.developmentConfig.isDevelopment) {
       return buildBlocProviders(
           DevelopmentApp(pacienteRepository: pacienteRepository));
     } else {
@@ -65,12 +65,12 @@ class MainAppBuilder {
 
   void setupDependencies() {
     //repositories
-    if (config.isDevelopment) {
-      pacienteRepository = InMemoryPacienteRepository();
-      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository();
+    if (config.developmentConfig.isDevelopment) {
+      pacienteRepository = InMemoryPacienteRepository(dataSize: config.developmentConfig.fakeDataSize);
+      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository);
     } else {
-      pacienteRepository = InMemoryPacienteRepository();
-      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository();
+      pacienteRepository = InMemoryPacienteRepository(dataSize: config.developmentConfig.fakeDataSize);
+      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository);
     }
   }
 }

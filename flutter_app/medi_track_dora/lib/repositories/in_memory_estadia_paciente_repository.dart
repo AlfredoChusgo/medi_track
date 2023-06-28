@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
+import '../config/application_configuration.dart';
 import 'in_memory_paciente_repository.dart';
 import 'paciente_repository.dart';
 import '../models/estadia_paciente_filter_model.dart';
@@ -8,18 +9,21 @@ import '../models/estadia_paciente_model.dart';
 import 'estadia_paciente_repository.dart';
 
 class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
-  static bool dataLoaded = false;
-  static List<EstadiaPaciente> list = [];
-  static PacienteRepository pacienteRepository = InMemoryPacienteRepository();
+  bool dataLoaded = false;
+  List<EstadiaPaciente> list = [];
+  final FakeDataSize dataSize;
+  final PacienteRepository pacienteRepository;
 
-  static Future<List<EstadiaPaciente>> loadData() async {
+  InMemoryEstadiaPacienteRepository({required this.dataSize, required this.pacienteRepository});
+
+  Future<List<EstadiaPaciente>> loadData() async {
     if (dataLoaded) {
       return list;
     }
     await Future.delayed(const Duration(seconds: 1));
 
     String jsonData =
-        await rootBundle.loadString('assets/estadia_pacientes.json');
+        await rootBundle.loadString('assets/estadia_pacientes_${dataSize.name}.json');
 
     final List<dynamic> jsonList = json.decode(jsonData);
     list = jsonList.map((json) => EstadiaPaciente.fromJson(json)).toList();

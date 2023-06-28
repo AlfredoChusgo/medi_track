@@ -173,7 +173,7 @@ void main() {
   final List<EstadiaPaciente> estadiaPacientes = [];
 
   // Generate 10 rows of fake data
-  generatePacientes(uuid, faker, pacientes, 50);
+  generatePacientes(uuid, faker, pacientes, 15);
 
   generateEstadiaPacientes(pacientes, faker, uuid, estadiaPacientes);
 }
@@ -185,7 +185,7 @@ void generateEstadiaPacientes(List<Paciente> pacientes, Faker faker, Uuid uuid,
     var fechaInicio = fechaRandom.add(Duration(days: -7));
     var fechaFin = fechaRandom.add(Duration(days: 15));
 
-    int count = faker.randomGenerator.integer(10, min: 1);
+    int count = faker.randomGenerator.integer(5, min: 0);
     for (var i = 0; i < count; i++) {
       final estadiaPaciente = EstadiaPaciente(
           id: uuid.v4(),
@@ -210,7 +210,7 @@ void generateEstadiaPacientes(List<Paciente> pacientes, Faker faker, Uuid uuid,
     directory.createSync();
   }
 
-  final file = File('data/estadia_pacientes.json');
+  final file = File('data/estadia_pacientes_medium.json');
   file.writeAsStringSync(jsonString);
 }
 
@@ -257,6 +257,6 @@ void generatePacientes(
     directory.createSync();
   }
 
-  final file = File('data/pacientes.json');
+  final file = File('data/pacientes_medium.json');
   file.writeAsStringSync(jsonString);
 }

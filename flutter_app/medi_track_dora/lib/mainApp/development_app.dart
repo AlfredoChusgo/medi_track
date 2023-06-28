@@ -7,6 +7,7 @@ import 'package:medi_track_dora/components/pacienteAdd/view/paciente_add_page.da
 import '../components/estadiaPacienteForm/estadia_paciente.dart';
 import '../components/estadiaPacienteForm/view/estadia_paciente_form_page.dart';
 import '../components/estadiaPacienteHome/view/estadia_paciente_home_page.dart';
+import '../components/home/view/home_page.dart';
 import '../components/pacienteAdd/bloc/paciente_add_bloc.dart';
 import '../components/pacienteHome/bloc/paciente_home_bloc.dart';
 import '../models/estadia_paciente_model.dart';
@@ -30,12 +31,17 @@ class DevelopmentApp extends StatelessWidget {
           //     .read<EstadiaPacienteHomeBloc>()
           //     .add(EstadiaPacienteHomeRefreshEvent());
           // return const EstadiaPacienteHomePage();
-          return EstadiaPacienteFormPage(saveButtonText: "Guardar",
-            callback: (EstadiaPaciente estadiaPaciente) {
-                context.read<EstadiaPacienteFormBloc>().add(
-                    SaveEstadiaPacienteFormEvent(
-                        estadiaPaciente: estadiaPaciente));
-            });
+          // return EstadiaPacienteFormPage(
+          //     saveButtonText: "Guardar",
+          //     callback: (EstadiaPaciente estadiaPaciente) {
+          //       context.read<EstadiaPacienteFormBloc>().add(
+          //           SaveEstadiaPacienteFormEvent(
+          //               estadiaPaciente: estadiaPaciente));
+          //     });
+
+          //defaultHome
+                    context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
+          return const HomePage();
         },
 
         //context.read<PacienteHomeBloc>().add(PacienteHomeRefreshEvent());
@@ -68,6 +74,7 @@ class DevelopmentApp extends StatelessWidget {
                 Navigator.pop(buildContext);
               },
             ),
+
         '/estadiaPaciente': (_) {
           context
               .read<EstadiaPacienteHomeBloc>()
@@ -76,6 +83,30 @@ class DevelopmentApp extends StatelessWidget {
         },
         '/estadiaPacienteFiltered': (_) {
           return const EstadiaPacienteHomePage();
+        },
+
+        '/estadiaPacienteAdd': (_) {
+          return EstadiaPacienteFormPage(
+              saveButtonText: "Guardar",
+              callback: (EstadiaPaciente estadiaPaciente) {
+                context.read<EstadiaPacienteFormBloc>().add(
+                    SaveEstadiaPacienteFormEvent(
+                        estadiaPaciente: estadiaPaciente));
+              });
+        },
+        '/estadiaPacienteEdit': (_) {
+          return EstadiaPacienteFormPage(
+              saveButtonText: "Actualizar",
+              callback: (EstadiaPaciente estadiaPaciente) {
+                context.read<EstadiaPacienteFormBloc>().add(
+                    UpdateEstadiaPacienteFormEvent(
+                        estadiaPaciente: estadiaPaciente));
+              });
+        },
+        '/estadiaPacienteDetail': (_) {
+          return EstadiaPacienteFormPage(
+              saveButtonText: "",
+              callback: (EstadiaPaciente estadiaPaciente) {});
         },
         //'/cart': (_) => const CartPage(),
       },
