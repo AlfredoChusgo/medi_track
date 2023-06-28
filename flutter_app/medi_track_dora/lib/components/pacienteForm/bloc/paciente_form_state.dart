@@ -151,8 +151,9 @@ class PacienteActionResponse extends PacienteFormState {
   final String message;
   final bool isError;
   final bool shouldPop;
+  final String id = const Uuid().v4();
   PacienteActionResponse({required this.message, required this.isError, required this.shouldPop});
 
   @override
-  List<Object> get props => [message,isError,shouldPop];
+  List<Object> get props => [message,isError,shouldPop,id];
 }
