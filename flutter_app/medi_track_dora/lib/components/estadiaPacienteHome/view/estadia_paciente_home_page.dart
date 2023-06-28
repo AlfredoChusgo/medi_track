@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -33,26 +34,49 @@ class EstadiaPacienteHomePage extends StatelessWidget {
         ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
-            builder: (context, state) {
-              return switch (state) {
-                EstadiaPacienteHomeLoadingState() => const Expanded(
-                    child: Center(child: CircularProgressIndicator())),
-                EstadiaPacienteHomeLoadedState() => Column(children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.estadiaPacientes
-                          .length, // Number of items in the list
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return EstadiaPacienteListItem(
-                            state.estadiaPacientes[index]);
-                      },
-                    )
-                  ]),
-                EstadiaPacienteHomeErrorState() => Text(state.errorMessage)
-              };
+          child:
+              BlocListener<EstadiaPacienteFormBloc, EstadiaPacienteFormState>(
+            listener: (listenerContext, state) {
+              if (state is EstadiaPacienteAddedSuccessfully ||
+                  state is EstadiaPacienteUpdatedSuccessfully ||
+                  state is EstadiaPacienteDeletedSuccessfully
+                  ) {
+                String message = (state as dynamic).message;
+
+                Future.delayed(Duration.zero,(){
+                  Flushbar(
+                  duration: const Duration(seconds: 2),
+                  title: "Evento",
+                  message: message,
+                ).show(context);
+                });
+
+                context.read<EstadiaPacienteHomeBloc>().add(
+                        EstadiaPacienteHomeRefreshEvent());
+              }
             },
+            child:
+                BlocBuilder<EstadiaPacienteHomeBloc, EstadiaPacienteHomeState>(
+              builder: (context, state) {
+                return switch (state) {
+                  EstadiaPacienteHomeLoadingState() => const Expanded(
+                      child: Center(child: CircularProgressIndicator())),
+                  EstadiaPacienteHomeLoadedState() => Column(children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.estadiaPacientes
+                            .length, // Number of items in the list
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return EstadiaPacienteListItem(
+                              state.estadiaPacientes[index]);
+                        },
+                      )
+                    ]),
+                  EstadiaPacienteHomeErrorState() => Text(state.errorMessage)
+                };
+              },
+            ),
           ),
         ),
       );

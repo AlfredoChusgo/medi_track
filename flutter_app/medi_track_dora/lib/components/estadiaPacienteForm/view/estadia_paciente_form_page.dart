@@ -21,24 +21,18 @@ class EstadiaPacienteFormPage extends StatelessWidget {
         ),
         body: BlocListener<EstadiaPacienteFormBloc, EstadiaPacienteFormState>(
           listener: (context, state) {
-            if (state is EstadiaPacienteActionResponse) {
-              String? message = state.message;
-
-              if (state.shouldPop) {
-                Navigator.pop(context);
-                // Navigator.pushNamedAndRemoveUntil(
-                //   context,
-                //   '/',
-                //   (route) => false,
-                // );
-              }
+            if (state is EstadiaPacientedError) {
+              String message = state.message;
 
               Flushbar(
                 duration: const Duration(seconds: 2),
                 title: "Accion",
                 message: message,
-              ).show(Navigator.of(context).context);
+              ).show(context);              
             }
+            if(state is EstadiaPacienteAddedSuccessfully || state is EstadiaPacienteUpdatedSuccessfully || state is EstadiaPacienteDeletedSuccessfully){
+              Navigator.pop(context);
+            }            
           },
           child: BlocBuilder<EstadiaPacienteFormBloc, EstadiaPacienteFormState>(
             builder: (context, state) {
@@ -50,7 +44,7 @@ class EstadiaPacienteFormPage extends StatelessWidget {
                     saveButtonText: saveButtonText,
                     callback: callback,
                   ),
-                EstadiaPacienteActionResponse() =>
+                _ =>
                   const Center(child: CircularProgressIndicator()),
               };
             },
@@ -127,7 +121,7 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
                   {
                     showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: getFechaInDateTime(fechaIngresoController.text),
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now())
                         .then((value) {
@@ -149,7 +143,7 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
                   {
                     showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: getFechaInDateTime(fechaEgresoController.text),
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now())
                         .then((value) {
@@ -198,12 +192,6 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
                     showServicioDialog(context, (selectedValue) {
                       setState(() {
                         tipoServicioController.text = selectedValue;
-                        // accionesRealizadasController
-                        // //fechaIngresoController.text = ;
-                        // observacionesController.text = ;
-                        // fechaEgresoController.text = ;
-                        // diagnosticoController.text = ;
-                        // tipoServicioController.text = ;
                       });
                     })
                   }
@@ -218,10 +206,8 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
                     .copyWith(
                         id: widget.state.id,
                         paciente: widget.state.paciente,
-                        fechaIngreso: DateFormat('dd-MM-yyyy')
-                            .parse(fechaIngresoController.text),
-                        fechaEgreso: DateFormat('dd-MM-yyyy')
-                            .parse(fechaEgresoController.text),
+                        fechaIngreso: getFechaInDateTime(fechaIngresoController.text),
+                        fechaEgreso: getFechaInDateTime(fechaEgresoController.text),
                         accionesRealizadas: accionesRealizadasController.text,
                         observaciones: observacionesController.text,
                         diagnostico: diagnosticoController.text,
@@ -236,6 +222,11 @@ class _EstadiaPacienteFormState extends State<EstadiaPacienteForm> {
         ),
       ),
     );
+  }
+
+  DateTime getFechaInDateTime(text) {
+    return DateFormat('dd-MM-yyyy')
+                          .parse(text);
   }
 
   void showServicioDialog(

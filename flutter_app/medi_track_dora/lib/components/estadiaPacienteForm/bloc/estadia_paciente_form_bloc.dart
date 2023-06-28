@@ -67,15 +67,11 @@ class EstadiaPacienteFormBloc
     try {
       Future.delayed(const Duration(seconds: 1));
       estadiaPacienteRepository.saveEstadiaPaciente(event.estadiaPaciente);
-      emit(EstadiaPacienteActionResponse(
-          message: "Estadia guardada exitosamente!",
-          isError: false,
-          shouldPop: true));
+      emit(EstadiaPacienteAddedSuccessfully(
+          message: "Estadia guardada exitosamente!"));
     } catch (error) {
-      emit(EstadiaPacienteActionResponse(
-          message: "!Ocurrio un error! $error",
-          isError: true,
-          shouldPop: false));
+      emit(EstadiaPacientedError(
+          message: "!Ocurrio un error! $error"));
     }
   }
 
@@ -85,15 +81,11 @@ class EstadiaPacienteFormBloc
     try {
       Future.delayed(const Duration(seconds: 1));
       estadiaPacienteRepository.updateEstadiaPaciente(event.estadiaPaciente);
-      emit(EstadiaPacienteActionResponse(
-          message: "Estadia actualizada exitosamente!",
-          isError: false,
-          shouldPop: true));
+      emit(EstadiaPacienteUpdatedSuccessfully(
+          message: "Estadia actualizada exitosamente!"));
     } catch (error) {
-      emit(EstadiaPacienteActionResponse(
-          message: "!Ocurrio un error! $error",
-          isError: true,
-          shouldPop: false));
+      emit(EstadiaPacientedError(
+          message: "!Ocurrio un error! $error"));
     }
   }
 
@@ -101,15 +93,11 @@ class EstadiaPacienteFormBloc
         try {
       Future.delayed(const Duration(seconds: 1));
       estadiaPacienteRepository.deleteEstadiaPaciente(event.id);
-      emit(EstadiaPacienteActionResponse(
-          message: "Estadia eliminada exitosamente!",
-          isError: false,
-          shouldPop: true));
+      emit(EstadiaPacienteDeletedSuccessfully(
+          message: "Estadia eliminada exitosamente!",id:event.id));
     } catch (error) {
-      emit(EstadiaPacienteActionResponse(
-          message: "!Ocurrio un error! $error",
-          isError: true,
-          shouldPop: false));
+      emit(EstadiaPacientedError(
+          message: "!Ocurrio un error! $error"));
     }
   }
 }

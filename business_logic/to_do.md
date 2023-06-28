@@ -1,4 +1,4 @@
-CRUD estadia paciente
+CRUD estadia paciente Done
     definir la informacion de las cards de las estadias done
     definir logica botton agregar
         idea boton agregar funciona
@@ -7,13 +7,16 @@ CRUD estadia paciente
     agregar eliminar estadia paciente 
 
 
-read paciente 
+read paciente done 
 
-error handling 
+
 ordenar resultados por fecha  descendiente del actual a antes
 
+
+
+agregar view paciente details. done 
+
+
+error handling 
 create sqlite repositories
-
-agregar view paciente details. done
-
 import export data

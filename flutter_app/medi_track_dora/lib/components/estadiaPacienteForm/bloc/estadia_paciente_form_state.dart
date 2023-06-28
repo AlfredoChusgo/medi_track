@@ -5,8 +5,7 @@ sealed class EstadiaPacienteFormState extends Equatable {
   List<Object?> get props => [];
 }
 
-class EstadiaPacienteFormLoadingState extends EstadiaPacienteFormState {
-}
+class EstadiaPacienteFormLoadingState extends EstadiaPacienteFormState {}
 
 class EstadiaPacienteFormDataState extends EstadiaPacienteFormState {
   final String id;
@@ -80,13 +79,35 @@ class EstadiaPacienteFormDataState extends EstadiaPacienteFormState {
       ];
 }
 
-class EstadiaPacienteActionResponse extends EstadiaPacienteFormState {
+class EstadiaPacienteAddedSuccessfully extends EstadiaPacienteFormState {
   final String message;
-  final bool isError;
-  final bool shouldPop;
-  EstadiaPacienteActionResponse(
-      {required this.message, required this.isError, required this.shouldPop});
+  EstadiaPacienteAddedSuccessfully({required this.message});
 
   @override
-  List<Object> get props => [message, isError, shouldPop];
+  List<Object?> get props => [message];
+}
+
+class EstadiaPacienteUpdatedSuccessfully extends EstadiaPacienteFormState {
+  final String message;
+  EstadiaPacienteUpdatedSuccessfully({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class EstadiaPacienteDeletedSuccessfully extends EstadiaPacienteFormState {
+  final String message;
+  final String id;
+  EstadiaPacienteDeletedSuccessfully({required this.message, required this.id});
+
+  @override
+  List<Object?> get props => [message,id];
+}
+
+class EstadiaPacientedError extends EstadiaPacienteFormState {
+  final String message;
+  EstadiaPacientedError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
