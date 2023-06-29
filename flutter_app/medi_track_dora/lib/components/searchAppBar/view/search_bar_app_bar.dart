@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_track_dora/components/settings/settings.dart';
 
 import '../bloc/search_bar_bloc.dart';
 
@@ -32,6 +33,15 @@ class SearchBarAppBar extends StatelessWidget implements PreferredSizeWidget {
             HideSearchBarState() => AppBar(
                 title: Text(barTitle),
                 centerTitle: true,
+                leading: IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()),
+                    );
+                  },
+                ),
                 actions: [
                   IconButton(
                       onPressed: () {

@@ -9,7 +9,7 @@ void main() {
 
   //databaseFactory = databaseFactoryFfi;
 
-  ApplicationConfiguration config = ApplicationConfiguration.development(FakeDataSize.small,1);
-  //ApplicationConfiguration config = ApplicationConfiguration.production();
+  //ApplicationConfiguration config = ApplicationConfiguration.development(FakeDataSize.small,1);
+  ApplicationConfiguration config = ApplicationConfiguration.production();
   runApp(MainAppBuilder(config: config).build());
 }

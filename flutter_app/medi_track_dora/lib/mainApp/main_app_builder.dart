@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medi_track_dora/components/settings/bloc/settings_bloc.dart';
 import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 import 'package:medi_track_dora/mainApp/development_app.dart';
@@ -61,6 +62,10 @@ class MainAppBuilder {
       BlocProvider(
         create: (context) =>
             EstadiaPacienteFormBloc(estadiaPacienteRepository: estadiaPacienteRepository),
+      ),
+      BlocProvider(
+        create: (context) =>
+            SettingsBloc(),
       ),
     ], child: app);
   }

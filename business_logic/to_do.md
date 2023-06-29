@@ -21,5 +21,5 @@ validar campos en blanco
 create sqlite repositories done
 add datetime created to filter . done in sqlite
 fix add paciente fecha when updating the current date
-fix fake data created at updatedat
+fix fake data created at updatedat --done
 import export data 

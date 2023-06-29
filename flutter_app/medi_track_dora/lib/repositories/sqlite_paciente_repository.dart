@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/paciente.dart';
 import 'paciente_repository.dart';
-import 'sqlite_database_helper.dart';
+import '../helpers/sqlite_database_helper.dart';
 
 class SqlitePacienteRepository implements PacienteRepository {
   final Future<Database> _database;
