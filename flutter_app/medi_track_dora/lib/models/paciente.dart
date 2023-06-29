@@ -98,8 +98,8 @@ class Paciente extends Equatable {
         contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
             .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
             .toList(),
-        createdAt: json['createAt'] ?? DateTime.now(),
-        updatedAt: json['updatedAt'] ?? DateTime.now());
+        createdAt: DateTime.parse(json['createdAt']) ?? DateTime.now(),
+        updatedAt: DateTime.parse(json['updatedAt']) ?? DateTime.now());
   }
 
   Paciente copyWith(

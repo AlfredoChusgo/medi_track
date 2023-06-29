@@ -76,8 +76,8 @@ class EstadiaPaciente extends Equatable {
         diagnostico: json['diagnostico'],
         tipoServicio: TipoServicio.values[json['tipoServicio']],
         paciente: Paciente.empty().copyWith(id: json['idPaciente']),
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt']);
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']));
   }
 
   Map<String, dynamic> toJson() {
