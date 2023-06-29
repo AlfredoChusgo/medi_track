@@ -18,5 +18,7 @@ agregar view paciente details. done
 
 error handling 
 validar campos en blanco
-create sqlite repositories
-import export data
+create sqlite repositories done
+import export data 
+add datetime created to filter .
+fix add paciente fecha when updating the current date

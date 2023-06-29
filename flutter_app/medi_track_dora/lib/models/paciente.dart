@@ -19,7 +19,9 @@ class Paciente extends Equatable {
       required this.telefonoCelular,
       required this.telefonoFijo,
       required this.direccionResidencia,
-      required this.contactosEmergencia});
+      required this.contactosEmergencia,
+      required this.createdAt,
+      required this.updatedAt});
 
   final String id;
   final String ci;
@@ -34,6 +36,8 @@ class Paciente extends Equatable {
   final int telefonoFijo;
   final String direccionResidencia;
   final List<ContactoEmergencia> contactosEmergencia;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   @override
   List<Object> get props => [
@@ -49,48 +53,53 @@ class Paciente extends Equatable {
         telefonoCelular,
         telefonoFijo,
         direccionResidencia,
-        contactosEmergencia
+        contactosEmergencia,
+        createdAt,
+        updatedAt
       ];
 
   String get fullName {
     return "$nombre $apellidoPaterno $apellidoMaterno";
   }
 
-  factory Paciente.empty(){
+  factory Paciente.empty() {
     return Paciente(
-      id: const Uuid().v4(),
-      apellidoMaterno: '',
-      apellidoPaterno: '',
-      ci: '',
-      contactosEmergencia: const [],
-      direccionResidencia: '',
-      fechaNacimiento: DateTime.now(),      
-      nombre: '',
-      ocupacion: '',
-      procedencia: '',
-      sexo: Sexo.masculino,
-      telefonoCelular: 0000000,
-      telefonoFijo: 0000000);
-  } 
-      
-    factory Paciente.fromJson(Map<String, dynamic> json) {
+        id: const Uuid().v4(),
+        apellidoMaterno: '',
+        apellidoPaterno: '',
+        ci: '',
+        contactosEmergencia: const [],
+        direccionResidencia: '',
+        fechaNacimiento: DateTime.now(),
+        nombre: '',
+        ocupacion: '',
+        procedencia: '',
+        sexo: Sexo.masculino,
+        telefonoCelular: 0000000,
+        telefonoFijo: 0000000,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now());
+  }
+
+  factory Paciente.fromJson(Map<String, dynamic> json) {
     return Paciente(
-      id: json['id'],
-      ci: json['ci'],
-      nombre: json['nombre'],
-      apellidoPaterno: json['apellidoPaterno'],
-      apellidoMaterno: json['apellidoMaterno'],
-      fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
-      sexo: json['sexo'] == 'masculino' ? Sexo.masculino : Sexo.femenino,
-      ocupacion: json['ocupacion'],
-      procedencia: json['procedencia'],
-      telefonoCelular: json['telefonoCelular'],
-      telefonoFijo: json['telefonoFijo'],
-      direccionResidencia: json['direccionResidencia'],
-      contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
-          .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
-          .toList(),
-    );
+        id: json['id'],
+        ci: json['ci'],
+        nombre: json['nombre'],
+        apellidoPaterno: json['apellidoPaterno'],
+        apellidoMaterno: json['apellidoMaterno'],
+        fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
+        sexo: json['sexo'] == 'masculino' ? Sexo.masculino : Sexo.femenino,
+        ocupacion: json['ocupacion'],
+        procedencia: json['procedencia'],
+        telefonoCelular: json['telefonoCelular'],
+        telefonoFijo: json['telefonoFijo'],
+        direccionResidencia: json['direccionResidencia'],
+        contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
+            .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
+            .toList(),
+        createdAt: json['createAt'] ?? DateTime.now(),
+        updatedAt: json['updatedAt'] ?? DateTime.now());
   }
 
   Paciente copyWith({
@@ -107,6 +116,8 @@ class Paciente extends Equatable {
     int? telefonoFijo,
     String? direccionResidencia,
     List<ContactoEmergencia>? contactosEmergencia,
+    DateTime? createdAt,
+    DateTime? updatedAt
   }) {
     return Paciente(
       id: id ?? this.id,
@@ -122,6 +133,8 @@ class Paciente extends Equatable {
       telefonoFijo: telefonoFijo ?? this.telefonoFijo,
       direccionResidencia: direccionResidencia ?? this.direccionResidencia,
       contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt
     );
   }
 
@@ -139,31 +152,38 @@ class Paciente extends Equatable {
       'telefonoCelular': telefonoCelular,
       'telefonoFijo': telefonoFijo,
       'direccionResidencia': direccionResidencia,
-      'contactosEmergencia': jsonEncode(contactosEmergencia)
+      'contactosEmergencia': jsonEncode(contactosEmergencia),
+      'createdAt' : createdAt.millisecondsSinceEpoch,
+      'updatedAt' : updatedAt.millisecondsSinceEpoch
     };
   }
 
-    static Paciente fromMap(Map<String, dynamic> map) {
+  static Paciente fromMap(Map<String, dynamic> map) {
     return Paciente(
       id: map['id'],
       ci: map['ci'],
       nombre: map['nombre'],
       apellidoPaterno: map['apellidoPaterno'],
       apellidoMaterno: map['apellidoMaterno'],
-      fechaNacimiento: DateTime.fromMillisecondsSinceEpoch(map['fechaNacimiento']),
-      sexo: Sexo.values.firstWhere((value) => value.toString().split('.').last == map['sexo']),
+      fechaNacimiento:
+          DateTime.fromMillisecondsSinceEpoch(map['fechaNacimiento']),
+      sexo: Sexo.values.firstWhere(
+          (value) => value.toString().split('.').last == map['sexo']),
       ocupacion: map['ocupacion'],
       procedencia: map['procedencia'],
       telefonoCelular: map['telefonoCelular'],
       telefonoFijo: map['telefonoFijo'],
       direccionResidencia: map['direccionResidencia'],
-      contactosEmergencia: (jsonDecode(map['contactosEmergencia']) as List<dynamic>).map((e) => ContactoEmergencia.fromMap(e)).toList(),
-    );
+      contactosEmergencia:
+          (jsonDecode(map['contactosEmergencia']) as List<dynamic>)
+              .map((e) => ContactoEmergencia.fromMap(e))
+              .toList(),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']));
   }
 
   // ...
 }
-
 
 class ContactoEmergencia extends Equatable {
   const ContactoEmergencia(
@@ -194,18 +214,17 @@ class ContactoEmergencia extends Equatable {
         direccion
       ];
 
-  factory ContactoEmergencia.empty(){
+  factory ContactoEmergencia.empty() {
     return ContactoEmergencia(
-      id: Uuid().v4(),
-      apellidoMaterno: '',
-      apellidoPaterno: '',
-      direccion: '',      
-      nombre: '',
-      relacionFamiliar: '',
-      telefono: 0000000);
+        id: Uuid().v4(),
+        apellidoMaterno: '',
+        apellidoPaterno: '',
+        direccion: '',
+        nombre: '',
+        relacionFamiliar: '',
+        telefono: 0000000);
   }
-      
-  
+
   ContactoEmergencia copyWith({
     String? id,
     String? relacionFamiliar,
@@ -225,8 +244,8 @@ class ContactoEmergencia extends Equatable {
       direccion: direccion ?? this.direccion,
     );
   }
-  
-    // Factory constructor to parse JSON data
+
+  // Factory constructor to parse JSON data
   factory ContactoEmergencia.fromJson(Map<String, dynamic> json) {
     return ContactoEmergencia(
       id: json['id'],
@@ -239,7 +258,7 @@ class ContactoEmergencia extends Equatable {
     );
   }
 
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'relacionFamiliar': relacionFamiliar,

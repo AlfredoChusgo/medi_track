@@ -20,7 +20,9 @@ class EstadiaPaciente extends Equatable {
       required this.accionesRealizadas,
       required this.observaciones,
       required this.diagnostico,
-      required this.tipoServicio});
+      required this.tipoServicio,
+      required this.createdAt,
+      required this.updatedAt});
 
   final Paciente paciente;
   final String id;
@@ -30,6 +32,8 @@ class EstadiaPaciente extends Equatable {
   final String observaciones;
   final String diagnostico;
   final TipoServicio tipoServicio;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   String get tipoServicioReadable {
     return tipoServicio.toString().split('.').last;
@@ -42,7 +46,9 @@ class EstadiaPaciente extends Equatable {
         accionesRealizadas,
         observaciones,
         diagnostico,
-        tipoServicio
+        tipoServicio,
+        createdAt,
+        updatedAt
       ];
 
   factory EstadiaPaciente.empty() {
@@ -53,7 +59,9 @@ class EstadiaPaciente extends Equatable {
         accionesRealizadas: '',
         observaciones: '',
         diagnostico: '',
-        tipoServicio: TipoServicio.desconocido, paciente: Paciente.empty());
+        tipoServicio: TipoServicio.desconocido, paciente: Paciente.empty(),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now());
   }
 
    factory EstadiaPaciente.fromJson(Map<String, dynamic> json) {
@@ -66,6 +74,8 @@ class EstadiaPaciente extends Equatable {
       diagnostico: json['diagnostico'],
       tipoServicio: TipoServicio.values[json['tipoServicio']], 
       paciente: Paciente.empty().copyWith(id:json['idPaciente']),
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt']
     );
   }
 
@@ -78,6 +88,8 @@ class EstadiaPaciente extends Equatable {
       'observaciones': observaciones,
       'diagnostico': diagnostico,
       'tipoServicio': tipoServicio.index,
+      'createdAt' : createdAt.toIso8601String(),
+      'updatedAt' : updatedAt.toIso8601String()
     };
   }
 
@@ -90,6 +102,8 @@ class EstadiaPaciente extends Equatable {
     String? observaciones,
     String? diagnostico,
     TipoServicio? tipoServicio,
+    DateTime? createdAt,
+    DateTime? updatedAt
   }) {
     return EstadiaPaciente(
       id: id ?? this.id,
@@ -100,6 +114,8 @@ class EstadiaPaciente extends Equatable {
       observaciones: observaciones ?? this.observaciones,
       diagnostico: diagnostico ?? this.diagnostico,
       tipoServicio: tipoServicio ?? this.tipoServicio,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: createdAt ?? this.updatedAt,
     );
   }
 
@@ -114,6 +130,8 @@ class EstadiaPaciente extends Equatable {
       'observaciones': observaciones,
       'diagnostico': diagnostico,
       'tipoServicio': tipoServicio.name, // Convert tipoServicio to a string
+      'createdAt' : createdAt.toIso8601String(),
+      'updatedAt' : updatedAt.toIso8601String()
     };
   }
 
@@ -127,7 +145,9 @@ class EstadiaPaciente extends Equatable {
       accionesRealizadas: map['accionesRealizadas'],
       observaciones: map['observaciones'],
       diagnostico: map['diagnostico'],
-      tipoServicio : TipoServicio.values.firstWhere((value) => value.toString().split('.').last == map['tipoServicio']),      
+      tipoServicio : TipoServicio.values.firstWhere((value) => value.toString().split('.').last == map['tipoServicio']),
+      createdAt: DateTime.parse(map['createdAt']),
+      updatedAt: DateTime.parse(map['updatedAt'])
     );
   }
 }

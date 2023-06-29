@@ -27,7 +27,9 @@ class SQLiteDatabaseHelper {
             telefonoCelular INTEGER,
             telefonoFijo INTEGER,
             direccionResidencia TEXT,
-            contactosEmergencia TEXT
+            contactosEmergencia TEXT,
+            createdAt INTEGER,
+            updatedAt INTEGER
           )
         ''');
 
@@ -41,6 +43,8 @@ class SQLiteDatabaseHelper {
             observaciones TEXT,
             diagnostico TEXT,
             tipoServicio TEXT,
+            createdAt INTEGER,
+            updatedAt INTEGER,
             FOREIGN KEY (pacienteId) REFERENCES pacientes (id)
           )
         ''');

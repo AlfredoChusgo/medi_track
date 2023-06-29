@@ -1,5 +1,4 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as path;
 
 import '../models/paciente.dart';
 import 'paciente_repository.dart';

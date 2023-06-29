@@ -6,7 +6,6 @@ import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'estadia_paciente_repository.dart';
-import 'package:path/path.dart' as path;
 
 import 'sqlite_database_helper.dart';
 
