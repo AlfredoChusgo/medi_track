@@ -20,7 +20,6 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
-
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -28,7 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
+  flutter:    
     sdk: flutter
   equatable: ^2.0.0
   uuid: ^3.0.0
@@ -44,6 +43,8 @@ dependencies:
   sqflite: ^2.2.8+4
   path_provider: ^2.0.15
   share_plus: ^7.0.2
+  settings_ui: ^2.0.2
+  file_picker: ^5.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

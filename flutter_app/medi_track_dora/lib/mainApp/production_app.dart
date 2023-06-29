@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/contactoEmergencia/view/contacto_emergencia_page.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
+import 'package:medi_track_dora/components/settings/settings.dart';
 
 import '../components/estadiaPacienteForm/estadia_paciente.dart';
 import '../components/estadiaPacienteHome/view/estadia_paciente_home_page.dart';
@@ -89,6 +90,10 @@ class ProductionApp extends StatelessWidget {
               saveButtonText: "",
               callback: (EstadiaPaciente estadiaPaciente) {});
         },
+        '/settings': (_) {
+          //context.read<SettingsBloc>();
+          return SettingsPage();
+        }
         //'/cart': (_) => const CartPage(),
       },
     );

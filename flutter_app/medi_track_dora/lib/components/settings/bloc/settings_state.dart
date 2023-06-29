@@ -8,7 +8,12 @@ class SettingsInitial extends SettingsState {
   List<Object?> get props => [];
 }
 
-class ActionInProgress extends SettingsState {
+class ExportingInProgress extends SettingsState {
+  @override
+  List<Object?> get props => [];
+}
+
+class ImportingInProgress extends SettingsState {
   @override
   List<Object?> get props => [];
 }
