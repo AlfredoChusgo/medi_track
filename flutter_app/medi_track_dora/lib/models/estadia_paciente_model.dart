@@ -14,7 +14,7 @@ enum TipoServicio {
 class EstadiaPaciente extends Equatable {
   const EstadiaPaciente(
       {required this.id,
-      required this.paciente, 
+      required this.paciente,
       required this.fechaIngreso,
       required this.fechaEgreso,
       required this.accionesRealizadas,
@@ -38,6 +38,7 @@ class EstadiaPaciente extends Equatable {
   String get tipoServicioReadable {
     return tipoServicio.toString().split('.').last;
   }
+
   @override
   List<Object> get props => [
         id,
@@ -59,24 +60,24 @@ class EstadiaPaciente extends Equatable {
         accionesRealizadas: '',
         observaciones: '',
         diagnostico: '',
-        tipoServicio: TipoServicio.desconocido, paciente: Paciente.empty(),
+        tipoServicio: TipoServicio.desconocido,
+        paciente: Paciente.empty(),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now());
   }
 
-   factory EstadiaPaciente.fromJson(Map<String, dynamic> json) {
+  factory EstadiaPaciente.fromJson(Map<String, dynamic> json) {
     return EstadiaPaciente(
-      id: json['id'],
-      fechaIngreso: DateTime.parse(json['fechaIngreso']),
-      fechaEgreso: DateTime.parse(json['fechaEgreso']),
-      accionesRealizadas: json['accionesRealizadas'],
-      observaciones: json['observaciones'],
-      diagnostico: json['diagnostico'],
-      tipoServicio: TipoServicio.values[json['tipoServicio']], 
-      paciente: Paciente.empty().copyWith(id:json['idPaciente']),
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt']
-    );
+        id: json['id'],
+        fechaIngreso: DateTime.parse(json['fechaIngreso']),
+        fechaEgreso: DateTime.parse(json['fechaEgreso']),
+        accionesRealizadas: json['accionesRealizadas'],
+        observaciones: json['observaciones'],
+        diagnostico: json['diagnostico'],
+        tipoServicio: TipoServicio.values[json['tipoServicio']],
+        paciente: Paciente.empty().copyWith(id: json['idPaciente']),
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -88,23 +89,22 @@ class EstadiaPaciente extends Equatable {
       'observaciones': observaciones,
       'diagnostico': diagnostico,
       'tipoServicio': tipoServicio.index,
-      'createdAt' : createdAt.toIso8601String(),
-      'updatedAt' : updatedAt.toIso8601String()
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String()
     };
   }
 
-  EstadiaPaciente copyWith({
-    String? id,
-    Paciente? paciente,
-    DateTime? fechaIngreso,
-    DateTime? fechaEgreso,
-    String? accionesRealizadas,
-    String? observaciones,
-    String? diagnostico,
-    TipoServicio? tipoServicio,
-    DateTime? createdAt,
-    DateTime? updatedAt
-  }) {
+  EstadiaPaciente copyWith(
+      {String? id,
+      Paciente? paciente,
+      DateTime? fechaIngreso,
+      DateTime? fechaEgreso,
+      String? accionesRealizadas,
+      String? observaciones,
+      String? diagnostico,
+      TipoServicio? tipoServicio,
+      DateTime? createdAt,
+      DateTime? updatedAt}) {
     return EstadiaPaciente(
       id: id ?? this.id,
       paciente: paciente ?? this.paciente,
@@ -130,24 +130,29 @@ class EstadiaPaciente extends Equatable {
       'observaciones': observaciones,
       'diagnostico': diagnostico,
       'tipoServicio': tipoServicio.name, // Convert tipoServicio to a string
-      'createdAt' : createdAt.toIso8601String(),
-      'updatedAt' : updatedAt.toIso8601String()
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String()
     };
   }
 
   static EstadiaPaciente fromMap(Map<String, dynamic> map) {
     return EstadiaPaciente(
-      id: map['id'],
-      //paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
-      paciente: Paciente.empty().copyWith(id:map['pacienteId']),
-      fechaIngreso: DateTime.parse(map['fechaIngreso']),
-      fechaEgreso: DateTime.parse(map['fechaEgreso']),
-      accionesRealizadas: map['accionesRealizadas'],
-      observaciones: map['observaciones'],
-      diagnostico: map['diagnostico'],
-      tipoServicio : TipoServicio.values.firstWhere((value) => value.toString().split('.').last == map['tipoServicio']),
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt'])
-    );
+        id: map['id'],
+        //paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
+        paciente: Paciente.empty().copyWith(id: map['pacienteId']),
+        fechaIngreso: DateTime.parse(map['fechaIngreso']),
+        fechaEgreso: DateTime.parse(map['fechaEgreso']),
+        accionesRealizadas: map['accionesRealizadas'],
+        observaciones: map['observaciones'],
+        diagnostico: map['diagnostico'],
+        tipoServicio: TipoServicio.values.firstWhere(
+            (value) => value.toString().split('.').last == map['tipoServicio']),
+        createdAt: DateTime.parse(map['createdAt']),
+        updatedAt: DateTime.parse(map['updatedAt']));
+  }
+
+  static List<EstadiaPaciente> sortByUpdatedAt(
+      List<EstadiaPaciente> estadias) {
+    return estadias..sort((a, b) => a.createdAt.compareTo(b.createdAt));
   }
 }

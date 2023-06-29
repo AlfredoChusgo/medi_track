@@ -54,7 +54,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
     }).toList();
 
     await loadPacientes(estadias);
-    return estadias;
+    return EstadiaPaciente.sortByUpdatedAt(estadias);
   }
 
   Future<void> loadPacientes(List<EstadiaPaciente> estadias) async {
@@ -68,8 +68,7 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   @override
   Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(
       EstadiaPacienteFilter filterState) async {
-    final 
-    db = await _database; // Get the reference to the SQLite database
+    final db = await _database; // Get the reference to the SQLite database
 
     final queryBuilder =
         StringBuffer('SELECT * FROM estadia_pacientes WHERE 1=1');
@@ -104,9 +103,10 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
     }
 
     final results = await db.rawQuery(query, queryParams);
-    final estadias = results.map((row) => EstadiaPaciente.fromMap(row)).toList();
+    final estadias =
+        results.map((row) => EstadiaPaciente.fromMap(row)).toList();
     await loadPacientes(estadias);
-    return estadias;    
+    return EstadiaPaciente.sortByUpdatedAt(estadias);
   }
 
   @override

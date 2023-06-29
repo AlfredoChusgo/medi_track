@@ -46,7 +46,7 @@ class SqlitePacienteRepository implements PacienteRepository {
     //   var contactosEmergencia = await _getContactosEmergencia(paciente.id);
     //   paciente = paciente.copyWith(contactosEmergencia: contactosEmergencia);
     // }
-    return pacientes;
+    return Paciente.sortByUpdatedAt(pacientes);
   }
 
   @override

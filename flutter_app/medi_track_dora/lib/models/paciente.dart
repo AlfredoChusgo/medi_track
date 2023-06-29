@@ -102,40 +102,38 @@ class Paciente extends Equatable {
         updatedAt: json['updatedAt'] ?? DateTime.now());
   }
 
-  Paciente copyWith({
-    String? id,
-    String? ci,
-    String? nombre,
-    String? apellidoPaterno,
-    String? apellidoMaterno,
-    DateTime? fechaNacimiento,
-    Sexo? sexo,
-    String? ocupacion,
-    String? procedencia,
-    int? telefonoCelular,
-    int? telefonoFijo,
-    String? direccionResidencia,
-    List<ContactoEmergencia>? contactosEmergencia,
-    DateTime? createdAt,
-    DateTime? updatedAt
-  }) {
+  Paciente copyWith(
+      {String? id,
+      String? ci,
+      String? nombre,
+      String? apellidoPaterno,
+      String? apellidoMaterno,
+      DateTime? fechaNacimiento,
+      Sexo? sexo,
+      String? ocupacion,
+      String? procedencia,
+      int? telefonoCelular,
+      int? telefonoFijo,
+      String? direccionResidencia,
+      List<ContactoEmergencia>? contactosEmergencia,
+      DateTime? createdAt,
+      DateTime? updatedAt}) {
     return Paciente(
-      id: id ?? this.id,
-      ci: ci ?? this.ci,
-      nombre: nombre ?? this.nombre,
-      apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
-      apellidoMaterno: apellidoMaterno ?? this.apellidoMaterno,
-      fechaNacimiento: fechaNacimiento ?? this.fechaNacimiento,
-      sexo: sexo ?? this.sexo,
-      ocupacion: ocupacion ?? this.ocupacion,
-      procedencia: procedencia ?? this.procedencia,
-      telefonoCelular: telefonoCelular ?? this.telefonoCelular,
-      telefonoFijo: telefonoFijo ?? this.telefonoFijo,
-      direccionResidencia: direccionResidencia ?? this.direccionResidencia,
-      contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt
-    );
+        id: id ?? this.id,
+        ci: ci ?? this.ci,
+        nombre: nombre ?? this.nombre,
+        apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
+        apellidoMaterno: apellidoMaterno ?? this.apellidoMaterno,
+        fechaNacimiento: fechaNacimiento ?? this.fechaNacimiento,
+        sexo: sexo ?? this.sexo,
+        ocupacion: ocupacion ?? this.ocupacion,
+        procedencia: procedencia ?? this.procedencia,
+        telefonoCelular: telefonoCelular ?? this.telefonoCelular,
+        telefonoFijo: telefonoFijo ?? this.telefonoFijo,
+        direccionResidencia: direccionResidencia ?? this.direccionResidencia,
+        contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt);
   }
 
   Map<String, dynamic> toMap() {
@@ -153,33 +151,37 @@ class Paciente extends Equatable {
       'telefonoFijo': telefonoFijo,
       'direccionResidencia': direccionResidencia,
       'contactosEmergencia': jsonEncode(contactosEmergencia),
-      'createdAt' : createdAt.millisecondsSinceEpoch,
-      'updatedAt' : updatedAt.millisecondsSinceEpoch
+      'createdAt': createdAt.millisecondsSinceEpoch,
+      'updatedAt': updatedAt.millisecondsSinceEpoch
     };
   }
 
   static Paciente fromMap(Map<String, dynamic> map) {
     return Paciente(
-      id: map['id'],
-      ci: map['ci'],
-      nombre: map['nombre'],
-      apellidoPaterno: map['apellidoPaterno'],
-      apellidoMaterno: map['apellidoMaterno'],
-      fechaNacimiento:
-          DateTime.fromMillisecondsSinceEpoch(map['fechaNacimiento']),
-      sexo: Sexo.values.firstWhere(
-          (value) => value.toString().split('.').last == map['sexo']),
-      ocupacion: map['ocupacion'],
-      procedencia: map['procedencia'],
-      telefonoCelular: map['telefonoCelular'],
-      telefonoFijo: map['telefonoFijo'],
-      direccionResidencia: map['direccionResidencia'],
-      contactosEmergencia:
-          (jsonDecode(map['contactosEmergencia']) as List<dynamic>)
-              .map((e) => ContactoEmergencia.fromMap(e))
-              .toList(),
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']));
+        id: map['id'],
+        ci: map['ci'],
+        nombre: map['nombre'],
+        apellidoPaterno: map['apellidoPaterno'],
+        apellidoMaterno: map['apellidoMaterno'],
+        fechaNacimiento:
+            DateTime.fromMillisecondsSinceEpoch(map['fechaNacimiento']),
+        sexo: Sexo.values.firstWhere(
+            (value) => value.toString().split('.').last == map['sexo']),
+        ocupacion: map['ocupacion'],
+        procedencia: map['procedencia'],
+        telefonoCelular: map['telefonoCelular'],
+        telefonoFijo: map['telefonoFijo'],
+        direccionResidencia: map['direccionResidencia'],
+        contactosEmergencia:
+            (jsonDecode(map['contactosEmergencia']) as List<dynamic>)
+                .map((e) => ContactoEmergencia.fromMap(e))
+                .toList(),
+        createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+        updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']));
+  }
+
+  static List<Paciente> sortByUpdatedAt(List<Paciente> pacientes) {
+    return pacientes..sort((a, b) => a.updatedAt.compareTo(b.updatedAt));
   }
 
   // ...
