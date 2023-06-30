@@ -6,3 +6,5 @@ sealed class SettingsEvent {}
 class ImportDataEvent extends SettingsEvent {}
 
 class ExportDataEvent extends SettingsEvent {}
+
+class ExportAsCsv extends SettingsEvent {}

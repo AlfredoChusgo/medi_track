@@ -98,8 +98,8 @@ class Paciente extends Equatable {
         contactosEmergencia: (json['contactosEmergencia'] as List<dynamic>)
             .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
             .toList(),
-        createdAt: DateTime.parse(json['createdAt']) ?? DateTime.now(),
-        updatedAt: DateTime.parse(json['updatedAt']) ?? DateTime.now());
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']));
   }
 
   Paciente copyWith(
@@ -218,7 +218,7 @@ class ContactoEmergencia extends Equatable {
 
   factory ContactoEmergencia.empty() {
     return ContactoEmergencia(
-        id: Uuid().v4(),
+        id: const Uuid().v4(),
         apellidoMaterno: '',
         apellidoPaterno: '',
         direccion: '',

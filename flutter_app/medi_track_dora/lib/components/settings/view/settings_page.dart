@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text('Opciones'),
       ),
       body: BlocListener<SettingsBloc, SettingsState>(
         listenWhen: (previous, current) => current is! SettingsInitial,
@@ -48,7 +48,7 @@ class SettingsPage extends StatelessWidget {
             title: title,
             message: message,
 
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundColor: color,
           ).show(context);
         },
         child: BlocBuilder<SettingsBloc, SettingsState>(
@@ -71,6 +71,15 @@ class SettingsPage extends StatelessWidget {
                       Text('Importar una base de datos desde el dispositivo'),
                   onPressed: (context) {
                     settingsBloc.add(ImportDataEvent());
+                  },
+                ),
+                SettingsTile.navigation(
+                  title: Text('Exportar datos Excel'),
+                  leading: Icon(Icons.table_chart),
+                  description:
+                      Text('exporta los datos en format csv'),
+                  onPressed: (context) {
+                    settingsBloc.add(ExportAsCsv());
                   },
                 )
               ]),

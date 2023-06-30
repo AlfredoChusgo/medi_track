@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:medi_track_dora/helpers/csv_helper.dart';
 import 'package:medi_track_dora/helpers/export_import_helper.dart';
-import 'package:medi_track_dora/helpers/sqlite_database_helper.dart';
 import 'package:meta/meta.dart';
 
 part 'settings_event.dart';
@@ -13,6 +13,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(SettingsInitial()) {
     on<ImportDataEvent>(_onImportDataEvent);
     on<ExportDataEvent>(_onExportDataEvent);
+    on<ExportAsCsv>(_onExportAsCsv);
   }
 
   FutureOr<void> _onImportDataEvent(
@@ -33,6 +34,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       emit(ExportingInProgress());
       await ExportImportHelper.exportAndShareDatabase();
+      emit(DataTransferSuccess());
+    } on CancelledByUserException catch (e) {
+      emit(DataTransferFailure(errorMessage: e.toString()));
+    } catch (e) {
+      emit(DataTransferFailure(errorMessage: e.toString()));
+    }
+  }
+
+  FutureOr<void> _onExportAsCsv(ExportAsCsv event, Emitter<SettingsState> emit) async {
+        try {
+      emit(ExportingInProgress());
+      CsvHelper.exportAndShareCsv();
       emit(DataTransferSuccess());
     } on CancelledByUserException catch (e) {
       emit(DataTransferFailure(errorMessage: e.toString()));
