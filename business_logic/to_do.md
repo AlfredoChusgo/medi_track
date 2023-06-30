@@ -22,5 +22,5 @@ create sqlite repositories done
 add datetime created to filter . done in sqlite
 fix add paciente fecha when updating the current date
 fix fake data created at updatedat --done
-import export data 
-fix open database close database
+import export data done 
+fix open database close database done
