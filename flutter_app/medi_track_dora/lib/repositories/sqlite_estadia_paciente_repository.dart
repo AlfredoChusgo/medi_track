@@ -10,31 +10,31 @@ import 'estadia_paciente_repository.dart';
 import '../helpers/sqlite_database_helper.dart';
 
 class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
-  final Future<Database> _database;
   final PacienteRepository pacienteRepository;
-  SqliteEstadiaPacienteRepository({required this.pacienteRepository})
-      : _database = _openDatabase();
-
-  static Future<Database> _openDatabase() async {
-    return await SQLiteDatabaseHelper.openDatabaseHelper();
-  }
+  SqliteEstadiaPacienteRepository({required this.pacienteRepository});
 
   @override
   Future<void> deleteEstadiaPaciente(String id) async {
-    await (await _database).delete(
-      'estadia_pacientes',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    await SQLiteDatabaseHelper.executeOperation<int>((Database database) {
+      return database.delete(
+        'estadia_pacientes',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    });
   }
 
   @override
   Future<EstadiaPaciente> getEstadiaPaciente(String id) async {
-    final List<Map<String, dynamic>> maps = await (await _database).query(
-      'estadia_pacientes',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    final List<Map<String, dynamic>> maps =
+        await SQLiteDatabaseHelper.executeOperation<List<Map<String, Object?>>>(
+            (Database database) {
+      return database.query(
+        'estadia_pacientes',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    });
 
     if (maps.isNotEmpty) {
       return EstadiaPaciente.fromMap(maps.first);
@@ -45,8 +45,11 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
 
   @override
   Future<List<EstadiaPaciente>> getEstadiaPacientes() async {
-    final db = await _database;
-    final estadiasData = await db.query('estadia_pacientes');
+    final estadiasData =
+        await SQLiteDatabaseHelper.executeOperation<List<Map<String, Object?>>>(
+            (Database database) {
+      return database.query('estadia_pacientes');
+    });
 
     List<EstadiaPaciente> estadias = estadiasData.map((data) {
       EstadiaPaciente estadia = EstadiaPaciente.fromMap(data);
@@ -68,8 +71,6 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   @override
   Future<List<EstadiaPaciente>> getEstadiaPacientesWithFilter(
       EstadiaPacienteFilter filterState) async {
-    final db = await _database; // Get the reference to the SQLite database
-
     final queryBuilder =
         StringBuffer('SELECT * FROM estadia_pacientes WHERE 1=1');
 
@@ -102,7 +103,12 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
       queryParams.add(filterState.tipoServicio.name);
     }
 
-    final results = await db.rawQuery(query, queryParams);
+    final results =
+        await SQLiteDatabaseHelper.executeOperation<List<Map<String, Object?>>>(
+            (Database database) {
+      return database.rawQuery(query, queryParams);
+    });
+
     final estadias =
         results.map((row) => EstadiaPaciente.fromMap(row)).toList();
     await loadPacientes(estadias);
@@ -111,14 +117,15 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
 
   @override
   Future<void> saveEstadiaPaciente(EstadiaPaciente estadiaPaciente) async {
-    final db = await _database;
-    await db.insert('estadia_pacientes', estadiaPaciente.toMap());
+    await SQLiteDatabaseHelper.executeOperation<int>((Database database) {
+      return database.insert('estadia_pacientes', estadiaPaciente.toMap());
+    });
   }
 
   @override
   Future<void> updateEstadiaPaciente(EstadiaPaciente estadiaPaciente) async {
-    final db = await _database;
-    await db.update('estadia_pacientes', estadiaPaciente.toMap(),
-        where: 'id = ?', whereArgs: [estadiaPaciente.id]);
+    await SQLiteDatabaseHelper.executeOperation<int>((Database database) {
+      return database.update('estadia_pacientes', estadiaPaciente.toMap());
+    });
   }
 }

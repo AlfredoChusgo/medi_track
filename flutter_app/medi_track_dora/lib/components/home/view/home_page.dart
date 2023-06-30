@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/estadiaPacienteHome/estadia_paciente.dart';
 
+import '../../pacienteHome/bloc/paciente_home_bloc.dart';
 import '../../pacienteHome/view/paciente_home_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -57,7 +58,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         Container(
           //color: Colors.red,
           alignment: Alignment.center,
-          child: const PacienteHomePage(),
+          child: getPacienteHomePage(),
         ),
         Container(
             color: Colors.green,
@@ -66,6 +67,13 @@ class _NavigationExampleState extends State<NavigationExample> {
         //child: const EstadiaPacienteHomePage()),
       ][currentPageIndex],
     );
+  }
+
+  Widget getPacienteHomePage() {
+    context
+        .read<PacienteHomeBloc>()
+        .add(PacienteHomeRefreshEvent());
+    return const PacienteHomePage();
   }
 
   Widget getEstadiaPacienteHomePage() {

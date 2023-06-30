@@ -1,8 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
+import 'package:synchronized/synchronized.dart';
 
 class SQLiteDatabaseHelper {
-  static Future<Database> openDatabaseHelper() async {
+  static final lock = Lock();
+  static Future<Database> _openDatabaseHelper() async {
     try {
       final dbPath = await getDatabasesPath();
       final pathToDatabase =
@@ -55,5 +57,18 @@ class SQLiteDatabaseHelper {
     }
   }
 
+  static Future<T> executeOperation<T>(
+      Future<T> Function(Database) operation) async {
+    return lock.synchronized(() async {
+      try {
+        Database? database = await _openDatabaseHelper();
+        final result = await operation(database);
+        await database.close();
+        database = null;
+        return result;
+      } catch (e) {
+        rethrow;
+      }
+    });
+  }
 }
-

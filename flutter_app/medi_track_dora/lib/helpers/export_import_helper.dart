@@ -11,7 +11,7 @@ class ExportImportHelper {
   static Future<String> exportDatabase(Database database) async {
     // Get the path to the documents directory
     final documentsDirectory = await getApplicationDocumentsDirectory();
-    final databasePath = path.join(documentsDirectory.path, 'database.db');
+    final databasePath = path.join(documentsDirectory.path, 'medi_track.db');
 
     // Close the database connection
     await database.close();
@@ -38,9 +38,15 @@ class ExportImportHelper {
   }
 
   static Future<void> exportAndShareDatabase() async {
-    final databasePath =
-        await exportDatabase(await SQLiteDatabaseHelper.openDatabaseHelper());
+    final databasePath = await SQLiteDatabaseHelper.executeOperation<String>(
+        (Database database) {
+      return exportDatabase(database);
+    });
     await shareDatabaseFile(databasePath);
+
+    //delete after export
+    File file = File(databasePath);
+    file.deleteSync();
   }
 
   static Future<void> selectAndImportDatabase() async {
@@ -82,16 +88,17 @@ class ExportImportHelper {
   //Future<void> importDatabase(File importFile) async {
   static Future<void> importDatabase(String filePath) async {
     final importFile = File(filePath);
-  // Get the path to the application's document directory
-  final directory = await getApplicationDocumentsDirectory();
-  final databasePath = path.join(directory.path, 'medi_track.db');
+    // Get the path to the application's document directory
+    final directory = await getDatabasesPath();
+    //final databasePath = path.join(directory.path, 'medi_track.db');
+    final databasePath = path.join(directory, 'medi_track.db');
 
-  // Close the existing database connection if it's open
-  await databaseFactory.deleteDatabase(databasePath);
+    // Close the existing database connection if it's open
+    await databaseFactory.deleteDatabase(databasePath);
 
-  // Copy the imported file to the database location
-  await importFile.copy(databasePath);
-}
+    // Copy the imported file to the database location
+    await importFile.copy(databasePath);
+  }
 }
 
 class CancelledByUserException implements Exception {
