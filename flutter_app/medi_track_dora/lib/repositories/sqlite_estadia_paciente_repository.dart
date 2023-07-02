@@ -125,7 +125,8 @@ class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   @override
   Future<void> updateEstadiaPaciente(EstadiaPaciente estadiaPaciente) async {
     await SQLiteDatabaseHelper.executeOperation<int>((Database database) {
-      return database.update('estadia_pacientes', estadiaPaciente.toMap());
+      return database.update('estadia_pacientes', estadiaPaciente.toMap(),
+      where: 'id = ?', whereArgs: [estadiaPaciente.id]);
     });
   }
 }
