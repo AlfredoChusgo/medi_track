@@ -33,7 +33,8 @@ void main() {
               direccion: "275107 Aufderhar Crescent")
         ],
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now()),
+        updatedAt: DateTime.now(),
+        numeroHistoriaClinica : 112),
     Paciente(
         id: "f8a69183-2034-4dba-9dc6-b0574bffabcd",
         ci: "942d4b24-954c-4727-a671-3036e215cb1d",
@@ -58,7 +59,8 @@ void main() {
               direccion: "275107 Aufderhar Crescent")
         ],
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now()),
+        updatedAt: DateTime.now(),
+        numeroHistoriaClinica : 113),
   ];
   group('PacienteBLOC test', () {
     late PacienteRepository repository;

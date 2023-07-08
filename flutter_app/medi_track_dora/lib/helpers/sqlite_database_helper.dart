@@ -31,7 +31,8 @@ class SQLiteDatabaseHelper {
             direccionResidencia TEXT,
             contactosEmergencia TEXT,
             createdAt INTEGER,
-            updatedAt INTEGER
+            updatedAt INTEGER,
+            numeroHistoriaClinica INTEGER
           )
         ''');
 

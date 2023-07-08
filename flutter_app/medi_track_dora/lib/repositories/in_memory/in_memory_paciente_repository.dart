@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 
-import '../models/paciente.dart';
-import 'paciente_repository.dart';
+import '../../models/paciente.dart';
+import '../paciente_repository.dart';
 
 class InMemoryPacienteRepository implements PacienteRepository {
   final FakeDataSize dataSize;

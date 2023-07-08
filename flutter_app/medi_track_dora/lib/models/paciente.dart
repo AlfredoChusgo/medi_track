@@ -21,7 +21,8 @@ class Paciente extends Equatable {
       required this.direccionResidencia,
       required this.contactosEmergencia,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.numeroHistoriaClinica});
 
   final String id;
   final String ci;
@@ -38,6 +39,7 @@ class Paciente extends Equatable {
   final List<ContactoEmergencia> contactosEmergencia;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final int numeroHistoriaClinica;
 
   @override
   List<Object> get props => [
@@ -78,7 +80,8 @@ class Paciente extends Equatable {
         telefonoCelular: 0000000,
         telefonoFijo: 0000000,
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now());
+        updatedAt: DateTime.now(),
+        numeroHistoriaClinica : 0);
   }
 
   factory Paciente.fromJson(Map<String, dynamic> json) {
@@ -99,7 +102,8 @@ class Paciente extends Equatable {
             .map((contactoJson) => ContactoEmergencia.fromJson(contactoJson))
             .toList(),
         createdAt: DateTime.parse(json['createdAt']),
-        updatedAt: DateTime.parse(json['updatedAt']));
+        updatedAt: DateTime.parse(json['updatedAt']),
+        numeroHistoriaClinica: json['numeroHistoriaClinica']);
   }
 
   Paciente copyWith(
@@ -117,7 +121,8 @@ class Paciente extends Equatable {
       String? direccionResidencia,
       List<ContactoEmergencia>? contactosEmergencia,
       DateTime? createdAt,
-      DateTime? updatedAt}) {
+      DateTime? updatedAt,
+      int? numeroHistoriaClinica}) {
     return Paciente(
         id: id ?? this.id,
         ci: ci ?? this.ci,
@@ -133,7 +138,8 @@ class Paciente extends Equatable {
         direccionResidencia: direccionResidencia ?? this.direccionResidencia,
         contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
         createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        updatedAt: updatedAt ?? this.updatedAt,
+        numeroHistoriaClinica: numeroHistoriaClinica ?? this.numeroHistoriaClinica);
   }
 
   Map<String, dynamic> toMap() {
@@ -152,7 +158,8 @@ class Paciente extends Equatable {
       'direccionResidencia': direccionResidencia,
       'contactosEmergencia': jsonEncode(contactosEmergencia),
       'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch
+      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'numeroHistoriaClinica' : numeroHistoriaClinica,
     };
   }
 
@@ -177,7 +184,8 @@ class Paciente extends Equatable {
                 .map((e) => ContactoEmergencia.fromMap(e))
                 .toList(),
         createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-        updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']));
+        updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']),
+        numeroHistoriaClinica: map['numeroHistoriaClinica']);
   }
 
   static List<Paciente> sortByUpdatedAt(List<Paciente> pacientes) {

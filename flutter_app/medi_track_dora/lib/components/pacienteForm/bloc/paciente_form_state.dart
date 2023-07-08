@@ -20,6 +20,8 @@ class PacienteAddFormState extends PacienteFormState {
   final String direccionResidencia;
   final List<ContactoEmergencia> contactosEmergencia;
   final DateTime createdAt;
+  final int numeroHistoriaClinica;
+
   final bool readOnly;
 
   PacienteAddFormState(
@@ -37,7 +39,8 @@ class PacienteAddFormState extends PacienteFormState {
       required this.direccionResidencia,
       required this.contactosEmergencia,
       required this.readOnly,
-      required this.createdAt
+      required this.createdAt,
+      required this.numeroHistoriaClinica
       });
 
   PacienteAddFormState.initial()
@@ -55,7 +58,8 @@ class PacienteAddFormState extends PacienteFormState {
         direccionResidencia = '',
         contactosEmergencia = [],
         readOnly = false,
-        createdAt = DateTime.now();
+        createdAt = DateTime.now(),
+        numeroHistoriaClinica = 0;
 
   PacienteAddFormState copyWith({
     String? id,
@@ -72,7 +76,8 @@ class PacienteAddFormState extends PacienteFormState {
     String? direccionResidencia,
     List<ContactoEmergencia>? contactosEmergencia,
     bool? readOnly,
-    DateTime? createdAt
+    DateTime? createdAt,
+    int? numeroHistoriaClinica
   }) {
     return PacienteAddFormState(
       id: id ?? this.id,
@@ -89,7 +94,8 @@ class PacienteAddFormState extends PacienteFormState {
       direccionResidencia: direccionResidencia ?? this.direccionResidencia,
       contactosEmergencia: contactosEmergencia ?? this.contactosEmergencia,
       readOnly : readOnly ?? this.readOnly,
-      createdAt: createdAt ?? this.createdAt
+      createdAt: createdAt ?? this.createdAt,
+      numeroHistoriaClinica: numeroHistoriaClinica?? this.numeroHistoriaClinica
     );
   }
 
@@ -110,6 +116,7 @@ class PacienteAddFormState extends PacienteFormState {
       contactosEmergencia: paciente.contactosEmergencia,
       readOnly : false,
       createdAt: paciente.createdAt,
+      numeroHistoriaClinica : paciente.numeroHistoriaClinica
     );
   }
 
@@ -129,7 +136,8 @@ class PacienteAddFormState extends PacienteFormState {
       direccionResidencia: direccionResidencia,
       contactosEmergencia: contactosEmergencia,
       createdAt: createdAt,
-      updatedAt: DateTime.now()
+      updatedAt: DateTime.now(),
+      numeroHistoriaClinica : numeroHistoriaClinica
     );
   }
 
@@ -149,7 +157,8 @@ class PacienteAddFormState extends PacienteFormState {
         direccionResidencia,
         contactosEmergencia,
         readOnly,
-        createdAt
+        createdAt,
+        numeroHistoriaClinica
       ];
 }
 

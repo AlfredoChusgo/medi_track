@@ -120,6 +120,15 @@ class PacienteFormBloc extends Bloc<PacienteFormEvent, PacienteFormState> {
           emit(pacienteAddFormState.copyWith(contactosEmergencia: list));
           break;
 
+        case NumeroHistoriaClinicaChanged:
+          NumeroHistoriaClinicaChanged numeroHistoriaClinicaEvent =
+              event as NumeroHistoriaClinicaChanged;
+          // Handle DireccionResidenciaChanged event
+          emit(pacienteAddFormState.copyWith(
+              numeroHistoriaClinica:
+                  numeroHistoriaClinicaEvent.numeroHistoriaClinica));
+          break;
+
         default:
           // Handle unknown event
           break;
@@ -174,11 +183,9 @@ class PacienteFormBloc extends Bloc<PacienteFormEvent, PacienteFormState> {
         }
         break;
       case PacientePerformDelete:
-        PacientePerformDelete eventInfo =
-            event as PacientePerformDelete;
+        PacientePerformDelete eventInfo = event as PacientePerformDelete;
         try {
-          await pacienteRepository
-              .deletePaciente(eventInfo.id);
+          await pacienteRepository.deletePaciente(eventInfo.id);
           //await Future.delayed(const Duration(seconds: 3));
           emit(PacienteActionResponse(
               message: "¡Paciente eliminado exitosamente!",
@@ -194,7 +201,9 @@ class PacienteFormBloc extends Bloc<PacienteFormEvent, PacienteFormState> {
     }
   }
 
-  FutureOr<void> _onPacienteDetailsInReadOnlyEvent(PacienteDetailsInReadOnlyEvent event, Emitter<PacienteFormState> emit) {
-      emit(PacienteAddFormState.copyWith(paciente: event.paciente).copyWith(readOnly: true));
+  FutureOr<void> _onPacienteDetailsInReadOnlyEvent(
+      PacienteDetailsInReadOnlyEvent event, Emitter<PacienteFormState> emit) {
+    emit(PacienteAddFormState.copyWith(paciente: event.paciente)
+        .copyWith(readOnly: true));
   }
 }

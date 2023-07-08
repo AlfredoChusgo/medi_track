@@ -5,9 +5,9 @@ import 'package:medi_track_dora/models/paciente.dart';
 import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'estadia_paciente_repository.dart';
+import '../estadia_paciente_repository.dart';
 
-import '../helpers/sqlite_database_helper.dart';
+import '../../helpers/sqlite_database_helper.dart';
 
 class SqliteEstadiaPacienteRepository implements EstadiaPacienteRepository {
   final PacienteRepository pacienteRepository;

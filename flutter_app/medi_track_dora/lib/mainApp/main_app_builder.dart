@@ -5,18 +5,18 @@ import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 import 'package:medi_track_dora/mainApp/development_app.dart';
 import 'package:medi_track_dora/mainApp/production_app.dart';
-import 'package:medi_track_dora/repositories/sqlite_estadia_paciente_repository.dart';
+import 'package:medi_track_dora/repositories/sqlite/sqlite_estadia_paciente_repository.dart';
 
 import '../components/estadiaPacienteFilter/bloc/estadia_paciente_filter_bloc.dart';
 import '../components/estadiaPacienteForm/estadia_paciente.dart';
 import '../components/estadiaPacienteHome/bloc/estadia_paciente_home_bloc.dart';
 import '../components/pacienteForm/paciente_form.dart';
 import '../components/pacienteHome/bloc/paciente_home_bloc.dart';
-import '../repositories/in_memory_paciente_repository.dart';
+import '../repositories/in_memory/in_memory_paciente_repository.dart';
 import '../components/searchAppBar/bloc/search_bar_bloc.dart';
 import '../repositories/estadia_paciente_repository.dart';
-import '../repositories/in_memory_estadia_paciente_repository.dart';
-import '../repositories/sqlite_paciente_repository.dart';
+import '../repositories/in_memory/in_memory_estadia_paciente_repository.dart';
+import '../repositories/sqlite/sqlite_paciente_repository.dart';
 
 class MainAppBuilder {
   final ApplicationConfiguration config;

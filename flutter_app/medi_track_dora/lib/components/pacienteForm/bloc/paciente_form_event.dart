@@ -179,3 +179,12 @@ class PacientePerformDelete extends PacienteFormEvent {
   @override
   List<Object> get props => [id];
 }
+
+class NumeroHistoriaClinicaChanged extends PacienteFormEvent {
+  final int numeroHistoriaClinica;
+
+  const NumeroHistoriaClinicaChanged(this.numeroHistoriaClinica);
+
+  @override
+  List<Object> get props => [numeroHistoriaClinica];
+}

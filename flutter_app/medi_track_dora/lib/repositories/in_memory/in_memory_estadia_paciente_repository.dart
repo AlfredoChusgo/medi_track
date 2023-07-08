@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-import '../config/application_configuration.dart';
-import 'paciente_repository.dart';
-import '../models/estadia_paciente_filter_model.dart';
-import '../models/estadia_paciente_model.dart';
-import 'estadia_paciente_repository.dart';
+import '../../config/application_configuration.dart';
+import '../paciente_repository.dart';
+import '../../models/estadia_paciente_filter_model.dart';
+import '../../models/estadia_paciente_model.dart';
+import '../estadia_paciente_repository.dart';
 
 class InMemoryEstadiaPacienteRepository implements EstadiaPacienteRepository {
   bool dataLoaded = false;

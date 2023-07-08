@@ -102,6 +102,20 @@ class PacienteAddForm extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             TextFormField(
+              initialValue: state.numeroHistoriaClinica.toString(),
+              readOnly: readOnly,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              onChanged: (value) => pacienteFormBloc
+                  .add(NumeroHistoriaClinicaChanged(int.tryParse(value) ?? 000000)),
+              decoration: const InputDecoration(
+                labelText: 'Numero de Historia Clinica',
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
               //controller: _nombreController,
               readOnly: readOnly,
               initialValue: state.nombre,
@@ -212,13 +226,13 @@ class PacienteAddForm extends StatelessWidget {
                 "Contactos de emergencia",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
-              if(!readOnly)
-              IconButton.filledTonal(
-                onPressed: () =>
-                    {Navigator.pushNamed(context, '/contactoEmergenciaAdd')},
-                icon: Icon(Icons.add),
-                color: Theme.of(context).primaryColor,
-              ),
+              if (!readOnly)
+                IconButton.filledTonal(
+                  onPressed: () =>
+                      {Navigator.pushNamed(context, '/contactoEmergenciaAdd')},
+                  icon: Icon(Icons.add),
+                  color: Theme.of(context).primaryColor,
+                ),
             ]),
             ListView.builder(
               shrinkWrap: true,
@@ -227,19 +241,19 @@ class PacienteAddForm extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ContactoEmergenciaListItem(
-                    state.contactosEmergencia[index],readOnly);
+                    state.contactosEmergencia[index], readOnly);
               },
             ),
             const SizedBox(height: 16.0),
-            if(!readOnly)
-            ElevatedButton(
-              //width: double.infinity,
-              onPressed: () {
-                //_pacienteFormBloc.add(const PacientePerformSave());
-                callback();
-              },
-              child: Text(saveButtonText),
-            ),
+            if (!readOnly)
+              ElevatedButton(
+                //width: double.infinity,
+                onPressed: () {
+                  //_pacienteFormBloc.add(const PacientePerformSave());
+                  callback();
+                },
+                child: Text(saveButtonText),
+              ),
           ],
         ),
       ),
@@ -354,7 +368,7 @@ class ContactoEmergenciaListItem extends StatefulWidget {
   final ContactoEmergencia item;
   final bool readOnly;
 
-  const ContactoEmergenciaListItem(this.item,this.readOnly, {super.key});
+  const ContactoEmergenciaListItem(this.item, this.readOnly, {super.key});
   @override
   ContactoEmergenciaListItemState createState() =>
       ContactoEmergenciaListItemState();
@@ -421,43 +435,43 @@ class ContactoEmergenciaListItemState
               )
             ],
           ),
-          if(!widget.readOnly)
-        ButtonBar(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ContactoEmergenciaPage(
-                        model: widget.item,
-                        saveButtonText: "Actualizar",
-                        callback: (contactoEmergencia) {
-                          BlocProvider.of<PacienteFormBloc>(context).add(
-                              ContactosEmergenciaUpdated(contactoEmergencia));
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(Icons.edit),
-            ),
-            IconButton(
-              onPressed: () {
-                BlocProvider.of<PacienteFormBloc>(context)
-                    .add(ContactosEmergenciaDeleted(widget.item.id));
-                // Handle remove button press
-              },
-              icon: const Icon(Icons.delete),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+        if (!widget.readOnly)
+          ButtonBar(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ContactoEmergenciaPage(
+                          model: widget.item,
+                          saveButtonText: "Actualizar",
+                          callback: (contactoEmergencia) {
+                            BlocProvider.of<PacienteFormBloc>(context).add(
+                                ContactosEmergenciaUpdated(contactoEmergencia));
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
               ),
-            ),
-          ],
-        ),
+              IconButton(
+                onPressed: () {
+                  BlocProvider.of<PacienteFormBloc>(context)
+                      .add(ContactosEmergenciaDeleted(widget.item.id));
+                  // Handle remove button press
+                },
+                icon: const Icon(Icons.delete),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }

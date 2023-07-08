@@ -24,3 +24,10 @@ fix add paciente fecha when updating the current date
 fix fake data created at updatedat --done
 import export data done 
 fix open database close database done
+
+agregar a paciente 
+historia clinica numero
+responsable
+
+estadia paciente, 
+fecha fin debe ser opcional

@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 
-import '../models/paciente.dart';
-import 'paciente_repository.dart';
-import '../helpers/sqlite_database_helper.dart';
+import '../../models/paciente.dart';
+import '../paciente_repository.dart';
+import '../../helpers/sqlite_database_helper.dart';
 
 class SqlitePacienteRepository implements PacienteRepository {
   SqlitePacienteRepository();
