@@ -57,7 +57,8 @@ class Paciente extends Equatable {
         direccionResidencia,
         contactosEmergencia,
         createdAt,
-        updatedAt
+        updatedAt,
+        numeroHistoriaClinica
       ];
 
   String get fullName {
@@ -203,7 +204,8 @@ class ContactoEmergencia extends Equatable {
       required this.apellidoMaterno,
       required this.apellidoPaterno,
       required this.telefono,
-      required this.direccion});
+      required this.direccion,
+      required this.isResponsable});
 
   final String id;
   final String relacionFamiliar;
@@ -212,6 +214,7 @@ class ContactoEmergencia extends Equatable {
   final String apellidoPaterno;
   final int telefono;
   final String direccion;
+  final bool isResponsable;
 
   @override
   List<Object> get props => [
@@ -221,7 +224,8 @@ class ContactoEmergencia extends Equatable {
         apellidoMaterno,
         apellidoPaterno,
         telefono,
-        direccion
+        direccion,
+        isResponsable
       ];
 
   factory ContactoEmergencia.empty() {
@@ -232,7 +236,8 @@ class ContactoEmergencia extends Equatable {
         direccion: '',
         nombre: '',
         relacionFamiliar: '',
-        telefono: 0000000);
+        telefono: 0000000,
+        isResponsable:false);
   }
 
   ContactoEmergencia copyWith({
@@ -243,6 +248,7 @@ class ContactoEmergencia extends Equatable {
     String? apellidoPaterno,
     int? telefono,
     String? direccion,
+    bool? isResponsable
   }) {
     return ContactoEmergencia(
       id: id ?? this.id,
@@ -252,6 +258,7 @@ class ContactoEmergencia extends Equatable {
       apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
       telefono: telefono ?? this.telefono,
       direccion: direccion ?? this.direccion,
+      isResponsable : isResponsable ?? this.isResponsable
     );
   }
 
@@ -265,6 +272,7 @@ class ContactoEmergencia extends Equatable {
       apellidoPaterno: json['apellidoPaterno'],
       telefono: json['telefono'],
       direccion: json['direccion'],
+      isResponsable: json['isResponsable']
     );
   }
 
@@ -277,6 +285,7 @@ class ContactoEmergencia extends Equatable {
       'apellidoPaterno': apellidoPaterno,
       'telefono': telefono,
       'direccion': direccion,
+      'isResponsable': isResponsable
     };
   }
 
@@ -289,6 +298,7 @@ class ContactoEmergencia extends Equatable {
       'apellidoPaterno': apellidoPaterno,
       'telefono': telefono,
       'direccion': direccion,
+      'isResponsable': isResponsable
     };
   }
 
@@ -301,6 +311,7 @@ class ContactoEmergencia extends Equatable {
       apellidoPaterno: map['apellidoPaterno'],
       telefono: map['telefono'],
       direccion: map['direccion'],
+      isResponsable : map['isResponsable']
     );
   }
 }

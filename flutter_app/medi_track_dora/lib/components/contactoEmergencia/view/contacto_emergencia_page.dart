@@ -7,46 +7,68 @@ class ContactoEmergenciaPage extends StatelessWidget {
   final ContactoEmergencia model;
   final String saveButtonText;
   final void Function(ContactoEmergencia contactoEmergencia) callback;
-  const ContactoEmergenciaPage({super.key, required this.model, required this.saveButtonText, required this.callback});
+  const ContactoEmergenciaPage(
+      {super.key,
+      required this.model,
+      required this.saveButtonText,
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Formulario Contacto Emergencia'),
-      ),
-      body: ContactoEmergenciaForm(model: model,saveButtonText:saveButtonText,callback: callback,));
+        appBar: AppBar(
+          title: const Text('Formulario Contacto Emergencia'),
+        ),
+        body: ContactoEmergenciaForm(
+          model: model,
+          saveButtonText: saveButtonText,
+          callback: callback,
+        ));
   }
 }
 
-class ContactoEmergenciaForm extends StatelessWidget {
+class ContactoEmergenciaForm extends StatefulWidget {
   final ContactoEmergencia model;
   final String saveButtonText;
-  final void Function(ContactoEmergencia contactoEmergencia) callback;
 
+  final void Function(ContactoEmergencia contactoEmergencia) callback;
+  ContactoEmergenciaForm(
+      {required this.model,
+      required this.saveButtonText,
+      required this.callback});
+
+  @override
+  _ContactoEmergenciaFormState createState() => _ContactoEmergenciaFormState();
+}
+
+class _ContactoEmergenciaFormState extends State<ContactoEmergenciaForm> {
   late final TextEditingController _nombreController;
   late final TextEditingController _relacionFamiliarController;
   late final TextEditingController _apellidoPaternoController;
   late final TextEditingController _apellidoMaternoController;
   late final TextEditingController _telefonoController;
   late final TextEditingController _direccionController;
+  late bool isResponsable;
+  _ContactoEmergenciaFormState() {}
 
-  ContactoEmergenciaForm({required this.model,super.key,required this.saveButtonText, required this.callback}) {
-    _nombreController = TextEditingController(text: model.nombre);
-    _relacionFamiliarController = TextEditingController(text:model.relacionFamiliar);
+  @override
+  void initState() {
+    super.initState();
+    _nombreController = TextEditingController(text: widget.model.nombre);
+    _relacionFamiliarController =
+        TextEditingController(text: widget.model.relacionFamiliar);
     _apellidoPaternoController =
-        TextEditingController(text: model.apellidoPaterno);
+        TextEditingController(text: widget.model.apellidoPaterno);
     _apellidoMaternoController =
-        TextEditingController(text: model.apellidoMaterno);
+        TextEditingController(text: widget.model.apellidoMaterno);
     _telefonoController =
-        TextEditingController(text: model.telefono.toString());
-    _direccionController =
-        TextEditingController(text: model.direccion);
+        TextEditingController(text: widget.model.telefono.toString());
+    _direccionController = TextEditingController(text: widget.model.direccion);
+    isResponsable = widget.model.isResponsable;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -72,9 +94,24 @@ class ContactoEmergenciaForm extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Apellido Materno'),
             ),
             const SizedBox(height: 16.0),
+            Row(
+              children: [
+                Text(
+                  "Responsable",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                Switch(
+                    value: isResponsable,
+                    onChanged: (value) {
+                      setState(() {
+                        isResponsable = value;
+                      });
+                    }),
+              ],
+            ),
+            const SizedBox(height: 16.0),
             TextFormField(
               controller: _relacionFamiliarController,
-          
               decoration: const InputDecoration(labelText: 'Relacion Familiar'),
             ),
             const SizedBox(height: 16.0),
@@ -89,7 +126,6 @@ class ContactoEmergenciaForm extends StatelessWidget {
                 labelText: 'Telefono Celular',
               ),
             ),
-      
             const SizedBox(height: 16.0),
             TextFormField(
               //initialValue: state.direccionResidencia,
@@ -100,26 +136,26 @@ class ContactoEmergenciaForm extends StatelessWidget {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                ContactoEmergencia contactoEmergencia = ContactoEmergencia.empty().copyWith(
-                  id: model.id,
-                  relacionFamiliar: _relacionFamiliarController.text, 
-                  nombre:_nombreController.text, 
-                  apellidoMaterno:_apellidoMaternoController.text, 
-                  apellidoPaterno: _apellidoPaternoController.text, 
-                  telefono: int.parse(_telefonoController.text), 
-                  direccion: _direccionController.text);
-                  //
-                  callback(contactoEmergencia);
+                ContactoEmergencia contactoEmergencia =
+                    ContactoEmergencia.empty().copyWith(
+                        id: widget.model.id,
+                        relacionFamiliar: _relacionFamiliarController.text,
+                        nombre: _nombreController.text,
+                        apellidoMaterno: _apellidoMaternoController.text,
+                        apellidoPaterno: _apellidoPaternoController.text,
+                        telefono: int.parse(_telefonoController.text),
+                        direccion: _direccionController.text,
+                        isResponsable: isResponsable);
+                //
+                widget.callback(contactoEmergencia);
                 //_pacienteFormBloc.add(ContactoEmergenciaAdded(contactoEmergencia));
                 //Navigator.pop(context);
               },
-              child: Text(saveButtonText),
+              child: Text(widget.saveButtonText),
             ),
           ],
         ),
       ),
     );
   }
-
 }
-

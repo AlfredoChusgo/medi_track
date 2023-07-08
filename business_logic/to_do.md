@@ -31,3 +31,5 @@ responsable
 
 estadia paciente, 
 fecha fin debe ser opcional
+
+filter by nuermo historia clinica

@@ -436,39 +436,56 @@ class ContactoEmergenciaListItemState
             ],
           ),
         if (!widget.readOnly)
-          ButtonBar(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ContactoEmergenciaPage(
-                          model: widget.item,
-                          saveButtonText: "Actualizar",
-                          callback: (contactoEmergencia) {
-                            BlocProvider.of<PacienteFormBloc>(context).add(
-                                ContactosEmergenciaUpdated(contactoEmergencia));
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.edit),
+              ButtonBar(
+                children: [
+                  IconButton(
+                    color: widget.item.isResponsable ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+                    isSelected: widget.item.isResponsable,
+                    onPressed: () {
+                      context.read<PacienteFormBloc>().add(ContactosEmergenciaUpdated(widget.item.copyWith(isResponsable: !widget.item.isResponsable)));
+                    },
+                    icon: const Icon(Icons.family_restroom),
+                  )
+                ],
               ),
-              IconButton(
-                onPressed: () {
-                  BlocProvider.of<PacienteFormBloc>(context)
-                      .add(ContactosEmergenciaDeleted(widget.item.id));
-                  // Handle remove button press
-                },
-                icon: const Icon(Icons.delete),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
+              ButtonBar(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ContactoEmergenciaPage(
+                              model: widget.item,
+                              saveButtonText: "Actualizar",
+                              callback: (contactoEmergencia) {
+                                BlocProvider.of<PacienteFormBloc>(context).add(
+                                    ContactosEmergenciaUpdated(contactoEmergencia));
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      BlocProvider.of<PacienteFormBloc>(context)
+                          .add(ContactosEmergenciaDeleted(widget.item.id));
+                      // Handle remove button press
+                    },
+                    icon: const Icon(Icons.delete),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

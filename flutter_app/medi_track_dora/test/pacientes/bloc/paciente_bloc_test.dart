@@ -30,7 +30,10 @@ void main() {
               apellidoMaterno: "Nienow",
               apellidoPaterno: "Homenick",
               telefono: 2442054,
-              direccion: "275107 Aufderhar Crescent")
+              direccion: "275107 Aufderhar Crescent",
+              isResponsable:false),
+              
+
         ],
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -56,7 +59,8 @@ void main() {
               apellidoMaterno: "Nienow",
               apellidoPaterno: "Homenick",
               telefono: 2442054,
-              direccion: "275107 Aufderhar Crescent")
+              direccion: "275107 Aufderhar Crescent",
+              isResponsable:false)
         ],
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
