@@ -47,6 +47,8 @@ dependencies:
   file_picker: ^5.3.2
   csv: ^5.0.2
   excel: ^2.1.0
+  firebase_database: ^10.2.3
+  firebase_core: ^2.14.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

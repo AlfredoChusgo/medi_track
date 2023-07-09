@@ -73,7 +73,7 @@ class EstadiaPaciente extends Equatable {
     return EstadiaPaciente(
         id: json['id'],
         fechaIngreso: DateTime.parse(json['fechaIngreso']),
-        fechaEgreso: DateTimeValueObject.fromMap(json['fechaEgreso']),
+        fechaEgreso: DateTimeValueObject.fromJson(json['fechaEgreso']),
         accionesRealizadas: json['accionesRealizadas'],
         observaciones: json['observaciones'],
         diagnostico: json['diagnostico'],
@@ -86,6 +86,7 @@ class EstadiaPaciente extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'idPaciente': paciente.id,
       'fechaIngreso': fechaIngreso.toIso8601String(),
       'fechaEgreso': fechaEgreso.toJson(),
       'accionesRealizadas': accionesRealizadas,

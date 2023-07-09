@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "669323524427",
+    "firebase_url": "https://medi-track-dora-default-rtdb.firebaseio.com",
+    "project_id": "medi-track-dora",
+    "storage_bucket": "medi-track-dora.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:669323524427:android:cd3e1130ae2e419d9210ce",
+        "android_client_info": {
+          "package_name": "com.example.medi_track_dora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "669323524427-0gciqs03ef62jpp1nhums7v6cn671prc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz9TIdWDB9pZWbgefaoFjpQXNcF-rPvmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "669323524427-0gciqs03ef62jpp1nhums7v6cn671prc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

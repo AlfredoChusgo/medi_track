@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medi_track_dora/components/settings/bloc/settings_bloc.dart';
+import 'package:medi_track_dora/repositories/firebase_realtime_database/real_time_estadia_paciente_repository.dart';
+import 'package:medi_track_dora/repositories/firebase_realtime_database/real_time_paciente_repository.dart';
 import 'package:medi_track_dora/repositories/paciente_repository.dart';
 import 'package:medi_track_dora/config/application_configuration.dart';
 import 'package:medi_track_dora/mainApp/development_app.dart';
@@ -74,10 +76,12 @@ class MainAppBuilder {
     //repositories
     if (config.developmentConfig.isDevelopment) {
       pacienteRepository = InMemoryPacienteRepository(dataSize: config.developmentConfig.fakeDataSize);
-      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository, delayInSeconds: config.developmentConfig.delayOfResponseInSeonds);
+      estadiaPacienteRepository = InMemoryEstadiaPacienteRepository(dataSize: config.developmentConfig.fakeDataSize,pacienteRepository: pacienteRepository, delayInSeconds: config.developmentConfig.delayOfResponseInSeonds);      
     } else {
-      pacienteRepository = SqlitePacienteRepository();
-      estadiaPacienteRepository = SqliteEstadiaPacienteRepository(pacienteRepository: pacienteRepository );
+      // pacienteRepository = SqlitePacienteRepository();
+      // estadiaPacienteRepository = SqliteEstadiaPacienteRepository(pacienteRepository: pacienteRepository );
+      pacienteRepository = RealTimePacienteRepository();
+      estadiaPacienteRepository = RealTimeEstadiaPacienteRepository(pacienteRepository: pacienteRepository);
     }
   }
 }
