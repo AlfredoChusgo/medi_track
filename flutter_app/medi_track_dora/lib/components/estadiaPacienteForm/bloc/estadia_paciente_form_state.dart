@@ -11,7 +11,7 @@ class EstadiaPacienteFormDataState extends EstadiaPacienteFormState {
   final String id;
   final Paciente paciente;
   final DateTime fechaIngreso;
-  final DateTime fechaEgreso;
+  final DateTimeValueObject fechaEgreso;
   final String accionesRealizadas;
   final String observaciones;
   final String diagnostico;
@@ -34,7 +34,7 @@ class EstadiaPacienteFormDataState extends EstadiaPacienteFormState {
     return EstadiaPacienteFormDataState(
         id: const Uuid().v4(),
         fechaIngreso: DateTime.now(),
-        fechaEgreso: DateTime.now(),
+        fechaEgreso: DateTimeValueObject.empty(),
         accionesRealizadas: '',
         observaciones: '',
         diagnostico: '',
@@ -46,7 +46,7 @@ class EstadiaPacienteFormDataState extends EstadiaPacienteFormState {
   EstadiaPacienteFormDataState copyWith(
       {String? id,
       DateTime? fechaIngreso,
-      DateTime? fechaEgreso,
+      DateTimeValueObject? fechaEgreso,
       String? accionesRealizadas,
       String? observaciones,
       String? diagnostico,

@@ -41,7 +41,7 @@ class SQLiteDatabaseHelper {
             id TEXT PRIMARY KEY,
             pacienteId TEXT,
             fechaIngreso INTEGER,
-            fechaEgreso INTEGER,
+            fechaEgreso TEXT,
             accionesRealizadas TEXT,
             observaciones TEXT,
             diagnostico TEXT,

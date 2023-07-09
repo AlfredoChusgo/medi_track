@@ -108,8 +108,8 @@ class PacienteAddForm extends StatelessWidget {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
-              onChanged: (value) => pacienteFormBloc
-                  .add(NumeroHistoriaClinicaChanged(int.tryParse(value) ?? 000000)),
+              onChanged: (value) => pacienteFormBloc.add(
+                  NumeroHistoriaClinicaChanged(int.tryParse(value) ?? 000000)),
               decoration: const InputDecoration(
                 labelText: 'Numero de Historia Clinica',
               ),
@@ -241,7 +241,9 @@ class PacienteAddForm extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ContactoEmergenciaListItem(
-                    state.contactosEmergencia[index], readOnly);
+                    key: Key(state.contactosEmergencia[index].id),
+                    state.contactosEmergencia[index],
+                    readOnly);
               },
             ),
             const SizedBox(height: 16.0),
@@ -442,10 +444,14 @@ class ContactoEmergenciaListItemState
               ButtonBar(
                 children: [
                   IconButton(
-                    color: widget.item.isResponsable ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+                    color: widget.item.isResponsable
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).disabledColor,
                     isSelected: widget.item.isResponsable,
                     onPressed: () {
-                      context.read<PacienteFormBloc>().add(ContactosEmergenciaUpdated(widget.item.copyWith(isResponsable: !widget.item.isResponsable)));
+                      context.read<PacienteFormBloc>().add(
+                          ContactosEmergenciaUpdated(widget.item.copyWith(
+                              isResponsable: !widget.item.isResponsable)));
                     },
                     icon: const Icon(Icons.family_restroom),
                   )
@@ -464,7 +470,8 @@ class ContactoEmergenciaListItemState
                               saveButtonText: "Actualizar",
                               callback: (contactoEmergencia) {
                                 BlocProvider.of<PacienteFormBloc>(context).add(
-                                    ContactosEmergenciaUpdated(contactoEmergencia));
+                                    ContactosEmergenciaUpdated(
+                                        contactoEmergencia));
                                 Navigator.pop(context);
                               },
                             );

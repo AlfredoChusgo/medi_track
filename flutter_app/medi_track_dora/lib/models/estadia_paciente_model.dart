@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
 import 'paciente.dart';
+import 'valueObjects/date_time_value_object.dart';
 
 enum TipoServicio {
   desconocido,
@@ -27,7 +30,7 @@ class EstadiaPaciente extends Equatable {
   final Paciente paciente;
   final String id;
   final DateTime fechaIngreso;
-  final DateTime fechaEgreso;
+  final DateTimeValueObject fechaEgreso;
   final String accionesRealizadas;
   final String observaciones;
   final String diagnostico;
@@ -56,7 +59,7 @@ class EstadiaPaciente extends Equatable {
     return EstadiaPaciente(
         id: const Uuid().v4(),
         fechaIngreso: DateTime.now(),
-        fechaEgreso: DateTime.now().add(const Duration(days: 7)),
+        fechaEgreso: DateTimeValueObject.empty(),
         accionesRealizadas: '',
         observaciones: '',
         diagnostico: '',
@@ -70,7 +73,7 @@ class EstadiaPaciente extends Equatable {
     return EstadiaPaciente(
         id: json['id'],
         fechaIngreso: DateTime.parse(json['fechaIngreso']),
-        fechaEgreso: DateTime.parse(json['fechaEgreso']),
+        fechaEgreso: DateTimeValueObject.fromMap(json['fechaEgreso']),
         accionesRealizadas: json['accionesRealizadas'],
         observaciones: json['observaciones'],
         diagnostico: json['diagnostico'],
@@ -84,7 +87,7 @@ class EstadiaPaciente extends Equatable {
     return {
       'id': id,
       'fechaIngreso': fechaIngreso.toIso8601String(),
-      'fechaEgreso': fechaEgreso.toIso8601String(),
+      'fechaEgreso': fechaEgreso.toJson(),
       'accionesRealizadas': accionesRealizadas,
       'observaciones': observaciones,
       'diagnostico': diagnostico,
@@ -98,7 +101,7 @@ class EstadiaPaciente extends Equatable {
       {String? id,
       Paciente? paciente,
       DateTime? fechaIngreso,
-      DateTime? fechaEgreso,
+      DateTimeValueObject? fechaEgreso,
       String? accionesRealizadas,
       String? observaciones,
       String? diagnostico,
@@ -125,7 +128,7 @@ class EstadiaPaciente extends Equatable {
       'pacienteId': paciente.id,
       //'paciente': paciente.toMap(), // Convert paciente to a map
       'fechaIngreso': fechaIngreso.toIso8601String(),
-      'fechaEgreso': fechaEgreso.toIso8601String(),
+      'fechaEgreso': fechaEgreso.toJson(),
       'accionesRealizadas': accionesRealizadas,
       'observaciones': observaciones,
       'diagnostico': diagnostico,
@@ -141,7 +144,7 @@ class EstadiaPaciente extends Equatable {
         //paciente: Paciente.fromMap(map['paciente']), // Convert paciente from map
         paciente: Paciente.empty().copyWith(id: map['pacienteId']),
         fechaIngreso: DateTime.parse(map['fechaIngreso']),
-        fechaEgreso: DateTime.parse(map['fechaEgreso']),
+        fechaEgreso: DateTimeValueObject.fromJson(map['fechaEgreso']),
         accionesRealizadas: map['accionesRealizadas'],
         observaciones: map['observaciones'],
         diagnostico: map['diagnostico'],

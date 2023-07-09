@@ -37,7 +37,6 @@ class EstadiaPaciente {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  @override
   List<Object> get props => [
         id,
         fechaIngreso,

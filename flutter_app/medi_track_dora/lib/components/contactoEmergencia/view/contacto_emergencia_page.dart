@@ -32,8 +32,8 @@ class ContactoEmergenciaForm extends StatefulWidget {
   final String saveButtonText;
 
   final void Function(ContactoEmergencia contactoEmergencia) callback;
-  ContactoEmergenciaForm(
-      {required this.model,
+  const ContactoEmergenciaForm(
+      {super.key, required this.model,
       required this.saveButtonText,
       required this.callback});
 

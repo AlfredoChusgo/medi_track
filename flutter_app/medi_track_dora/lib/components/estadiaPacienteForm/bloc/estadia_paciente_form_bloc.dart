@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:medi_track_dora/models/valueObjects/date_time_value_object.dart';
 import 'package:medi_track_dora/repositories/estadia_paciente_repository.dart';
 import 'package:uuid/uuid.dart';
 
